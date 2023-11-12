@@ -1,7 +1,6 @@
 <template>
-    <h2 class="text-2xl font-bold mt-6">Create your Free Account</h2>
+    <h2 class="text-2xl font-bold mt-6">Login</h2>
     <form class="w-4/5 flex flex-col items-center mt-6" @submit.prevent="handleSubmitForm">
-        <Input @input-enter="handleFullName" required label="Full Name" />
         <Input @input-enter="handleEmail" required placeholder="Enter your email" label="Email" class="mt-4"
             type="email" />
         <Input @input-enter="handlePassword" required placeholder="Enter your password" label="Password" class="mt-4"
@@ -9,9 +8,9 @@
         <Button class="mt-8" />
     </form>
     <div class="w-4/5 mt-4">
-        <span class="text-gray-500">Already have a account? </span>
-        <router-link to="login">
-            <span class="text-primary font-bold cursor-pointer">Log in</span>
+        <span class="text-gray-500">You don't have an account? </span>
+        <router-link to="register">
+            <span class="text-primary font-bold cursor-pointer">Register Now</span>
         </router-link>
     </div>
 </template>
@@ -25,7 +24,6 @@
         name: 'RegisterView',
         data() {
             return {
-                fullName: '',
                 email: '',
                 password: ''
             }
@@ -37,16 +35,12 @@
         methods: {
             async handleSubmitForm() {
                 let payload = {
-                    name: this.fullName,
                     email: this.email,
                     password: this.password
                 };
                 const response = await authService.register(payload);
 
                 console.log(response);
-            },
-            handleFullName(value) {
-                this.fullName = value;
             },
             handleEmail(value) {
                 this.email = value;
