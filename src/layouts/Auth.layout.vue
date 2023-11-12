@@ -34,10 +34,29 @@
                 <div class="mt-8">
                     <span class="text-gray-500">-OR-</span>
                 </div>
+                <div class="flex gap-5 mt-6">
+                    <Button :icon="images.Google" buttonType="outline" class="font-normal"/>
+                    <Button :icon="images.Github" buttonType="outline" class="font-normal"/>
+                </div>
             </section>
         </div>
     </div>
 </template>
+
+<script>
+import Button from '@/components/Button/Button.vue';
+import images from "@/assets/images/export.js";
+
+export default {
+    name: "AuthLayout",
+    data() {
+        return {
+            images
+        }
+    },
+    components: { Button }
+}
+</script>
 
 <style module lang="scss">
     .color_custom {
