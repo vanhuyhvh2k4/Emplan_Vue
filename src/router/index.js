@@ -2,9 +2,17 @@ import { createRouter, createWebHistory } from 'vue-router';
 
 const routes = [
   {
-    path: '/home',
-    name: 'home',
-    component: () => import(/* webpackChunkName: "home" */ '../views/HomeView.vue')
+    path: '/dashboard',
+    name: 'dashboard',
+    component: () => import(/* webpackChunkName: "dashboard" */ '../views/DashboardView.vue')
+  },
+  {
+    path: '/register',
+    name: 'register',
+    meta: {
+      layout: 'empty'
+    },
+    component: () => import(/* webpackChunkName: "register" */ '../views/RegisterView.vue')
   }
 ]
 

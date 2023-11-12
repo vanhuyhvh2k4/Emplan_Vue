@@ -1,3 +1,5 @@
 <template>
-  <h1>Componet</h1>
+    <div>
+
+    </div>
 </template>
