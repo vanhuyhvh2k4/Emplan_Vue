@@ -4,7 +4,7 @@ const routes = [
   {
     path: '/dashboard',
     name: 'dashboard',
-    component: () => import(/* webpackChunkName: "dashboard" */ '../views/DashboardView.vue')
+    component: () => import(/* webpackChunkName: "dashboard" */ '../views/Dashboard/DashboardView.vue')
   },
   {
     path: '/register',
@@ -12,7 +12,7 @@ const routes = [
     meta: {
       layout: 'auth'
     },
-    component: () => import(/* webpackChunkName: "register" */ '../views/RegisterView.vue')
+    component: () => import(/* webpackChunkName: "register" */ '../views/Register/RegisterView.vue')
   },
   {
     path: '/login',
@@ -20,7 +20,15 @@ const routes = [
     meta: {
       layout: 'auth'
     },
-    component: () => import(/* webpackChunkName: "login" */ '../views/LoginView.vue')
+    component: () => import(/* webpackChunkName: "login" */ '../views/Login/LoginView.vue')
+  },
+  {
+    path: '/verify',
+    name: 'verify',
+    meta: {
+      layout: 'auth'
+    },
+    component: () => import(/* webpackChunkName: "VerifyEmail" */ '../views/VerifyEmail/VerifyEmailView.vue')
   },
 ]
 

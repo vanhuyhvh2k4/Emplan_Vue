@@ -6,7 +6,7 @@
             type="email" />
         <Input @input-enter="handlePassword" required placeholder="Enter your password" label="Password" class="mt-4"
             type="password" />
-        <Button class="mt-8" />
+        <Button class="mt-8"/>
     </form>
     <div class="w-4/5 mt-4">
         <span class="text-gray-500">Already have a account? </span>
@@ -14,46 +14,22 @@
             <span class="text-primary font-bold cursor-pointer">Log in</span>
         </router-link>
     </div>
+    <Loader v-if="isPending" :key="isPending"/>
 </template>
 
 <script>
     import Input from '@/components/Input/Input.vue';
     import Button from '@/components/Button/Button.vue';
-    import * as authService from "../services/authService.js";
+    import Loader from '@/components/Loader/Loader.vue';
+    import RegisterView from './RegisterView';
 
     export default {
         name: 'RegisterView',
-        data() {
-            return {
-                fullName: '',
-                email: '',
-                password: ''
-            }
-        },
         components: {
             Input,
-            Button
+            Button,
+            Loader
         },
-        methods: {
-            async handleSubmitForm() {
-                let payload = {
-                    name: this.fullName,
-                    email: this.email,
-                    password: this.password
-                };
-                const response = await authService.register(payload);
-
-                console.log(response);
-            },
-            handleFullName(value) {
-                this.fullName = value;
-            },
-            handleEmail(value) {
-                this.email = value;
-            },
-            handlePassword(value) {
-                this.password = value;
-            }
-        },
+        mixins: [RegisterView]
     }
 </script>

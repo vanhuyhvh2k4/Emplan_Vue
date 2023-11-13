@@ -18,36 +18,14 @@
 <script>
     import Input from '@/components/Input/Input.vue';
     import Button from '@/components/Button/Button.vue';
-    import * as authService from "../services/authService.js";
+    import LoginView from './LoginView';
 
     export default {
         name: 'RegisterView',
-        data() {
-            return {
-                email: '',
-                password: ''
-            }
-        },
         components: {
             Input,
             Button
         },
-        methods: {
-            async handleSubmitForm() {
-                let payload = {
-                    email: this.email,
-                    password: this.password
-                };
-                const response = await authService.register(payload);
-
-                console.log(response);
-            },
-            handleEmail(value) {
-                this.email = value;
-            },
-            handlePassword(value) {
-                this.password = value;
-            }
-        },
+        mixins: [LoginView]
     }
 </script>

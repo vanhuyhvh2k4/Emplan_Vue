@@ -35,8 +35,8 @@
                     <span class="text-gray-500">-OR-</span>
                 </div>
                 <div class="flex gap-5 mt-6">
-                    <Button :icon="images.Google" buttonType="outline" class="font-normal"/>
-                    <Button :icon="images.Github" buttonType="outline" class="font-normal"/>
+                    <Button :icon="images.Google" buttonType="outline" class="font-normal px-[20px]" title="Login with google"/>
+                    <Button :icon="images.Github" buttonType="outline" class="font-normal px-[20px]" title="Login with github"/>
                 </div>
             </section>
         </div>
@@ -54,7 +54,7 @@ export default {
             images
         }
     },
-    components: { Button }
+    components: { Button }, 
 }
 </script>
 

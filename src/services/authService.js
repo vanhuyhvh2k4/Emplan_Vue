@@ -8,3 +8,12 @@ export const register = async (payload) => {
         return error;
     }
 }
+
+export const verifyEmail = async (userId, payload) => {
+    try {
+        const res = await request.post(`verify/${userId}`, payload);
+        return res.data;
+    } catch (error) {
+        return error.response.data;
+    }
+}
