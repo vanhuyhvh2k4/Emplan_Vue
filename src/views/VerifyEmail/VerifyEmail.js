@@ -28,4 +28,7 @@ export default {
             this.code = value;
         }
     },
+    mounted() {
+        document.title = "Verify Email | Emplaner"
+    },
 };

@@ -36,4 +36,7 @@ export default {
             this.password = value;
         }
     },
+    mounted() {
+        document.title = "Register Account | Emplaner"
+    },
 };

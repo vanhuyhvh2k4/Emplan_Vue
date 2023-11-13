@@ -3,7 +3,7 @@
         class="flex justify-center items-center w-full h-full bg-gradient-to-r from-[4.79%] to-[54.4%] from-[#F9ED32] to-[#D9BD32] backdrop-filter backdrop-blur-sm">
         <div class="shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] w-3/5 h-4/5 flex rounded-xl overflow-hidden"
             :class="$style.color_custom">
-            <section class="w-2/5 relative overflow-hidden">
+            <section class="w-2/5 relative overflow-hidden grid place-items-center">
                 <div class="absolute z-0">
                     <svg xmlns="http://www.w3.org/2000/svg" width="526" height="661" viewBox="0 0 526 661" fill="none">
                         <path fill-rule="evenodd" clip-rule="evenodd"
@@ -25,7 +25,7 @@
                             fill="#D9BD32" />
                     </svg>
                 </div>
-                <div class="absolute z-[4]">
+                <div class="absolute z-[4] w-4/5">
                     <img src="@/assets/images/MainImage.png" alt="">
                 </div>
             </section>

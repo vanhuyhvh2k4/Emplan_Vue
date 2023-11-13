@@ -23,4 +23,7 @@ export default {
             this.password = value;
         }
     },
+    mounted() {
+        document.title = "Login Account | Emplaner"
+    },
 };
