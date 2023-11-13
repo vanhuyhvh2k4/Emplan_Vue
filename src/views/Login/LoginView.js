@@ -12,7 +12,7 @@ export default {
                 email: this.email,
                 password: this.password
             };
-            const response = await authService.register(payload);
+            const response = await authService.login(payload);
 
             console.log(response);
         },

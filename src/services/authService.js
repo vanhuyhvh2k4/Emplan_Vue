@@ -9,6 +9,15 @@ export const register = async (payload) => {
     }
 }
 
+export const login = async (payload) => {
+    try {
+        const res = await request.post('login', payload);
+        return res;
+    } catch (error) {
+        return error;
+    }
+}
+
 export const verifyEmail = async (userId, payload) => {
     try {
         const res = await request.post(`verify/${userId}`, payload);

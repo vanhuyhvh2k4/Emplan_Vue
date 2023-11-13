@@ -35,8 +35,8 @@
                     <span class="text-gray-500">-OR-</span>
                 </div>
                 <div class="flex gap-5 mt-6">
-                    <Button :icon="images.Google" buttonType="outline" class="font-normal px-[20px]" title="Login with google"/>
-                    <Button :icon="images.Github" buttonType="outline" class="font-normal px-[20px]" title="Login with github"/>
+                    <Button :icon="images.Google" buttonType="outline" :class="$style.padding_custom" class="font-normal" title="Login with google"/>
+                    <Button :icon="images.Github" buttonType="outline" :class="$style.padding_custom" class="font-normal" title="Login with github"/>
                 </div>
             </section>
         </div>
@@ -51,7 +51,7 @@ export default {
     name: "AuthLayout",
     data() {
         return {
-            images
+            images,
         }
     },
     components: { Button }, 
@@ -61,5 +61,10 @@ export default {
 <style module lang="scss">
     .color_custom {
         background-color: #e5eff8;
+    }
+
+    .padding_custom {
+        padding-left: 20px;
+        padding-right: 20px;
     }
 </style>
