@@ -1,3 +1,5 @@
 <template>
-    <h1>Dash board</h1>
+    <div class="w-full h-full bg-[#F9F9F9]">
+
+    </div>
 </template>
