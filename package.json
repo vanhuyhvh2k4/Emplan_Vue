@@ -7,7 +7,6 @@
     "build": "vue-cli-service build",
     "format": "prettier --write .",
     "precommit": "npm run format"
-
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.36",

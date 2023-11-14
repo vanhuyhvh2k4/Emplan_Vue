@@ -1,40 +1,50 @@
-import { createRouter, createWebHistory } from 'vue-router';
+import { createRouter, createWebHistory } from "vue-router";
 
 const routes = [
   {
-    path: '/',
-    name: 'dashboard',
-    component: () => import(/* webpackChunkName: "dashboard" */ '../views/Dashboard/DashboardView.vue')
+    path: "/",
+    name: "dashboard",
+    component: () =>
+      import(
+        /* webpackChunkName: "dashboard" */ "../views/Dashboard/DashboardView.vue"
+      ),
   },
   {
-    path: '/register',
-    name: 'register',
+    path: "/register",
+    name: "register",
     meta: {
-      layout: 'auth'
+      layout: "auth",
     },
-    component: () => import(/* webpackChunkName: "register" */ '../views/Register/RegisterView.vue')
+    component: () =>
+      import(
+        /* webpackChunkName: "register" */ "../views/Register/RegisterView.vue"
+      ),
   },
   {
-    path: '/login',
-    name: 'login',
+    path: "/login",
+    name: "login",
     meta: {
-      layout: 'auth'
+      layout: "auth",
     },
-    component: () => import(/* webpackChunkName: "login" */ '../views/Login/LoginView.vue')
+    component: () =>
+      import(/* webpackChunkName: "login" */ "../views/Login/LoginView.vue"),
   },
   {
-    path: '/verify',
-    name: 'verify',
+    path: "/verify",
+    name: "verify",
     meta: {
-      layout: 'auth'
+      layout: "auth",
     },
-    component: () => import(/* webpackChunkName: "VerifyEmail" */ '../views/VerifyEmail/VerifyEmailView.vue')
+    component: () =>
+      import(
+        /* webpackChunkName: "VerifyEmail" */ "../views/VerifyEmail/VerifyEmailView.vue"
+      ),
   },
-]
+];
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
-  routes
-})
+  routes,
+});
 
-export default router
+export default router;
