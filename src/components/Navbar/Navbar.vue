@@ -1,7 +1,11 @@
 <template>
   <div class="w-full h-20 px-8 py-4 flex justify-between items-center">
     <section class="flex items-center gap-6">
-      <font-awesome-icon class="text-2xl" :icon="['fas', 'bars']" />
+      <font-awesome-icon
+        :onclick="handleClickBars"
+        class="text-2xl cursor-pointer"
+        :icon="['fas', 'bars']"
+      />
       <h2 class="text-2xl font-medium">Dashboard</h2>
     </section>
     <section class="w-[30%] h-full">
@@ -38,3 +42,14 @@
     </section>
   </div>
 </template>
+
+<script>
+  export default {
+    name: "Navbar",
+    methods: {
+      handleClickBars() {
+        this.$emit("click-bars");
+      },
+    },
+  };
+</script>

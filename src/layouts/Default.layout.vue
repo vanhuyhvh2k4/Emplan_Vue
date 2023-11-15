@@ -1,8 +1,8 @@
 <template>
   <div class="flex">
-    <Sidebar />
+    <Sidebar v-show="isShowSidebar" />
     <div class="w-full">
-      <Navbar />
+      <Navbar @click-bars="handleClickBars" />
       <slot />
     </div>
   </div>
@@ -14,9 +14,19 @@
 
   export default {
     name: "DefaultLayout",
+    data() {
+      return {
+        isShowSidebar: true,
+      };
+    },
     components: {
       Sidebar,
       Navbar,
+    },
+    methods: {
+      handleClickBars() {
+        this.isShowSidebar = !this.isShowSidebar;
+      },
     },
   };
 </script>
