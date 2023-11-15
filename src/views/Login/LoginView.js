@@ -4,6 +4,7 @@ export default {
     return {
       email: "",
       password: "",
+      isPending: false
     };
   },
   methods: {
@@ -12,9 +13,17 @@ export default {
         email: this.email,
         password: this.password,
       };
+      this.isPending = true;
       const response = await authService.login(payload);
-
-      console.log(response);
+      this.isPending = false;
+      if(response.status === 200) {
+        this.$cookies.set('gid', response.data.data.token, '7d');
+        this.$router.push({name: 'dashboard'}) 
+      } else {
+        this.$refs.childRef1.clearInput();
+        this.$refs.childRef2.clearInput();
+        alert("The provided credentials are incorrect.");
+      }
     },
     handleEmail(value) {
       this.email = value;

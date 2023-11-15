@@ -1,3 +1,4 @@
+import requireAuth from "@/middlewares/auth.middleware.js";
 import { createRouter, createWebHistory } from "vue-router";
 
 const routes = [
@@ -8,6 +9,11 @@ const routes = [
       import(
         /* webpackChunkName: "dashboard" */ "../views/Dashboard/DashboardView.vue"
       ),
+      beforeEnter: requireAuth
+  },
+  {
+    path: "/dashboard",
+    redirect: "/"
   },
   {
     path: "/register",

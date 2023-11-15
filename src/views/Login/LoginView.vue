@@ -11,6 +11,7 @@
       label="Email"
       class="mt-4"
       type="email"
+      ref="childRef1"
     />
     <Input
       @input-enter="handlePassword"
@@ -19,6 +20,7 @@
       label="Password"
       class="mt-4"
       type="password"
+      ref="childRef2"
     />
     <Button class="mt-8" />
   </form>
@@ -28,18 +30,21 @@
       <span class="text-primary font-bold cursor-pointer">Register Now</span>
     </router-link>
   </div>
+  <Loader v-if="isPending" :key="isPending" />
 </template>
 
 <script>
   import Input from "@/components/Input/Input.vue";
   import Button from "@/components/Button/Button.vue";
   import LoginView from "./LoginView";
+  import Loader from "@/components/Loader/Loader.vue";
 
   export default {
     name: "RegisterView",
     components: {
       Input,
       Button,
+      Loader,
     },
     mixins: [LoginView],
   };

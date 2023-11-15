@@ -2,7 +2,7 @@
   <button
     class="rounded-md flex items-center gap-3 font-bold"
     :class="[
-      size == 'md' && this.size.md,
+      size == 'md' && this.sizes.md,
       buttonType == 'primary' && this.type.primary,
       buttonType == 'outline' && this.type.outline,
     ]"
@@ -24,7 +24,7 @@
     name: "Button",
     data() {
       return {
-        size: {
+        sizes: {
           md: "h-12 px-[60px] py-2 text-lg",
         },
         type: {

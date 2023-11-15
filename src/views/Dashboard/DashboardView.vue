@@ -163,46 +163,16 @@
   import SmallCard from "@/components/SmallCard/SmallCard.vue";
   import Card from "@/components/Card/Card.vue";
   import Task from "@/components/Task/Task.vue";
-  import svgs from "@/assets/svg/export.js";
+  import DashboardView from "./DashboardView";
 
   export default {
     name: "DashboardView",
-    data() {
-      return {
-        svgs,
-        currentDate: new Date(),
-      };
-    },
     components: {
       SmallCard,
       Card,
       Task,
     },
-    computed: {
-      formattedDate() {
-        const options = {
-          weekday: "short",
-          month: "short",
-          day: "numeric",
-          year: "numeric",
-        };
-        return this.currentDate.toLocaleDateString("en-US", options);
-      },
-      formattedTime() {
-        const options = {
-          hour: "numeric",
-          minute: "numeric",
-          hour12: true,
-          second: "numeric",
-        };
-        return this.currentDate.toLocaleTimeString("en-US", options);
-      },
-    },
-    created() {
-      setInterval(() => {
-        this.currentDate = new Date();
-      }, 1000);
-    },
+    mixins: [DashboardView],
   };
 </script>
 
