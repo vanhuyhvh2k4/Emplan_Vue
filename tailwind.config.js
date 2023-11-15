@@ -5,6 +5,7 @@ module.exports = {
     extend: {
       colors: {
         primary: "#FABB18",
+        secondary: "#FFF8E8",
         input_label: "#7C838A",
       },
       fontSize: {

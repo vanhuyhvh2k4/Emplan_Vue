@@ -3,7 +3,9 @@
     <Sidebar v-show="isShowSidebar" />
     <div class="w-full">
       <Navbar @click-bars="handleClickBars" />
-      <slot />
+      <div class="custom_height">
+        <slot />
+      </div>
     </div>
   </div>
 </template>
@@ -30,3 +32,11 @@
     },
   };
 </script>
+
+<style lang="css">
+  .custom_height {
+    height: calc(100vh - 80px);
+    max-height: calc(100vh - 80px);
+    overflow-y: overlay;
+  }
+</style>
