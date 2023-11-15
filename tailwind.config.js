@@ -6,6 +6,7 @@ module.exports = {
       colors: {
         primary: "#FABB18",
         secondary: "#FFF8E8",
+        background: "#F9F9F9",
         input_label: "#7C838A",
       },
       fontSize: {

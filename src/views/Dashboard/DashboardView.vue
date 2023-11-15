@@ -1,12 +1,12 @@
 <template>
-  <div class="w-full h-full p-8 bg-[#F9F9F9]">
+  <div class="w-full h-full p-8">
     <div class="flex justify-between items-center">
       <section>
         <h2 class="text-2xl font-bold">Today</h2>
         <div class="font-medium">
-          <span>Mon 11, 2023</span>
+          <span>{{ formattedDate }}</span>
           <span> | </span>
-          <span>10:00 AM</span>
+          <span>{{ formattedTime }}</span>
         </div>
       </section>
       <section>
@@ -43,8 +43,12 @@
             <span>Start Time</span>
           </div>
         </div>
-        <ul class="max-h-[188px] overflow-y-scroll mt-2 custom_scrollbar">
-          <Task v-for="(item, index) in 2" :key="index" class="mb-2">
+        <ul class="max-h-[188px] overflow-y-scroll mt-2 custom_scrollbar pr-1">
+          <Task
+            v-for="(item, index) in 2"
+            :key="index"
+            class="mb-2 max-h-[86px]"
+          >
             <div class="flex items-center gap-4">
               <img
                 class="w-10 h-10 rounded-full object-contain"
@@ -68,8 +72,12 @@
             <span>Start Time</span>
           </div>
         </div>
-        <ul class="max-h-[188px] overflow-y-scroll mt-2 custom_scrollbar">
-          <Task v-for="(item, index) in 2" :key="index" class="mb-2">
+        <ul class="max-h-[188px] overflow-y-scroll mt-2 custom_scrollbar pr-1">
+          <Task
+            v-for="(item, index) in 2"
+            :key="index"
+            class="mb-2 max-h-[86px]"
+          >
             <div class="flex items-center gap-4">
               <img
                 class="w-10 h-10 rounded-full object-contain"
@@ -96,8 +104,13 @@
             <span>Detail</span>
           </div>
         </div>
-        <ul class="max-h-[188px] overflow-y-scroll mt-2 custom_scrollbar">
-          <Task v-for="(item, index) in 2" :key="index" class="mb-2" detail>
+        <ul class="max-h-[188px] overflow-y-scroll mt-2 custom_scrollbar pr-1">
+          <Task
+            v-for="(item, index) in 3"
+            :key="index"
+            class="mb-2 max-h-[86px]"
+            detail
+          >
             <div class="flex items-center gap-4">
               <img
                 class="w-10 h-10 rounded-full object-contain"
@@ -121,8 +134,12 @@
             <span>Start Time</span>
           </div>
         </div>
-        <ul class="max-h-[188px] overflow-y-scroll mt-2 custom_scrollbar">
-          <Task v-for="(item, index) in 2" :key="index" class="mb-2">
+        <ul class="max-h-[188px] overflow-y-scroll mt-2 custom_scrollbar pr-1">
+          <Task
+            v-for="(item, index) in 2"
+            :key="index"
+            class="mb-2 max-h-[86px]"
+          >
             <div class="flex items-center gap-4">
               <img
                 class="w-10 h-10 rounded-full object-contain"
@@ -153,6 +170,7 @@
     data() {
       return {
         svgs,
+        currentDate: new Date(),
       };
     },
     components: {
@@ -160,13 +178,38 @@
       Card,
       Task,
     },
+    computed: {
+      formattedDate() {
+        const options = {
+          weekday: "short",
+          month: "short",
+          day: "numeric",
+          year: "numeric",
+        };
+        return this.currentDate.toLocaleDateString("en-US", options);
+      },
+      formattedTime() {
+        const options = {
+          hour: "numeric",
+          minute: "numeric",
+          hour12: true,
+          second: "numeric",
+        };
+        return this.currentDate.toLocaleTimeString("en-US", options);
+      },
+    },
+    created() {
+      setInterval(() => {
+        this.currentDate = new Date();
+      }, 1000);
+    },
   };
 </script>
 
 <style lang="scss">
   .custom_scrollbar {
     &::-webkit-scrollbar {
-      width: 5px;
+      width: 4px;
     }
 
     /* Track */
@@ -174,14 +217,12 @@
       background: transparent;
     }
 
-    /* Handle */
     &::-webkit-scrollbar-thumb {
       background: #bdbdbdcf;
       border-radius: 32px;
     }
 
-    /* Handle on hover */
-    &::-webkit-scrollbar-thumb:hover {
+    &:hover::-webkit-scrollbar-thumb:hover {
       background: #555;
     }
   }

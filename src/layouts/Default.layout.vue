@@ -3,7 +3,7 @@
     <Sidebar v-show="isShowSidebar" />
     <div class="w-full">
       <Navbar @click-bars="handleClickBars" />
-      <div class="custom_height">
+      <div class="custom_height bg-background">
         <slot />
       </div>
     </div>
