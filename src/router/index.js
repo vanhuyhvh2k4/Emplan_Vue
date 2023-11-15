@@ -9,11 +9,11 @@ const routes = [
       import(
         /* webpackChunkName: "dashboard" */ "../views/Dashboard/DashboardView.vue"
       ),
-      beforeEnter: requireAuth
+    beforeEnter: requireAuth,
   },
   {
     path: "/dashboard",
-    redirect: "/"
+    redirect: "/",
   },
   {
     path: "/register",

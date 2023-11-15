@@ -4,7 +4,7 @@ export default {
     return {
       email: "",
       password: "",
-      isPending: false
+      isPending: false,
     };
   },
   methods: {
@@ -16,9 +16,9 @@ export default {
       this.isPending = true;
       const response = await authService.login(payload);
       this.isPending = false;
-      if(response.status === 200) {
-        this.$cookies.set('gid', response.data.data.token, '7d');
-        this.$router.push({name: 'dashboard'}) 
+      if (response.status === 200) {
+        this.$cookies.set("gid", response.data.data.token, "7d");
+        this.$router.push({ name: "dashboard" });
       } else {
         this.$refs.childRef1.clearInput();
         this.$refs.childRef2.clearInput();
