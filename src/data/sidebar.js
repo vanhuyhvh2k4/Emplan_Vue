@@ -12,7 +12,7 @@ const items = [
   },
   {
     id: 1,
-    view: "canlendar",
+    view: "calendar",
     title: "Calendar",
     icon: svgs.sidebar_2,
     icon_active: svgs.sidebar_2_active,

@@ -23,6 +23,13 @@ const routes = [
       import(/* webpackChunkName: "dashboard" */ "../views/Task/TaskView.vue"),
     beforeEnter: requireAuth,
   },
+  {
+    path: "/calendar",
+    name: "calendar",
+    component: () =>
+      import(/* webpackChunkName: "dashboard" */ "../views/Calendar/CalendarView.vue"),
+    beforeEnter: requireAuth,
+  },
   ...authRoutes,
 ];
 
