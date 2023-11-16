@@ -26,7 +26,7 @@
           >12</div
         >
       </div>
-      <div class="h-full flex gap-4 items-center">
+      <div class="h-full flex gap-4 items-center cursor-pointer relative group">
         <div class="text-end">
           <h3 class="text-lg font-medium">Emplanner User</h3>
           <small class="text-gray-500">IT Student</small>
@@ -37,6 +37,18 @@
             src="https://th.bing.com/th/id/OIP.audMX4ZGbvT2_GJTx2c4GgHaHw?w=182&h=190&c=7&r=0&o=5&pid=1.7"
             alt=""
           />
+        </div>
+        <div
+          class="absolute bg-white rounded-lg shadow-lg py-2 w-full top-[100%] z-40 border border-gray-200 invisible transition group-hover:visible"
+        >
+          <ul>
+            <li class="px-4 py-3 hover:bg-gray-200 cursor-pointer">Profile</li>
+            <li
+              @click="handleClickLogout"
+              class="px-4 py-3 hover:bg-gray-200 cursor-pointer"
+              >Logout</li
+            >
+          </ul>
         </div>
       </div>
     </section>
@@ -49,6 +61,9 @@
     methods: {
       handleClickBars() {
         this.$emit("click-bars");
+      },
+      handleClickLogout() {
+        this.$emit("click-logout");
       },
     },
   };

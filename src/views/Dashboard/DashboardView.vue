@@ -35,7 +35,11 @@
       />
     </div>
     <div class="flex w-full gap-8 mt-8">
-      <Card class="hover:bg-white w-1/2">
+      <Card
+        class="hover:bg-white w-1/2"
+        :class="$style.custom_card"
+        title="Classes - Exams Today"
+      >
         <div class="flex justify-between text-gray-500 px-4">
           <span>Information</span>
           <div class="flex gap-5">
@@ -64,7 +68,11 @@
           </Task>
         </ul>
       </Card>
-      <Card class="hover:bg-white w-1/2">
+      <Card
+        class="hover:bg-white w-1/2"
+        :class="$style.custom_card"
+        title="Tomorrow"
+      >
         <div class="flex justify-between text-gray-500 px-4">
           <span>Information</span>
           <div class="flex gap-5">
@@ -95,7 +103,11 @@
       </Card>
     </div>
     <div class="flex w-full gap-8 mt-8">
-      <Card class="hover:bg-white w-1/2">
+      <Card
+        class="hover:bg-white w-1/2"
+        :class="$style.custom_card"
+        title="Due Tasks"
+      >
         <div class="flex justify-between text-gray-500 px-4">
           <span>Information</span>
           <div class="flex gap-9">
@@ -126,7 +138,11 @@
           </Task>
         </ul>
       </Card>
-      <Card class="hover:bg-white w-1/2">
+      <Card
+        class="hover:bg-white w-1/2"
+        :class="$style.custom_card"
+        title="Overdue Tasks"
+      >
         <div class="flex justify-between text-gray-500 px-4">
           <span>Information</span>
           <div class="flex gap-5">
@@ -195,5 +211,10 @@
     &:hover::-webkit-scrollbar-thumb:hover {
       background: #555;
     }
+  }
+</style>
+<style lang="scss" module>
+  .custom_card h4 {
+    font-size: 20px;
   }
 </style>

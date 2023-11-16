@@ -2,7 +2,7 @@
   <div class="flex">
     <Sidebar v-show="isShowSidebar" />
     <div class="w-full">
-      <Navbar @click-bars="handleClickBars" />
+      <Navbar @click-bars="handleClickBars" @click-logout="handleClickLogout" />
       <div class="custom_height bg-background">
         <slot />
       </div>
@@ -28,6 +28,10 @@
     methods: {
       handleClickBars() {
         this.isShowSidebar = !this.isShowSidebar;
+      },
+      handleClickLogout() {
+        this.$cookies.remove("gid");
+        this.$router.push({ name: "login" });
       },
     },
   };
