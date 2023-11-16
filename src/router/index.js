@@ -1,4 +1,5 @@
 import requireAuth from "@/middlewares/auth.middleware.js";
+import authRoutes from "./auth.route";
 import { createRouter, createWebHistory } from "vue-router";
 
 const routes = [
@@ -16,36 +17,15 @@ const routes = [
     redirect: "/",
   },
   {
-    path: "/register",
-    name: "register",
-    meta: {
-      layout: "auth",
-    },
+    path: "/task",
+    name: "task",
     component: () =>
       import(
-        /* webpackChunkName: "register" */ "../views/Register/RegisterView.vue"
+        /* webpackChunkName: "dashboard" */ "../views/Task/TaskView.vue"
       ),
+    beforeEnter: requireAuth,
   },
-  {
-    path: "/login",
-    name: "login",
-    meta: {
-      layout: "auth",
-    },
-    component: () =>
-      import(/* webpackChunkName: "login" */ "../views/Login/LoginView.vue"),
-  },
-  {
-    path: "/verify",
-    name: "verify",
-    meta: {
-      layout: "auth",
-    },
-    component: () =>
-      import(
-        /* webpackChunkName: "VerifyEmail" */ "../views/VerifyEmail/VerifyEmailView.vue"
-      ),
-  },
+  ...authRoutes
 ];
 
 const router = createRouter({

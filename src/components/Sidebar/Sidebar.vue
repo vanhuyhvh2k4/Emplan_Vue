@@ -7,10 +7,10 @@
     <ul class="mt-20">
       <Item
         class="mb-2"
-        @click="handleClick(index)"
-        :isActive="this.indexActive === index"
+        @click="handleClick(item)"
+        :isActive="this.$route.name === item.view"
         :title="item.title"
-        :icon="this.indexActive === index ? item.icon_active : item.icon"
+        :icon="this.$route.name === item.view ? item.icon_active : item.icon"
         v-for="(item, index) in items"
         :key="index"
       />
@@ -25,14 +25,14 @@
   export default {
     name: "Sidebar",
     data() {
-      return { svgs, items, indexActive: 0 };
+      return { svgs, items };
     },
     components: {
       Item,
     },
     methods: {
-      handleClick(index) {
-        this.indexActive = index;
+      handleClick(item) {
+        this.$router.push({ name: item.view });
       },
     },
   };
