@@ -27,7 +27,9 @@ const routes = [
     path: "/calendar",
     name: "calendar",
     component: () =>
-      import(/* webpackChunkName: "dashboard" */ "../views/Calendar/CalendarView.vue"),
+      import(
+        /* webpackChunkName: "dashboard" */ "../views/Calendar/CalendarView.vue"
+      ),
     beforeEnter: requireAuth,
   },
   ...authRoutes,
