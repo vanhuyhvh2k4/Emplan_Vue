@@ -20,12 +20,10 @@ const routes = [
     path: "/task",
     name: "task",
     component: () =>
-      import(
-        /* webpackChunkName: "dashboard" */ "../views/Task/TaskView.vue"
-      ),
+      import(/* webpackChunkName: "dashboard" */ "../views/Task/TaskView.vue"),
     beforeEnter: requireAuth,
   },
-  ...authRoutes
+  ...authRoutes,
 ];
 
 const router = createRouter({
