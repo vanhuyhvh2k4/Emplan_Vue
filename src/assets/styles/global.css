@@ -27,3 +27,21 @@ body {
   width: 100%;
   height: 100%;
 }
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #bdbdbdcf;
+  border-radius: 32px;
+}
+
+:hover::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}

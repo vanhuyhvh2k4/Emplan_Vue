@@ -1,6 +1,13 @@
 <template>
   <div class="w-full h-full p-8">
-    <FullCalendar :options="calendarOptions" />
+    <div>
+      <FullCalendar :options="calendarOptions" />
+    </div>
+    <Popup
+      v-show="isShowPopup"
+      @click-exit="handleClickExit"
+      @clickOverlay="handleClickOverlay"
+    />
   </div>
 </template>
 
@@ -9,21 +16,24 @@
   import timeGridPlugin from "@fullcalendar/timegrid";
   import dayGridPlugin from "@fullcalendar/daygrid";
   import interactionPlugin from "@fullcalendar/interaction";
+  import Popup from "@/components/Popup/Popup.vue";
   import moment from "moment";
 
   export default {
     name: "CalendarViews",
     components: {
-      FullCalendar, // make the <FullCalendar> tag available
+      FullCalendar,
+      Popup,
     },
     data() {
       return {
+        isShowPopup: false,
         calendarOptions: {
           plugins: [timeGridPlugin, dayGridPlugin, interactionPlugin],
           initialView: "timeGridWeek",
           headerToolbar: {
-            left: "prev,next",
-            center: "title",
+            left: "",
+            center: "prev today next",
             right: "timeGridWeek,dayGridMonth", // user can switch between the two
           },
           allDaySlot: false,
@@ -39,8 +49,19 @@
               ),
             },
           ],
+          eventClick: (info) => {
+            this.isShowPopup = true;
+          },
         },
       };
+    },
+    methods: {
+      handleClickExit() {
+        this.isShowPopup = false;
+      },
+      handleClickOverlay() {
+        this.isShowPopup = false;
+      },
     },
   };
 </script>
