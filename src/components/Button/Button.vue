@@ -1,21 +1,19 @@
 <template>
   <button
-    class="rounded-md flex items-center gap-3 font-bold"
+    class="rounded-md flex items-center font-bold"
     :class="[
+      size == 'sm' && this.sizes.sm,
       size == 'md' && this.sizes.md,
       buttonType == 'primary' && this.type.primary,
       buttonType == 'outline' && this.type.outline,
     ]"
   >
-    <div class="h-full w-auto">
-      <img
-        class="h-full w-full shrink-0 object-contain"
-        v-show="icon"
-        :src="icon"
-        alt=""
-      />
+    <div v-show="icon" class="h-full w-auto mr-3">
+      <img class="h-full w-full shrink-0 object-contain" :src="icon" alt="" />
     </div>
-    <span>{{ title }}</span>
+    <span :class="[buttonType === 'outline' && 'text-gray-500']">{{
+      title
+    }}</span>
   </button>
 </template>
 
@@ -25,12 +23,13 @@
     data() {
       return {
         sizes: {
+          sm: "h-10 px-[40px] py-2 text-md",
           md: "h-12 px-[60px] py-2 text-lg",
         },
         type: {
-          primary: "bg-primary hover:opacity-90",
+          primary: "bg-primary hover:opacity-90 text-white",
           outline:
-            "bg-transparent border border-gray-500 text-gray-500 hover:bg-gray-200",
+            "bg-transparent border border-gray-500 hover:bg-gray-200 text-gray-500",
         },
       };
     },

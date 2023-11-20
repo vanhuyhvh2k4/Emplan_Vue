@@ -11,7 +11,26 @@
       class="px-6 py-2 text-lg outline-none w-full h-12 rounded-xl bg-gray-200"
       :type="type"
       :required="required"
+      v-if="
+        type === 'text' ||
+        type === 'date' ||
+        type === 'email' ||
+        type === 'password'
+      "
     />
+    <select
+      class="px-6 py-2 text-lg outline-none w-full h-12 rounded-xl bg-gray-200"
+      v-if="type === 'select'"
+    >
+      <option v-for="(item, index) in selectVal" :key="index">{{
+        item
+      }}</option>
+    </select>
+    <textarea
+      v-if="type === 'textarea'"
+      class="px-6 py-2 text-lg outline-none w-full rounded-xl bg-gray-200"
+      :placeholder="placeholder"
+    ></textarea>
     <small v-show="message" class="text-sm">{{ message }}</small>
   </div>
 </template>
@@ -44,6 +63,10 @@
       message: {
         type: String,
         default: "",
+      },
+      selectVal: {
+        type: Array,
+        default: ["value1", "value2", "value3"],
       },
     },
     methods: {

@@ -37,6 +37,7 @@
             right: "timeGridWeek,dayGridMonth", // user can switch between the two
           },
           allDaySlot: false,
+          nowIndicator: true,
           contentHeight: "auto",
           events: [
             {
@@ -47,10 +48,26 @@
               end: moment("2023-11-16 09:00", "YYYY-MM-DD HH:mm").format(
                 "YYYY-MM-DDTHH:mm",
               ),
+              extendedProps: {
+                room: "KA.301",
+              },
             },
           ],
           eventClick: (info) => {
             this.isShowPopup = true;
+          },
+          eventContent: (eventInfo) => {
+            return {
+              html: `
+          <div class="bg-blue-500 w-full">
+            <span>${eventInfo.timeText}</span>
+            <br>
+            <span>${eventInfo.event.title}</span>
+            <br>
+            <span>${eventInfo.event.extendedProps.room}</span>
+          </div>
+        `,
+            };
           },
         },
       };
