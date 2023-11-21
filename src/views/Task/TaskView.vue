@@ -1,5 +1,5 @@
 <template>
-  <div class="flex w-full h-full p-8">
+  <div class="flex w-full h-full p-8 gap-4">
     <div class="w-1/2">
       <div class="flex bg-white rounded-lg p-4 items-center justify-between">
         <div class="flex gap-4">
@@ -29,19 +29,63 @@
       </ul>
     </div>
     <div class="w-1/2">
-      <div class="p-4 w-full flex justify-end items-center">
-        <Button size="sm" title="New Task" />
+      <div class="p-4 w-full flex justify-end items-center relative">
+        <Button @click="handleClickNewTask" size="sm" title="New Task" />
+        <div class="absolute w-full max-w-[80%] top-0 right-0">
+          <Form v-show="isShowForm" @click-exit="handleClickNewTask">
+            <Input class="mb-2" type="select" label="Subject" />
+            <div class="flex gap-4 mb-2">
+              <Input type="select" label="Type" />
+              <Input type="date" label="Due Date" />
+            </div>
+            <div class="mb-2 flex gap-6">
+              <Input label="Title" class="mb-2" placeholder="Enter the title" />
+              <div>
+                <label
+                  class="text-input_label font-normal text-lg"
+                  for="primary_color"
+                  >Color</label
+                >
+                <input class="mt-2" type="color" id="primary_color" />
+              </div>
+            </div>
+            <Input
+              type="textarea"
+              label="Detail"
+              placeholder="Enter the description"
+            />
+          </Form>
+        </div>
       </div>
-      <div class="mt-4 flex justify-center">
-        <Form>
-          <Input type="select" />
-          <div class="flex gap-4">
-            <Input type="select" />
-            <Input type="date" />
-          </div>
-          <Input />
-          <Input type="textarea" />
-        </Form>
+      <div class="bg-white mt-3 p-4 rounded-lg">
+        <div
+          class="grid grid-cols-2 grid-rows-2 justify-items-stretch items-center gap-4"
+        >
+          <section
+            class="border border-primary hover:bg-primary hover:text-white cursor-pointer rounded-md p-4 flex flex-col items-center justify-center"
+          >
+            <h4 class="text-lg font-medium">Total Task</h4>
+            <h4 class="text-3xl font-bold">5</h4>
+          </section>
+          <section
+            class="border border-primary hover:bg-primary hover:text-white cursor-pointer rounded-md p-4 flex flex-col items-center justify-center"
+          >
+            <h4 class="text-lg font-medium">Due is coming</h4>
+            <h4 class="text-3xl font-bold">5</h4>
+          </section>
+          <section
+            class="border border-primary hover:bg-primary hover:text-white cursor-pointer rounded-md p-4 flex flex-col items-center justify-center"
+          >
+            <h4 class="text-lg font-medium">Complete</h4>
+            <h4 class="text-3xl font-bold">5</h4>
+          </section>
+          <section
+            class="border border-primary hover:bg-primary hover:text-white cursor-pointer rounded-md p-4 flex flex-col items-center justify-center"
+          >
+            <h4 class="text-lg font-medium">Incomplete</h4>
+            <h4 class="text-3xl font-bold">5</h4>
+          </section>
+        </div>
       </div>
     </div>
   </div>
@@ -54,7 +98,17 @@
   import TaskColor from "@/components/TaskColor/TaskColor.vue";
   export default {
     name: "TaskView",
+    data() {
+      return {
+        isShowForm: false,
+      };
+    },
     components: { TaskColor, Button, Form, Input },
+    methods: {
+      handleClickNewTask() {
+        this.isShowForm = !this.isShowForm;
+      },
+    },
   };
 </script>
 
@@ -77,5 +131,22 @@
     &:hover::-webkit-scrollbar-thumb:hover {
       background: #555;
     }
+  }
+
+  #primary_color {
+    border-radius: 50%;
+    height: 40px;
+    width: 40px;
+    border: none;
+    outline: none;
+    -webkit-appearance: none;
+  }
+
+  #primary_color::-webkit-color-swatch-wrapper {
+    padding: 0;
+  }
+  #primary_color::-webkit-color-swatch {
+    border: none;
+    border-radius: 50%;
   }
 </style>

@@ -1,8 +1,6 @@
 <template>
-  <div
-    class="w-full h-fit max-h-[50%] max-w-[80%] bg-white rounded-lg shadow-xl overflow-hidden"
-  >
-    <div class="flex justify-between p-6 bg-primary">
+  <div class="w-full h-fit bg-white rounded-lg shadow-xl overflow-hidden">
+    <div class="flex justify-between px-6 py-5 bg-primary">
       <section class="text-white text-xl font-medium">{{ title }}</section>
       <section v-if="groupButton" class="text-white flex gap-6 text-xl">
         <font-awesome-icon
@@ -18,8 +16,13 @@
       </section>
     </div>
     <div class="p-6"><slot /></div>
-    <div class="p-6 flex justify-center gap-6">
-      <Button size="sm" buttonType="outline" title="Cancel" />
+    <div class="px-6 pb-4 flex justify-center gap-6">
+      <Button
+        size="sm"
+        buttonType="outline"
+        title="Cancel"
+        @click="handleClickExit"
+      />
       <Button size="sm" title="Save" />
     </div>
   </div>
@@ -38,6 +41,11 @@
       title: {
         type: String,
         default: "Web Technology",
+      },
+    },
+    methods: {
+      handleClickExit() {
+        this.$emit("click-exit");
       },
     },
   };

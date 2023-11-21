@@ -1,6 +1,6 @@
 <template>
   <div class="w-full flex flex-col items-start">
-    <label class="text-input_label font-normal text-xl" :for="label">{{
+    <label class="text-input_label font-normal text-lg mb-1" :for="label">{{
       label
     }}</label>
     <input
@@ -8,18 +8,19 @@
       @input="handleOnInput"
       :id="label"
       :placeholder="placeholder"
-      class="px-6 py-2 text-lg outline-none w-full h-12 rounded-xl bg-gray-200"
+      class="px-6 py-2 text-lg outline-none w-full rounded-xl bg-gray-200"
       :type="type"
       :required="required"
       v-if="
         type === 'text' ||
         type === 'date' ||
         type === 'email' ||
-        type === 'password'
+        type === 'password' ||
+        type === 'color'
       "
     />
     <select
-      class="px-6 py-2 text-lg outline-none w-full h-12 rounded-xl bg-gray-200"
+      class="px-6 py-2 text-lg outline-none w-full rounded-xl bg-gray-200"
       v-if="type === 'select'"
     >
       <option v-for="(item, index) in selectVal" :key="index">{{
