@@ -14,16 +14,25 @@
         </div>
         <div class="flex item-center gap-4">
           <span class="font-medium text-lg">Completed</span>
-          <input type="checkbox" />
+          <input
+            @change="handleChangeCompleted"
+            v-model="isCompleted"
+            class="w-6 h-6"
+            type="checkbox"
+          />
         </div>
       </div>
       <ul
+        v-show="showTask.length"
         class="mt-6 bg-white rounded-lg p-4 max-h-[500px] overflow-y-scroll custom_scrollbar"
       >
         <TaskColor
-          hexColor="#fabb18"
+          :hexColor="item.color"
+          :desc="item.course_name"
+          :title="item.task_name"
+          :date="item.due_at"
           class="mb-4"
-          v-for="(item, index) in 5"
+          v-for="(item, index) in showTask"
           :key="index"
         />
       </ul>
@@ -62,25 +71,25 @@
           class="grid grid-cols-2 grid-rows-2 justify-items-stretch items-center gap-4"
         >
           <section
-            class="border border-primary hover:bg-primary hover:text-white cursor-pointer rounded-md p-4 flex flex-col items-center justify-center"
+            class="bg-gray-100 rounded-md p-4 flex flex-col items-center justify-center"
           >
             <h4 class="text-lg font-medium">Total Task</h4>
             <h4 class="text-3xl font-bold">5</h4>
           </section>
           <section
-            class="border border-primary hover:bg-primary hover:text-white cursor-pointer rounded-md p-4 flex flex-col items-center justify-center"
+            class="bg-gray-100 rounded-md p-4 flex flex-col items-center justify-center"
           >
             <h4 class="text-lg font-medium">Due is coming</h4>
             <h4 class="text-3xl font-bold">5</h4>
           </section>
           <section
-            class="border border-primary hover:bg-primary hover:text-white cursor-pointer rounded-md p-4 flex flex-col items-center justify-center"
+            class="bg-gray-100 rounded-md p-4 flex flex-col items-center justify-center"
           >
             <h4 class="text-lg font-medium">Complete</h4>
             <h4 class="text-3xl font-bold">5</h4>
           </section>
           <section
-            class="border border-primary hover:bg-primary hover:text-white cursor-pointer rounded-md p-4 flex flex-col items-center justify-center"
+            class="bg-gray-100 rounded-md p-4 flex flex-col items-center justify-center"
           >
             <h4 class="text-lg font-medium">Incomplete</h4>
             <h4 class="text-3xl font-bold">5</h4>
@@ -96,19 +105,11 @@
   import Form from "@/components/Form/Form.vue";
   import Input from "@/components/Input/Input.vue";
   import TaskColor from "@/components/TaskColor/TaskColor.vue";
+  import TaskView from "./TaskView.js";
   export default {
     name: "TaskView",
-    data() {
-      return {
-        isShowForm: false,
-      };
-    },
     components: { TaskColor, Button, Form, Input },
-    methods: {
-      handleClickNewTask() {
-        this.isShowForm = !this.isShowForm;
-      },
-    },
+    mixins: [TaskView],
   };
 </script>
 

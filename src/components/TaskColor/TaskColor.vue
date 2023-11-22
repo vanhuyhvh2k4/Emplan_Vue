@@ -13,7 +13,7 @@
       </div>
     </section>
     <section class="flex items-center gap-4">
-      <span>15/11/2023</span>
+      <span>{{ date }}</span>
       <input class="w-6 h-6" type="checkbox" />
     </section>
   </li>
@@ -34,6 +34,10 @@
       hexColor: {
         type: String,
         default: "#4785ff",
+      },
+      date: {
+        type: String,
+        default: "15/11/2023",
       },
     },
   };
