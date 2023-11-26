@@ -1,20 +1,29 @@
 [
-    {
-        "id": 1,
-        "course_id": 1,
-        "course_name": "Computer Architect",
-        "task_name": "Design Minimap",
-        "due_at": "15/11/2023",
-        "completed": false,
-        "color": "#fabb18"
-    },
-    {
-        "id": 2,
-        "course_id": 1,
-        "course_name": "Computer Architect",
-        "task_name": "Mid Term",
-        "due_at": "15/11/2023",
-        "completed": true,
-        "color": "#ff253a"
-    }
+  {
+    "id": 1,
+    "course_id": 1,
+    "course_name": "Computer Architect",
+    "task_name": "Design Minimap",
+    "due_at": "15/11/2023",
+    "completed": false,
+    "color": "#fabb18"
+  },
+  {
+    "id": 2,
+    "course_id": 1,
+    "course_name": "Computer Architect",
+    "task_name": "Mid Term",
+    "due_at": "15/11/2023",
+    "completed": true,
+    "color": "#ff253a"
+  },
+  {
+    "id": 2,
+    "course_id": 1,
+    "course_name": "Computer Architect",
+    "task_name": "Final Test",
+    "due_at": "15/11/2023",
+    "completed": true,
+    "color": "#01a31c"
+  }
 ]

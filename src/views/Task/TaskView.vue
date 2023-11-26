@@ -3,13 +3,21 @@
     <div class="w-1/2">
       <div class="flex bg-white rounded-lg p-4 items-center justify-between">
         <div class="flex gap-4">
-          <span class="font-medium text-lg">Filter by course</span>
+          <label for="select" class="font-medium text-lg"
+            >Filter by course</label
+          >
           <select
             class="outline-none border border-gray-400 rounded-sm"
-            name=""
-            id=""
+            id="select"
+            v-model="selectVal"
+            @change="handleSelectChange"
           >
-            <option value="">Web Technology</option>
+            <option
+              v-for="(item, index) in course.allCourse"
+              :key="index"
+              :value="item.id"
+              >{{ item.name }}</option
+            >
           </select>
         </div>
         <div class="flex item-center gap-4">
