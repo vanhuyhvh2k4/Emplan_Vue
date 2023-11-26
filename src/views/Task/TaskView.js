@@ -9,7 +9,7 @@ export default {
       showTask: [],
       selectVal: 1,
       course: {
-        allCourse: courseService.getAllCourse()
+        allCourse: courseService.getAllCourse(),
       },
       task: {
         allTask: [],
@@ -39,7 +39,7 @@ export default {
     },
     handleSelectChange() {
       console.log(this.selectVal);
-    }
+    },
   },
   created() {
     const taskResponse = taskService.getAllTask();

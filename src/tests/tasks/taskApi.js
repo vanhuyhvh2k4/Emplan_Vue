@@ -3,7 +3,7 @@ import getTaskByCourse from "@/tests/tasks/getTaskByCourse.json";
 
 const taskApi = {
   getAllTask: getAllTask,
-  getTaskByCourse: getTaskByCourse
+  getTaskByCourse: getTaskByCourse,
 };
 
 export default taskApi;

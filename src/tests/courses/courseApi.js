@@ -1,7 +1,7 @@
 import getAllCourse from "./getAllCourse.json";
 
 const courseApi = {
-    getAllCourse
+  getAllCourse,
 };
 
 export default courseApi;
