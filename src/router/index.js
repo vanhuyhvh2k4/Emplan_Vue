@@ -32,6 +32,27 @@ const routes = [
       ),
     beforeEnter: requireAuth,
   },
+  {
+    path: "/schedule",
+    name: "schedule",
+    component: () =>
+      import(
+        /* webpackChunkName: "schedule" */ "../views/Schedule/ScheduleView.vue"
+      ),
+    beforeEnter: requireAuth,
+  },
+  {
+    path: "/pomodoro",
+    name: "pomodoro",
+    meta: {
+      layout: "Empty",
+    },
+    component: () =>
+      import(
+        /* webpackChunkName: "pomodoro" */ "../views/Pomodoro/PomodoroView.vue"
+      ),
+    beforeEnter: requireAuth,
+  },
   ...authRoutes,
 ];
 

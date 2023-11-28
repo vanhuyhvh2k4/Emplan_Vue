@@ -14,6 +14,13 @@
     </section>
     <section class="flex items-center gap-4">
       <span>{{ date }}</span>
+      <span v-show="isCompleted">
+        <font-awesome-icon
+          class="text-green-500 mr-2"
+          :icon="['fas', 'check-circle']"
+        />
+        <span class="text-green-500 font-medium">Finished</span>
+      </span>
       <input class="w-6 h-6" type="checkbox" />
     </section>
   </li>
@@ -38,6 +45,10 @@
       date: {
         type: String,
         default: "15/11/2023",
+      },
+      isCompleted: {
+        type: Boolean,
+        default: false,
       },
     },
   };

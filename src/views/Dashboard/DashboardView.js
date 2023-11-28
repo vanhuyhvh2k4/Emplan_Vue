@@ -9,11 +9,11 @@ export default {
       task: {
         completed: null,
         incompleted: null,
-        cumulative: null
+        cumulative: null,
       },
       course: {
-        courseToday: []
-      }
+        courseToday: [],
+      },
     };
   },
   methods: {
@@ -32,7 +32,7 @@ export default {
       if (response.status === 200) {
         this.course.courseToday = response.data.classes.data;
       }
-    }
+    },
   },
   computed: {
     formattedDate() {

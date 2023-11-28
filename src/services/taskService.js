@@ -10,7 +10,7 @@ export const getTaskByCourse = () => {
 };
 
 export const getTodayTaskDetail = async () => {
-  const res = await request.get('dashboard/get_today_detail');
+  const res = await request.get("dashboard/get_today_detail");
 
   return res;
 };

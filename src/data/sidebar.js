@@ -33,7 +33,7 @@ const items = [
   },
   {
     id: 4,
-    view: "shedule",
+    view: "schedule",
     title: "Schedule",
     icon: svgs.sidebar_5,
     icon_active: svgs.sidebar_5_active,

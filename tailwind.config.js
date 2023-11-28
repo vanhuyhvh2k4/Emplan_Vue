@@ -15,6 +15,9 @@ module.exports = {
         large: "20px",
         super: "50px",
       },
+      fontFamily: {
+        pacifico: ["Pacifico", "cursive"],
+      },
     },
   },
   plugins: [],

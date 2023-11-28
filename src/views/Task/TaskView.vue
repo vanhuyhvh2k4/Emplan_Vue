@@ -40,6 +40,7 @@
           :desc="item.course_name"
           :title="item.task_name"
           :date="item.due_at"
+          :isCompleted="item.completed"
           class="mb-4"
           v-for="(item, index) in showTask"
           :key="index"
