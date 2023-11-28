@@ -16,7 +16,8 @@
         type === 'date' ||
         type === 'email' ||
         type === 'password' ||
-        type === 'color'
+        type === 'color' ||
+        type === 'number'
       "
     />
     <select

@@ -7,14 +7,12 @@ export default {
       isShowForm: false,
       isCompleted: false,
       showTask: [],
-      selectVal: 1,
+      selectVal: "all",
       course: {
         allCourse: courseService.getAllCourse(),
       },
       task: {
         allTask: [],
-        taskCompleted: [],
-        taskDontCompleted: [],
       },
     };
   },
@@ -23,27 +21,34 @@ export default {
       this.isShowForm = !this.isShowForm;
     },
     handleChangeCompleted() {
-      if (this.isCompleted) {
-        this.showTask = this.task.taskCompleted;
-      } else {
-        this.showTask = this.task.taskDontCompleted;
-      }
+      this.filterTasks();
     },
-    filterTasks(allTask) {
-      this.task.taskCompleted = allTask.filter(
-        (task) => task.completed === true,
-      );
-      this.task.taskDontCompleted = allTask.filter(
-        (task) => task.completed === false,
-      );
+    filterTasks(
+      tasks = this.task.allTask,
+      options = {
+        courseId: this.selectVal !== "all" ? this.selectVal : null,
+        isCompleted: this.isCompleted,
+      },
+    ) {
+      let tasksFiltered = tasks.filter((task) => {
+        if (options.courseId !== null) {
+          return (
+            task.course_id === options.courseId &&
+            task.completed === options.isCompleted
+          );
+        } else {
+          return task.completed === options.isCompleted;
+        }
+      });
+      this.showTask = tasksFiltered;
     },
     handleSelectChange() {
-      console.log(this.selectVal);
+      this.filterTasks();
     },
   },
   created() {
     const taskResponse = taskService.getAllTask();
-    this.filterTasks(taskResponse);
-    this.showTask = this.task.taskDontCompleted;
+    this.task.allTask = taskResponse;
+    this.filterTasks();
   },
 };

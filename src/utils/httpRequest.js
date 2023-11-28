@@ -2,7 +2,7 @@ import request from "@/config/axios.config";
 
 export const get = async (path, options = {}) => {
   const res = await request.get(path, options);
-  return res;
+  return res.data;
 };
 
 export const post = async (path, options = {}, config = {}) => {

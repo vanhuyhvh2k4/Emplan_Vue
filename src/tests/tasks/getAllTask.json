@@ -19,8 +19,17 @@
   },
   {
     "id": 2,
-    "course_id": 1,
-    "course_name": "Computer Architect",
+    "course_id": 2,
+    "course_name": "Web Technology",
+    "task_name": "Final Test",
+    "due_at": "15/11/2023",
+    "completed": false,
+    "color": "#01a31c"
+  },
+  {
+    "id": 2,
+    "course_id": 2,
+    "course_name": "Web Technology",
     "task_name": "Final Test",
     "due_at": "15/11/2023",
     "completed": true,

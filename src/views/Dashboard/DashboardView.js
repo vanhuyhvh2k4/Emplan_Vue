@@ -1,10 +1,38 @@
 import svgs from "@/assets/svg/export.js";
+import * as taskService from "@/services/taskService";
+import * as courseService from "@/services/courseService";
 export default {
   data() {
     return {
       svgs,
       currentDate: new Date(),
+      task: {
+        completed: null,
+        incompleted: null,
+        cumulative: null
+      },
+      course: {
+        courseToday: []
+      }
     };
+  },
+  methods: {
+    async getTodayTaskDetail() {
+      const response = await taskService.getTodayTaskDetail();
+
+      if (response.status === 200) {
+        this.task.completed = response.data.completed_task;
+        this.task.incompleted = response.data.incompleted_task;
+        this.task.cumulative = response.data.cumulative_time;
+      }
+    },
+    async getCourseToday() {
+      const response = await courseService.getCourseToday();
+
+      if (response.status === 200) {
+        this.course.courseToday = response.data.classes.data;
+      }
+    }
   },
   computed: {
     formattedDate() {
@@ -30,6 +58,8 @@ export default {
     setInterval(() => {
       this.currentDate = new Date();
     }, 1000);
+
+    this.getTodayTaskDetail();
   },
   mounted() {
     document.title = "Dashboard | Emplanner";

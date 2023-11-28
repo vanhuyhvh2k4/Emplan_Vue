@@ -12,6 +12,7 @@
             v-model="selectVal"
             @change="handleSelectChange"
           >
+            <option value="all">All Task</option>
             <option
               v-for="(item, index) in course.allCourse"
               :key="index"

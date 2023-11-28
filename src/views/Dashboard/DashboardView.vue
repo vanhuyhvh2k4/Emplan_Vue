@@ -24,13 +24,20 @@
       <SmallCard
         class="w-1/4"
         :icon="svgs.incomplete"
+        :number="task.incompleted"
         customImg="w-1/2"
         title="Complete Task"
       />
-      <SmallCard class="w-1/4" :icon="svgs.complete" title="Incomplete Task" />
+      <SmallCard
+        class="w-1/4"
+        :icon="svgs.complete"
+        :number="task.completed"
+        title="Incomplete Task"
+      />
       <SmallCard
         class="w-1/4"
         :icon="svgs.cumulative"
+        :number="task.cumulative"
         title="Cumulative Time"
       />
     </div>
