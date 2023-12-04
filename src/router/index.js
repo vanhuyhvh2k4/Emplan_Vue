@@ -44,9 +44,6 @@ const routes = [
   {
     path: "/pomodoro",
     name: "pomodoro",
-    meta: {
-      layout: "Empty",
-    },
     component: () =>
       import(
         /* webpackChunkName: "pomodoro" */ "../views/Pomodoro/PomodoroView.vue"

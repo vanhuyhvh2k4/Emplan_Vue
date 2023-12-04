@@ -1,9 +1,14 @@
+import images from "@/assets/images/export";
+import svgs from "@/assets/svg/export";
+
 export default {
   data() {
     return {
-      countdown: "00:60:00",
-      initialTime: 60 * 60,
-      remainingTime: 60 * 60,
+      images,
+      svgs,
+      countdown: "00:50:00",
+      initialTime: 50 * 60,
+      remainingTime: 50 * 60,
       intervalId: null,
       counting: false,
     };
@@ -24,7 +29,7 @@ export default {
     },
     resetCountdown() {
       this.remainingTime = this.initialTime;
-      this.countdown = "00:60:00";
+      this.countdown = "00:50:00";
       this.stopCountdown();
     },
     updateCountdown() {
@@ -42,13 +47,6 @@ export default {
     },
     formatNumber(number) {
       return number.toString().padStart(2, "0");
-    },
-    handleClickCounting() {
-      if (this.counting) {
-        this.stopCountdown();
-      } else {
-        this.startCountdown();
-      }
     },
   },
   beforeDestroy() {

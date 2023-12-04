@@ -1,101 +1,72 @@
 <template>
-  <div class="w-full h-full relative">
-    <div class="w-full h-full absolute">
-      <img
-        class="object-cover"
-        src="https://studywithme.io/aesthetic-pomodoro-timer/c629a813b3561cfa40dd.jpg"
-        alt=""
-      />
-    </div>
-    <div class="absolute ml-5 mt-5 w-1/5 max-w-[280px]">
-      <div class="p-4 w-full bg-[#383032] rounded-2xl text-white">
-        <section class="flex justify-between">
-          <span>
-            <font-awesome-icon :icon="['fas', 'clock']" />
-            <span class="ml-2">Personal Timer</span>
-          </span>
-          <span>
-            <font-awesome-icon :icon="['fas', 'pen']" />
-          </span>
-        </section>
-        <section class="flex items-center justify-between mt-4">
-          <h1 class="text-3xl font-medium">{{ countdown }}</h1>
+  <div class="p-8 w-full h-full flex">
+    <section class="w-1/5">
+      <div class="w-full max-w-[300px] bg-white rounded-lg p-4">
+        <h2 class="font-medium text-lg">Focus time</h2>
+        <div class="flex items-center justify-between mt-4">
+          <h2 class="text-3xl font-medium">{{ countdown }}</h2>
           <div>
             <font-awesome-icon
-              v-show="counting"
-              class="text-lg cursor-pointer"
-              :icon="['fas', 'pause']"
-              @click="handleClickCounting"
-            />
-            <font-awesome-icon
-              v-show="!counting"
-              class="cursor-pointer"
               :icon="['fas', 'play']"
-              @click="handleClickCounting"
+              class="text-xl mr-4 cursor-pointer"
+              v-show="!counting"
+              @click="startCountdown"
             />
             <font-awesome-icon
-              @click="resetCountdown"
-              class="text-lg ml-4"
+              :icon="['fas', 'pause']"
+              class="text-xl mr-4 cursor-pointer"
+              v-show="counting"
+              @click="stopCountdown"
+            />
+            <font-awesome-icon
               :icon="['fas', 'redo-alt']"
+              class="text-xl cursor-pointer"
+              @click="resetCountdown"
             />
           </div>
-        </section>
+        </div>
       </div>
-      <div class="w-full p-4 mt-4 bg-[#383032] rounded-2xl text-white">
-        <section>
-          <span>
-            <font-awesome-icon :icon="['fas', 'bullseye']" />
-            <span class="ml-2">Session goals</span>
-          </span>
-        </section>
-        <section class="mt-4 flex items-center justify-between gap-2">
-          <input
-            type="text"
-            class="outline-none border-2 border-white bg-[#383032] p-2 rounded-lg text-white overflow-hidden"
-            placeholder="Type a goal..."
+    </section>
+    <section class="w-1/2">
+      <div
+        class="text-center w-full max-w-[500px] p-4 bg-[#fff8e8] rounded-lg m-auto"
+      >
+        <h2>Get ready to focus</h2>
+        <div class="w-1/2 h-auto m-auto mt-4">
+          <img
+            class="w-full h-full object-contain flex-shrink-0"
+            :src="images.Timer"
+            alt=""
           />
-          <div
-            class="p-2 bg-white text-black rounded-lg cursor-pointer hover:bg-primary hover:text-white"
-            >Add</div
-          >
-        </section>
-        <section
-          class="mt-2 flex items-center justify-between bg-black rounded-lg p-4"
+        </div>
+        <div class="w-1/2 m-auto flex justify-between items-center mt-4">
+          <font-awesome-icon class="text-xl" :icon="['fas', 'plus']" />
+          <span class="text-3xl font-bold">{{ countdown }}</span>
+          <font-awesome-icon class="text-xl" :icon="['fas', 'minus']" />
+        </div>
+        <div
+          class="w-1/2 bg-primary text-white rounded-lg p-3 text-lg cursor-pointer hover:bg-black m-auto mt-4"
+          >Start section</div
         >
-          <div class="text-center text-red-300">
-            <h2 class="text-xl font-medium">0</h2>
-            <small>Incomplete</small>
-          </div>
-          <div class="text-center text-green-300">
-            <h2 class="text-xl font-medium">4</h2>
-            <small>Completed</small>
-          </div>
-        </section>
-        <section class="mt-2">
-          <ul class="w-full max-h-[250px] overflow-y-scroll custom_scrollbar">
-            <li
-              v-for="(item, index) in 5"
-              :key="index"
-              class="py-2 px-4 bg-black rounded-lg mb-2"
-            >
-              <input type="radio" class="w-4 h-4" />
-              <span class="ml-2">test</span>
-              <font-awesome-icon
-                class="cursor-pointer float-right"
-                :icon="['fas', 'times']"
-              />
-            </li>
-          </ul>
-        </section>
       </div>
-    </div>
+    </section>
+    <section class="w-[30%]">
+      <ul
+        class="bg-white rounded-lg p-4 max-h-[500px] overflow-y-scroll custom_scrollbar max-w-[500px]"
+      >
+        <TaskColor class="mb-4" v-for="(item, index) in 5" :key="index" />
+      </ul>
+    </section>
   </div>
 </template>
 
 <script>
+  import SmallCard from "@/components/SmallCard/SmallCard.vue";
   import PomodoroView from "./PomodoroView";
+  import TaskColor from "@/components/TaskColor/TaskColor.vue";
   export default {
     name: "PomodoroView",
     mixins: [PomodoroView],
+    components: { SmallCard, TaskColor },
   };
 </script>
