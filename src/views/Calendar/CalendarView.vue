@@ -3,11 +3,53 @@
     <div>
       <FullCalendar :options="calendarOptions" />
     </div>
-    <Popup
-      v-show="isShowPopup"
-      @click-exit="handleClickExit"
-      @clickOverlay="handleClickOverlay"
-    />
+    <Popup v-show="isShowPopup" @clickOverlay="this.isShowPopup = false">
+      <template #header-right>
+        <font-awesome-icon
+          class="cursor-pointer"
+          :icon="['fas', 'trash-alt']"
+        />
+        <font-awesome-icon class="cursor-pointer" :icon="['fas', 'pen']" />
+        <font-awesome-icon
+          class="cursor-pointer"
+          :icon="['fas', 'times']"
+          @click="this.isShowPopup = false"
+        />
+      </template>
+      <section class="flex items-center mb-6">
+        <font-awesome-icon
+          class="text-xl mr-4 float-left"
+          :icon="['far', 'calendar-alt']"
+        />
+        <span class="text-lg">9:00 AM - 10:30 AM Today</span>
+      </section>
+      <section class="flex items-center mb-6">
+        <font-awesome-icon
+          class="text-xl mr-4 float-left"
+          :icon="['fas', 'map-marker-alt']"
+        />
+        <span class="text-lg">KA.301</span>
+      </section>
+      <section class="flex items-center mb-6">
+        <font-awesome-icon
+          class="text-xl mr-4 float-left"
+          :icon="['fas', 'chalkboard-teacher']"
+        />
+        <span class="text-lg">Mr.Dai</span>
+      </section>
+      <section>
+        <h4
+          class="relative after:w-full after:h-[1px] after:bg-blue-300 after:right-0 after:absolute after:top-1/2"
+        >
+          <span class="bg-white relative z-10 pr-4"
+            >Task due for this class</span
+          >
+        </h4>
+      </section>
+      <section>
+        <span class="text-gray-500">There are no tasks due for this class</span>
+      </section>
+    </Popup>
   </div>
 </template>
 
@@ -72,13 +114,6 @@
         },
       };
     },
-    methods: {
-      handleClickExit() {
-        this.isShowPopup = false;
-      },
-      handleClickOverlay() {
-        this.isShowPopup = false;
-      },
-    },
+    methods: {},
   };
 </script>

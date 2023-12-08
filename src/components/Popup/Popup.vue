@@ -4,60 +4,17 @@
     @click="handleClickOverlay"
   >
     <div
-      class="w-full h-fit max-h-[50%] max-w-[630px] bg-white rounded-lg shadow-xl overflow-hidden"
+      class="w-full h-fit max-w-[630px] bg-white rounded-lg shadow-xl overflow-hidden"
       @click.stop
     >
-      <div class="flex justify-between p-6 bg-blue-500">
-        <section class="text-white text-xl font-medium">Web Technology</section>
+      <div class="flex justify-between p-6 bg-primary">
+        <section class="text-white text-xl font-medium">{{ title }}</section>
         <section class="text-white flex gap-6 text-xl">
-          <font-awesome-icon
-            class="cursor-pointer"
-            :icon="['fas', 'trash-alt']"
-          />
-          <font-awesome-icon class="cursor-pointer" :icon="['fas', 'pen']" />
-          <font-awesome-icon
-            class="cursor-pointer"
-            :icon="['fas', 'times']"
-            @click="handleClickExit"
-          />
+          <slot name="header-right" />
         </section>
       </div>
       <div class="p-6">
-        <section class="flex items-center mb-6">
-          <font-awesome-icon
-            class="text-xl mr-4 float-left"
-            :icon="['far', 'calendar-alt']"
-          />
-          <span class="text-lg">9:00 AM - 10:30 AM Today</span>
-        </section>
-        <section class="flex items-center mb-6">
-          <font-awesome-icon
-            class="text-xl mr-4 float-left"
-            :icon="['fas', 'map-marker-alt']"
-          />
-          <span class="text-lg">KA.301</span>
-        </section>
-        <section class="flex items-center mb-6">
-          <font-awesome-icon
-            class="text-xl mr-4 float-left"
-            :icon="['fas', 'chalkboard-teacher']"
-          />
-          <span class="text-lg">Mr.Dai</span>
-        </section>
-        <section>
-          <h4
-            class="relative after:w-full after:h-[1px] after:bg-blue-300 after:right-0 after:absolute after:top-1/2"
-          >
-            <span class="bg-white relative z-10 pr-4"
-              >Task due for this class</span
-            >
-          </h4>
-        </section>
-        <section>
-          <span class="text-gray-500"
-            >There are no tasks due for this class</span
-          >
-        </section>
+        <slot />
       </div>
     </div>
   </div>
@@ -66,10 +23,13 @@
 <script>
   export default {
     name: "Popup",
-    methods: {
-      handleClickExit() {
-        this.$emit("click-exit");
+    props: {
+      title: {
+        type: String,
+        default: "Web technology",
       },
+    },
+    methods: {
       handleClickOverlay() {
         this.$emit("click-overlay");
       },

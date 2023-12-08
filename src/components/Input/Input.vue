@@ -14,6 +14,7 @@
       v-if="
         type === 'text' ||
         type === 'date' ||
+        type === 'time' ||
         type === 'email' ||
         type === 'password' ||
         type === 'color' ||
