@@ -50,6 +50,15 @@ const routes = [
       ),
     beforeEnter: requireAuth,
   },
+  {
+    path: "/exam",
+    name: "exam",
+    component: () =>
+      import(
+        /* webpackChunkName: "exam" */ "../views/Exam/ExamView.vue"
+      ),
+    beforeEnter: requireAuth,
+  },
   ...authRoutes,
 ];
 

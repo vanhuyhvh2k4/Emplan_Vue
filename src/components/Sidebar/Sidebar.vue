@@ -1,6 +1,6 @@
 <template>
   <div class="w-2/12 h-full py-6 pl-6 pr-4">
-    <h1 class="text-4xl font-black">
+    <h1 class="text-3xl font-black">
       <span>EMPLANN</span>
       <span class="text-primary">ER.</span>
     </h1>

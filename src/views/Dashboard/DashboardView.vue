@@ -14,7 +14,7 @@
           class="flex justify-between items-center gap-12 bg-white px-4 py-2 rounded-xl text-lg font-medium"
         >
           <span>Start Pomodo</span>
-          <div class="h-full px-4 py-2 rounded-lg bg-primary">
+          <div @click="this.$router.push({name: 'pomodoro'})" class="h-full px-4 py-2 rounded-lg bg-primary">
             <font-awesome-icon :icon="['fas', 'play']" />
           </div>
         </div>

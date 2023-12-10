@@ -39,8 +39,11 @@
       </div>
     </div>
     <Popup v-show="showPopup" @click-overlay="this.showPopup = false">
-      <section>
-        <Input label="Subject" placeholder="Enter your subject" />
+      <section class="flex flex-col">
+        <label class="text-input_label font-normal text-lg mb-1" for="subject">Subject</label>
+        <select class="px-6 py-2 text-lg outline-none w-full rounded-xl bg-gray-200" name="" id="subject">
+          <option v-for="(item, index) in this.courses.all" :key="index" value="">{{ item.name }}</option>
+        </select>
       </section>
       <section class="flex gap-4 mt-2">
         <Input label="Room" placeholder="Enter your room" />

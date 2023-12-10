@@ -1,5 +1,5 @@
 <template>
-  <div class="p-8 w-full h-full flex">
+  <div class="p-8 w-full h-full flex gap-4">
     <section class="w-1/5">
       <div class="w-full max-w-[300px] bg-white rounded-lg p-4">
         <h2 class="font-medium text-lg">Focus time</h2>
@@ -27,7 +27,7 @@
         </div>
       </div>
     </section>
-    <section class="w-1/2">
+    <section class="w-2/5">
       <div
         class="text-center w-full max-w-[500px] p-4 bg-[#fff8e8] rounded-lg m-auto"
       >
@@ -50,7 +50,7 @@
         >
       </div>
     </section>
-    <section class="w-[30%]">
+    <section class="w-2/5">
       <ul
         class="bg-white rounded-lg p-4 max-h-[500px] overflow-y-scroll custom_scrollbar max-w-[500px]"
       >
