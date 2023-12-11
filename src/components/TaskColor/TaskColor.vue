@@ -21,7 +21,13 @@
         />
         <span class="text-green-500 font-medium">Finished</span>
       </span>
-      <input class="w-6 h-6" type="checkbox" />
+      <input
+        v-model="checkboxVal"
+        @change="handleChangeCheckbox"
+        class="w-6 h-6"
+        type="checkbox"
+        :value="checkboxId"
+      />
     </section>
   </li>
 </template>
@@ -29,7 +35,16 @@
 <script>
   export default {
     name: "TaskColor",
+    data() {
+      return {
+        checkboxVal: false,
+      };
+    },
     props: {
+      checkboxId: {
+        type: Number,
+        default: 0,
+      },
       title: {
         type: String,
         default: "Design minimap",
@@ -49,6 +64,14 @@
       isCompleted: {
         type: Boolean,
         default: false,
+      },
+    },
+    methods: {
+      handleChangeCheckbox(e) {
+        this.$emit("checkbox-change", this.checkboxVal, e.target.value);
+      },
+      resetCheckbox() {
+        this.checkboxVal = false;
       },
     },
   };

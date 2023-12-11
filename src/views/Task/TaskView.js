@@ -3,24 +3,32 @@ import * as courseService from "@/services/courseService";
 
 export default {
   data() {
+    const allCourse = courseService.getAllCourse();
     return {
       isShowForm: false,
       isCompleted: false,
       showTask: [],
       selectVal: "all",
+      checkboxVals: [],
       course: {
-        allCourse: courseService.getAllCourse(),
+        allCourse,
       },
       task: {
         allTask: [],
       },
+      newTaskData: {
+        subject: allCourse[0].id,
+        type: "assignment",
+        due: null,
+        title: null,
+        color: null,
+        detail: null,
+      },
     };
   },
   methods: {
-    handleClickNewTask() {
-      this.isShowForm = !this.isShowForm;
-    },
     handleChangeCompleted() {
+      this.handleClickClearSelection();
       this.filterTasks();
     },
     filterTasks(
@@ -44,6 +52,45 @@ export default {
     },
     handleSelectChange() {
       this.filterTasks();
+    },
+    handleCheckboxChange(checked, value) {
+      if (checked) {
+        this.checkboxVals.push(value);
+      } else {
+        this.checkboxVals = this.checkboxVals.filter((item) => item !== value);
+      }
+    },
+    handleClickComplete() {
+      alert("complete taskId: " + this.checkboxVals);
+    },
+    handleClickSetIncompleted() {
+      alert("set incompleted taskId: " + this.checkboxVals);
+    },
+    handleClickDeleteTask() {
+      alert("delete taskId: " + this.checkboxVals);
+    },
+    handleClickClearSelection() {
+      this.checkboxVals = [];
+      for (let i = 0; i < this.showTask.length; i++) {
+        this.$refs.taskRefs[i].resetCheckbox();
+      }
+    },
+    handleCickNewTask() {
+      this.isShowForm = false;
+      alert("create task");
+      console.log(this.newTaskData);
+    },
+    handleInputDate(value) {
+      this.newTaskData.due = value;
+    },
+    handleInputTitle(value) {
+      this.newTaskData.title = value;
+    },
+    handleInputColor(e) {
+      this.newTaskData.color = e.target.value;
+    },
+    handleInputDetail(value) {
+      this.newTaskData.detail = value;
     },
   },
   created() {

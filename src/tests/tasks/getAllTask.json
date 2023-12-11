@@ -18,7 +18,7 @@
     "color": "#ff253a"
   },
   {
-    "id": 2,
+    "id": 3,
     "course_id": 2,
     "course_name": "Web Technology",
     "task_name": "Final Test",
@@ -27,7 +27,7 @@
     "color": "#01a31c"
   },
   {
-    "id": 2,
+    "id": 4,
     "course_id": 2,
     "course_name": "Web Technology",
     "task_name": "Final Test",

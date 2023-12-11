@@ -1,6 +1,6 @@
 <template>
   <button
-    class="rounded-md flex items-center font-bold"
+    class="rounded-md flex items-center justify-center"
     :class="[
       size == 'sm' && this.sizes.sm,
       size == 'md' && this.sizes.md,
@@ -23,8 +23,8 @@
     data() {
       return {
         sizes: {
-          sm: "h-10 px-[40px] py-2 text-md",
-          md: "h-12 px-[60px] py-2 text-lg",
+          sm: "h-10 px-[40px] py-2 text-md font-medium",
+          md: "h-12 px-[60px] py-2 text-lg font-bold",
         },
         type: {
           primary: "bg-primary hover:opacity-90 text-white",

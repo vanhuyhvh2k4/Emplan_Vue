@@ -21,16 +21,9 @@
         type === 'number'
       "
     />
-    <select
-      :id="label"
-      class="px-6 py-2 text-lg outline-none w-full rounded-xl bg-gray-200"
-      v-if="type === 'select'"
-    >
-      <option v-for="(item, index) in selectVal" :key="index">{{
-        item
-      }}</option>
-    </select>
     <textarea
+      v-model="inputValue"
+      @input="handleOnInput"
       :id="label"
       v-if="type === 'textarea'"
       class="px-6 py-2 text-lg outline-none w-full rounded-xl bg-gray-200"
@@ -68,10 +61,6 @@
       message: {
         type: String,
         default: "",
-      },
-      selectVal: {
-        type: Array,
-        default: ["value1", "value2", "value3"],
       },
     },
     methods: {

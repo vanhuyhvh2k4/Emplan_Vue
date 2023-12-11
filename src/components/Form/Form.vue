@@ -16,15 +16,6 @@
       </section>
     </div>
     <div class="p-6"><slot /></div>
-    <div class="px-6 pb-4 flex justify-center gap-6">
-      <Button
-        size="sm"
-        buttonType="outline"
-        title="Cancel"
-        @click="handleClickExit"
-      />
-      <Button size="sm" title="Save" />
-    </div>
   </div>
 </template>
 
