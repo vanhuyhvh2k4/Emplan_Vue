@@ -39,13 +39,24 @@
             alt=""
           />
         </div>
-        <div class="w-1/2 m-auto flex justify-between items-center mt-4">
-          <font-awesome-icon class="text-xl" :icon="['fas', 'plus']" />
-          <span class="text-3xl font-bold">{{ countdown }}</span>
-          <font-awesome-icon class="text-xl" :icon="['fas', 'minus']" />
+        <div
+          class="w-1/2 m-auto flex justify-between items-center mt-4 select-none"
+        >
+          <font-awesome-icon
+            @click="handleClickReduceTime"
+            class="text-xl"
+            :icon="['fas', 'minus']"
+          />
+          <span class="text-3xl font-bold">{{ initialTime / 60 }} mins</span>
+          <font-awesome-icon
+            @click="handleClickIncreaseTime"
+            class="text-xl"
+            :icon="['fas', 'plus']"
+          />
         </div>
         <div
-          class="w-1/2 bg-primary text-white rounded-lg p-3 text-lg cursor-pointer hover:bg-black m-auto mt-4"
+          @click="startCountdown"
+          class="w-1/2 bg-primary select-none text-white rounded-lg p-3 text-lg cursor-pointer hover:bg-black m-auto mt-4"
           >Start section</div
         >
       </div>

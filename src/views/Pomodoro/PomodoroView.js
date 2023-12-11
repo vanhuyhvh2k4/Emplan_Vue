@@ -29,7 +29,7 @@ export default {
     },
     resetCountdown() {
       this.remainingTime = this.initialTime;
-      this.countdown = "00:50:00";
+      this.countdown = this.formatTime(this.initialTime);
       this.stopCountdown();
     },
     updateCountdown() {
@@ -45,8 +45,31 @@ export default {
         clearInterval(this.intervalId);
       }
     },
+    handleClickIncreaseTime() {
+      this.resetCountdown();
+      this.initialTime += 5 * 60;
+      this.remainingTime = this.initialTime;
+      this.countdown = this.formatTime(this.initialTime);
+    },
+    handleClickReduceTime() {
+      if (this.initialTime / 60 > 10) {
+        this.resetCountdown();
+        this.initialTime -= 5 * 60;
+        this.remainingTime = this.initialTime;
+        this.countdown = this.formatTime(this.initialTime);
+      }
+    },
     formatNumber(number) {
       return number.toString().padStart(2, "0");
+    },
+    formatTime(totalSeconds) {
+      const hours = Math.floor(totalSeconds / 3600);
+      const minutes = Math.floor((totalSeconds % 3600) / 60);
+      const seconds = totalSeconds % 60;
+      const formattedHours = this.formatNumber(hours);
+      const formattedMinutes = this.formatNumber(minutes);
+      const formattedSeconds = this.formatNumber(seconds);
+      return `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
     },
   },
   beforeDestroy() {
