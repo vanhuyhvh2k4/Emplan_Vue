@@ -40,9 +40,20 @@
     </div>
     <Popup v-show="showPopup" @click-overlay="this.showPopup = false">
       <section class="flex flex-col">
-        <label class="text-input_label font-normal text-lg mb-1" for="subject">Subject</label>
-        <select class="px-6 py-2 text-lg outline-none w-full rounded-xl bg-gray-200" name="" id="subject">
-          <option v-for="(item, index) in this.courses.all" :key="index" value="">{{ item.name }}</option>
+        <label class="text-input_label font-normal text-lg mb-1" for="subject"
+          >Subject</label
+        >
+        <select
+          class="px-6 py-2 text-lg outline-none w-full rounded-xl bg-gray-200"
+          name=""
+          id="subject"
+        >
+          <option
+            v-for="(item, index) in this.courses.all"
+            :key="index"
+            value=""
+            >{{ item.name }}</option
+          >
         </select>
       </section>
       <section class="flex gap-4 mt-2">
@@ -73,7 +84,7 @@
             </div>
           </div>
           <div v-show="!showOneOffButton">
-            <input type="date" name="" id="" />
+            <DateChoose @click-date="handleClickDate" />
           </div>
         </div>
       </section>
@@ -97,11 +108,12 @@
   import Input from "@/components/Input/Input.vue";
   import Popup from "@/components/Popup/Popup.vue";
   import TaskColor from "@/components/TaskColor/TaskColor.vue";
+  import DateChoose from "@/components/DateChoose/DateChoose.vue";
   import ScheduleView from "./ScheduleView";
 
   export default {
     name: "ScheduleView",
-    components: { Button, TaskColor, Popup, Input },
+    components: { Button, TaskColor, Popup, Input, DateChoose },
     mixins: [ScheduleView],
   };
 </script>
