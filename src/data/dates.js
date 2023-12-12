@@ -31,8 +31,8 @@ const dates = [
   },
   {
     id: 7,
-    name: "Monday",
-    short: "Mon",
+    name: "Sunday",
+    short: "Sun",
   },
 ];
 

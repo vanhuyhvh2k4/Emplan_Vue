@@ -1,7 +1,7 @@
 <template>
   <div class="w-full flex justify-center items-center p-4 select-none">
     <div
-      class="px-2 py-1 cursor-pointer hover:bg-gray-200 border flex-1 text-center border-l-0 border-gray-200"
+      class="p-2 cursor-pointer hover:bg-gray-200 border flex-1 text-center border-l-0 border-gray-200"
       v-for="(item, index) in dates"
       :class="[
         itemExists(item)
@@ -10,7 +10,6 @@
         index === 0 && 'border-l-[1px]',
       ]"
       @click="handleClickItem(item)"
-      ref="dateRefs"
       :key="index"
       >{{ item.short }}</div
     >
@@ -36,7 +35,8 @@
         } else {
           this.datesChooses.push({
             id: item.id,
-            name: item.short,
+            name: item.name,
+            short: item.short,
           });
         }
 
