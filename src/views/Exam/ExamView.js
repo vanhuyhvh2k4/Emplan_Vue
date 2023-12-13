@@ -59,7 +59,7 @@ export default {
             ? this.course.allCourse[0].id
             : this.newExamData.subject,
         room: this.newExamData.room,
-        date: this.newExamData.room,
+        date: this.newExamData.date,
         start: this.newExamData.start,
         duration: this.newExamData.duration,
       };

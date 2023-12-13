@@ -43,24 +43,14 @@
       v-show="showPopup"
       @click-overlay="this.showPopup = false"
     >
-      <section class="flex flex-col">
-        <label class="text-input_label font-normal text-lg mb-1" for="subject"
-          >Subject</label
-        >
-        <select
-          v-model="newClassData.subject"
-          class="px-6 py-2 text-lg outline-none w-full rounded-xl bg-gray-200"
-          name=""
-          id="subject"
-        >
-          <option
-            v-for="(item, index) in this.courses.all"
-            :key="index"
-            :value="item.id"
-            >{{ item.name }}</option
-          >
-        </select>
-      </section>
+      <Select
+        :arrOptions="courses.all"
+        value="id"
+        show="name"
+        label="Subject"
+        defaultValue="1"
+        @select-change="(value) => (newClassData.subject = value)"
+      />
       <section class="flex gap-4 mt-2">
         <Input
           @input-enter="
@@ -72,11 +62,7 @@
           placeholder="Enter your room"
         />
         <Input
-          @input-enter="
-            (value) => {
-              newClassData.teacher = value;
-            }
-          "
+          @input-enter="(value) => (newClassData.teacher = value)"
           label="Teacher"
           placeholder="Enter your teacher"
         />
@@ -99,30 +85,18 @@
         <div class="p-4 border border-gray-200 mt-[-1px]">
           <div v-if="showOneOffButton">
             <Input
-              @input-enter="
-                (value) => {
-                  newClassData.date = value;
-                }
-              "
+              @input-enter="(value) => (newClassData.date = value)"
               type="date"
               label="Date"
             />
             <div class="flex gap-4 mt-2">
               <Input
-                @input-enter="
-                  (value) => {
-                    newClassData.start = value;
-                  }
-                "
+                @input-enter="(value) => (newClassData.start = value)"
                 type="time"
                 label="Start time"
               />
               <Input
-                @input-enter="
-                  (value) => {
-                    newClassData.end = value;
-                  }
-                "
+                @input-enter="(value) => (newClassData.end = value)"
                 type="time"
                 label="End time"
               />
@@ -141,20 +115,12 @@
               <DateChoose @click-date="handleClickDate" />
               <div class="flex gap-4">
                 <Input
-                  @input-enter="
-                    (value) => {
-                      this.newAddTimeData.start = value;
-                    }
-                  "
+                  @input-enter="(value) => (this.newAddTimeData.start = value)"
                   type="time"
                   label="Start time"
                 />
                 <Input
-                  @input-enter="
-                    (value) => {
-                      this.newAddTimeData.end = value;
-                    }
-                  "
+                  @input-enter="(value) => (this.newAddTimeData.end = value)"
                   type="time"
                   label="End time"
                 />
@@ -226,10 +192,11 @@
   import TaskColor from "@/components/TaskColor/TaskColor.vue";
   import DateChoose from "@/components/DateChoose/DateChoose.vue";
   import ScheduleView from "./ScheduleView";
+  import Select from "@/components/Select/Select.vue";
 
   export default {
     name: "ScheduleView",
-    components: { Button, TaskColor, Popup, Input, DateChoose },
+    components: { Button, TaskColor, Popup, Input, DateChoose, Select },
     mixins: [ScheduleView],
   };
 </script>

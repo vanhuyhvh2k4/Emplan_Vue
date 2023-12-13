@@ -56,39 +56,22 @@
         <div class="absolute w-full max-w-[80%] top-0 right-0">
           <Form title="Create new task" v-show="isShowForm">
             <div>
-              <div class="flex flex-col items-start">
-                <label class="text-input_label font-normal text-lg mb-1" for=""
-                  >Subject</label
-                >
-                <select
-                  v-model="newTaskData.subject"
-                  @change="handleInputSubject"
-                  class="h-[46px] px-6 py-2 text-lg outline-none w-full rounded-xl bg-gray-200"
-                >
-                  <option
-                    :value="item.id"
-                    v-for="(item, index) in course.allCourse"
-                    :key="index"
-                    >{{ item.name }}</option
-                  >
-                </select>
-              </div>
+              <Select
+                class="mb-2"
+                label="Subject"
+                :arrOptions="course.allCourse"
+                value="id"
+                show="name"
+                defaultValue="1"
+                @select-change="(value) => (newTaskData.subject = value)"
+              />
               <div class="flex gap-4 mb-2">
-                <div class="flex flex-col items-start">
-                  <label
-                    class="text-input_label font-normal text-lg mb-1"
-                    for=""
-                    >Type</label
-                  >
-                  <select
-                    v-model="newTaskData.type"
-                    class="h-[46px] px-6 py-2 text-lg outline-none w-full rounded-xl bg-gray-200"
-                  >
-                    <option value="assignment">Assignment</option>
-                    <option value="reminder">Reminder</option>
-                    <option value="revision">Revision</option>
-                  </select>
-                </div>
+                <Select
+                  @select-change="(value) => (newTaskData.type = value)"
+                  label="Type"
+                  :arrOptions="['Assignment', 'Reminder', 'Revision']"
+                  defaultValue="Assignment"
+                />
                 <Input
                   @input-enter="handleInputDate"
                   type="date"
@@ -212,9 +195,10 @@
   import Input from "@/components/Input/Input.vue";
   import TaskColor from "@/components/TaskColor/TaskColor.vue";
   import TaskView from "./TaskView.js";
+  import Select from "@/components/Select/Select.vue";
   export default {
     name: "TaskView",
-    components: { TaskColor, Button, Form, Input },
+    components: { TaskColor, Button, Form, Input, Select },
     mixins: [TaskView],
   };
 </script>

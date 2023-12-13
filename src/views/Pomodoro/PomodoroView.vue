@@ -44,13 +44,13 @@
         >
           <font-awesome-icon
             @click="handleClickReduceTime"
-            class="text-xl"
+            class="text-xl cursor-pointer hover:text-primary"
             :icon="['fas', 'minus']"
           />
           <span class="text-3xl font-bold">{{ initialTime / 60 }} mins</span>
           <font-awesome-icon
             @click="handleClickIncreaseTime"
-            class="text-xl"
+            class="text-xl cursor-pointer hover:text-primary"
             :icon="['fas', 'plus']"
           />
         </div>

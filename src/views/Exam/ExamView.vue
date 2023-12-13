@@ -63,40 +63,28 @@
               show="name"
               :defaultValue="course.allCourse[0].id"
               :arrOptions="course.allCourse"
-              @select-change="
-                (value) => {
-                  newExamData.subject = value;
-                }
-              "
+              @select-change="(value) => (newExamData.subject = value)"
             />
             <div class="flex gap-4 mb-2">
               <Input
-                @input-enter="
-                  (value) => {
-                    newExamData.room = value;
-                  }
-                "
+                @input-enter="(value) => (newExamData.room = value)"
                 type="text"
                 label="Room number"
               />
-              <Input type="date" label="Date" />
+              <Input
+                type="date"
+                label="Date"
+                @input-enter="(value) => (newExamData.date = value)"
+              />
             </div>
             <div class="mb-2 flex gap-6">
               <Input
-                @input-enter="
-                  (value) => {
-                    newExamData.start = value;
-                  }
-                "
+                @input-enter="(value) => (newExamData.start = value)"
                 label="Start"
                 type="time"
               />
               <Input
-                @input-enter="
-                  (value) => {
-                    newExamData.duration = value;
-                  }
-                "
+                @input-enter="(value) => (newExamData.duration = value)"
                 defaultValue="50"
                 label="Duration"
                 type="number"
