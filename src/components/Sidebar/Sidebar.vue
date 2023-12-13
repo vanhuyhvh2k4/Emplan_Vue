@@ -1,5 +1,5 @@
 <template>
-  <div class="w-2/12 h-full py-6 pl-6 pr-4">
+  <div class="w-2/12 h-full py-6 pl-6 pr-4 select-none">
     <h1 class="text-3xl font-black">
       <span>EMPLANN</span>
       <span class="text-primary">ER.</span>

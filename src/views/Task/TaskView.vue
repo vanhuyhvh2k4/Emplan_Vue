@@ -130,7 +130,7 @@
                 title="Cancel"
                 @click="this.isShowForm = false"
               />
-              <Button @click="handleCickNewTask" size="sm" title="Create" />
+              <Button @click="handleClickNewTask" size="sm" title="Create" />
             </div>
           </Form>
         </div>

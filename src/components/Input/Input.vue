@@ -34,17 +34,25 @@
 </template>
 
 <script>
+  import { BaseTransitionPropsValidators } from "vue";
+
   export default {
     name: "Input",
     data() {
       return {
-        inputValue: "",
+        inputValue: this.defaultValue,
       };
     },
     props: {
       type: {
         type: String,
         default: "text",
+      },
+      defaultValue: {
+        validator: function (value) {
+          return typeof value === "number" || typeof value === "string";
+        },
+        default: "",
       },
       required: {
         type: Boolean,

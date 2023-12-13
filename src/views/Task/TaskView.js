@@ -75,7 +75,7 @@ export default {
         this.$refs.taskRefs[i].resetCheckbox();
       }
     },
-    handleCickNewTask() {
+    handleClickNewTask() {
       this.isShowForm = false;
       alert("create task");
       console.log(this.newTaskData);
@@ -97,5 +97,8 @@ export default {
     const taskResponse = taskService.getAllTask();
     this.task.allTask = taskResponse;
     this.filterTasks();
+  },
+  mounted() {
+    document.title = "Task | Emplanner";
   },
 };

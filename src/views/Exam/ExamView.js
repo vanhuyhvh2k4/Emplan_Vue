@@ -11,13 +11,20 @@ export default {
       course: {
         allCourse: courseService.getAllCourse(),
       },
+      newExamData: {
+        subject: "",
+        room: "",
+        date: "",
+        start: "",
+        duration: "",
+      },
       task: {
         allTask: [],
       },
     };
   },
   methods: {
-    handleClickNewTask() {
+    handleClickNewExamButton() {
       this.isShowForm = !this.isShowForm;
     },
     handleChangeCompleted() {
@@ -45,10 +52,27 @@ export default {
     handleSelectChange() {
       this.filterTasks();
     },
+    handleClickNewExam() {
+      const newExamData = {
+        subject:
+          this.newExamData.subject === ""
+            ? this.course.allCourse[0].id
+            : this.newExamData.subject,
+        room: this.newExamData.room,
+        date: this.newExamData.room,
+        start: this.newExamData.start,
+        duration: this.newExamData.duration,
+      };
+
+      console.log(newExamData);
+    },
   },
   created() {
     const taskResponse = taskService.getAllTask();
     this.task.allTask = taskResponse;
     this.filterTasks();
+  },
+  mounted() {
+    document.title = "Exam | Emplanner";
   },
 };

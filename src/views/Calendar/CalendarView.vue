@@ -115,5 +115,8 @@
       };
     },
     methods: {},
+    mounted() {
+      document.title = "Calendar | Eplanner";
+    },
   };
 </script>

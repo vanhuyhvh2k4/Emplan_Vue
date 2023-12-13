@@ -80,4 +80,7 @@ export default {
   created() {
     this.getAllCourseApi();
   },
+  mounted() {
+    document.title = "Schedule | Emplanner";
+  },
 };

@@ -36,8 +36,10 @@
         default: "",
       },
       number: {
-        type: String,
-        default: "8",
+        validator: function (value) {
+          return typeof value === "string" || typeof value === "number";
+        },
+        default: 8,
       },
       title: {
         type: String,

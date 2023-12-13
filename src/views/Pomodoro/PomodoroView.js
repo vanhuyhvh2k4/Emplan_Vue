@@ -75,4 +75,7 @@ export default {
   beforeDestroy() {
     clearInterval(this.intervalId);
   },
+  mounted() {
+    document.title = "Pomodoro | Emplanner";
+  },
 };

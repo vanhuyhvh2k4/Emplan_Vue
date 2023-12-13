@@ -73,6 +73,7 @@
             :class="$style.padding_custom"
             class="font-normal"
             title="Login with google"
+            size="sm"
           />
           <Button
             :icon="images.Github"
@@ -80,6 +81,7 @@
             :class="$style.padding_custom"
             class="font-normal"
             title="Login with github"
+            size="sm"
           />
         </div>
       </section>

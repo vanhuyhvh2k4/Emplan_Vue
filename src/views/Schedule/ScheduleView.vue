@@ -38,7 +38,11 @@
         </ul>
       </div>
     </div>
-    <Popup v-show="showPopup" @click-overlay="this.showPopup = false">
+    <Popup
+      title="Create new class"
+      v-show="showPopup"
+      @click-overlay="this.showPopup = false"
+    >
       <section class="flex flex-col">
         <label class="text-input_label font-normal text-lg mb-1" for="subject"
           >Subject</label

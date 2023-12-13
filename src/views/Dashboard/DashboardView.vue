@@ -14,7 +14,10 @@
           class="flex justify-between items-center gap-12 bg-white px-4 py-2 rounded-xl text-lg font-medium"
         >
           <span>Start Pomodo</span>
-          <div @click="this.$router.push({name: 'pomodoro'})" class="h-full px-4 py-2 rounded-lg bg-primary">
+          <div
+            @click="this.$router.push({ name: 'pomodoro' })"
+            class="h-full px-4 py-2 rounded-lg bg-primary"
+          >
             <font-awesome-icon :icon="['fas', 'play']" />
           </div>
         </div>
@@ -24,14 +27,14 @@
       <SmallCard
         class="w-1/4"
         :icon="svgs.incomplete"
-        :number="task.incompleted"
+        :number="Number.parseInt(task.incompleted)"
         customImg="w-1/2"
         title="Complete Task"
       />
       <SmallCard
         class="w-1/4"
         :icon="svgs.complete"
-        :number="task.completed"
+        :number="Number.parseInt(task.completed)"
         title="Incomplete Task"
       />
       <SmallCard
