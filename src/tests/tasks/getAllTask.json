@@ -34,5 +34,41 @@
     "due_at": "15/11/2023",
     "completed": true,
     "color": "#01a31c"
+  },
+  {
+    "id": 5,
+    "course_id": 3,
+    "course_name": "Math",
+    "task_name": "Middle test",
+    "due_at": "15/11/2023",
+    "completed": false,
+    "color": "#3f043c"
+  },
+  {
+    "id": 6,
+    "course_id": 3,
+    "course_name": "Math",
+    "task_name": "Final Test",
+    "due_at": "15/11/2023",
+    "completed": true,
+    "color": "#5c4923"
+  },
+  {
+    "id": 7,
+    "course_id": 4,
+    "course_name": "English",
+    "task_name": "Writing",
+    "due_at": "15/11/2023",
+    "completed": false,
+    "color": "#6ca4f2"
+  },
+  {
+    "id": 8,
+    "course_id": 4,
+    "course_name": "English",
+    "task_name": "Reading",
+    "due_at": "15/11/2023",
+    "completed": true,
+    "color": "#9fa321"
   }
 ]

@@ -1,13 +1,16 @@
 import * as taskService from "@/services/taskService";
 import * as courseService from "@/services/courseService";
+import * as examService from "@/services/examService";
 
 export default {
   data() {
     return {
       isShowForm: false,
       isCompleted: false,
-      showTask: [],
+      showExams: [],
       selectVal: "all",
+      checkboxVal: false,
+      arrCheckboxValues: [],
       course: {
         allCourse: courseService.getAllCourse(),
       },
@@ -21,6 +24,9 @@ export default {
       task: {
         allTask: [],
       },
+      exam: {
+        all: [],
+      },
     };
   },
   methods: {
@@ -28,29 +34,30 @@ export default {
       this.isShowForm = !this.isShowForm;
     },
     handleChangeCompleted() {
-      this.filterTasks();
+      this.filterExams();
+      this.handleClickClearSelection();
     },
-    filterTasks(
-      tasks = this.task.allTask,
+    filterExams(
+      exams = this.exam.all,
       options = {
         courseId: this.selectVal !== "all" ? this.selectVal : null,
         isCompleted: this.isCompleted,
       },
     ) {
-      let tasksFiltered = tasks.filter((task) => {
+      let examsFiltered = exams.filter((exam) => {
         if (options.courseId !== null) {
           return (
-            task.course_id === options.courseId &&
-            task.completed === options.isCompleted
+            exam.course_id === options.courseId &&
+            exam.completed === options.isCompleted
           );
         } else {
-          return task.completed === options.isCompleted;
+          return exam.completed === options.isCompleted;
         }
       });
-      this.showTask = tasksFiltered;
+      this.showExams = examsFiltered;
     },
     handleSelectChange() {
-      this.filterTasks();
+      this.filterExams();
     },
     handleClickNewExam() {
       const newExamData = {
@@ -66,11 +73,36 @@ export default {
 
       console.log(newExamData);
     },
+    handleClickCheckbox(checked, item) {
+      if (checked) {
+        this.arrCheckboxValues.push(item.id);
+      } else {
+        this.arrCheckboxValues = this.arrCheckboxValues.filter(
+          (examId) => examId !== item.id,
+        );
+      }
+    },
+    handleClickComplete() {
+      alert("complete examId: " + this.arrCheckboxValues);
+    },
+    handleClickSetIncompleted() {
+      alert("set incompleted examId: " + this.arrCheckboxValues);
+    },
+    handleClickDeleteTask() {
+      alert("delete examId: " + this.arrCheckboxValues);
+    },
+    handleClickClearSelection() {
+      const checkboxRefs = this.$refs.checkboxExamRefs;
+      this.arrCheckboxValues = [];
+      checkboxRefs.forEach((element) => {
+        element.checked = false;
+      });
+    },
   },
   created() {
-    const taskResponse = taskService.getAllTask();
-    this.task.allTask = taskResponse;
-    this.filterTasks();
+    const examResponse = examService.getAllExams();
+    this.exam.all = examResponse;
+    this.filterExams();
   },
   mounted() {
     document.title = "Exam | Emplanner";

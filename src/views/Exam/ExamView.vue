@@ -32,19 +32,43 @@
         </div>
       </div>
       <ul
-        v-show="showTask.length"
+        v-show="showExams.length"
         class="mt-6 bg-white rounded-lg p-4 max-h-[500px] overflow-y-scroll custom_scrollbar"
       >
-        <TaskColor
-          :hexColor="item.color"
-          :desc="item.course_name"
-          :title="item.task_name"
-          :date="item.due_at"
-          :isCompleted="item.completed"
-          class="mb-4"
-          v-for="(item, index) in showTask"
+        <div
+          v-for="(item, index) in showExams"
           :key="index"
-        />
+          class="flex justify-between item-center border border-gray-200 rounded-lg px-4 py-2 hover:bg-gray-200 cursor-pointer"
+          :class="index !== showExams.length - 1 ? 'mb-4' : ''"
+        >
+          <section>
+            <h3 class="text-lg font-medium">{{ item.course_name }}</h3>
+            <small>
+              <span>{{ item.room }}</span>
+              <span> | </span>
+              <span>{{ item.duration }} mins</span>
+            </small>
+          </section>
+          <section class="flex items-center gap-4">
+            <div class="font-bold">
+              <small>{{ item.start }}</small> <br />
+              <small>{{ item.date }}</small>
+            </div>
+            <span v-show="item.completed">
+              <font-awesome-icon
+                class="text-green-500 mr-2"
+                :icon="['fas', 'check-circle']"
+              />
+              <span class="text-green-500 font-medium">Finished</span>
+            </span>
+            <input
+              @click="handleClickCheckbox($event.target.checked, item)"
+              class="w-6 h-6"
+              type="checkbox"
+              ref="checkboxExamRefs"
+            />
+          </section>
+        </div>
       </ul>
     </div>
     <div class="w-1/2">
@@ -105,6 +129,7 @@
       </div>
       <div class="bg-white mt-3 p-4 rounded-lg">
         <div
+          v-show="arrCheckboxValues.length === 0"
           class="grid grid-cols-2 grid-rows-2 justify-items-stretch items-center gap-4"
         >
           <section
@@ -131,6 +156,42 @@
             <h4 class="text-lg font-medium">Incomplete</h4>
             <h4 class="text-3xl font-bold">5</h4>
           </section>
+        </div>
+        <div v-show="arrCheckboxValues.length > 0" class="text-center">
+          <small class="text-gray-600 mb-2 block"
+            >{{ arrCheckboxValues.length }} exams selected</small
+          >
+          <Button
+            v-show="isCompleted"
+            @click="handleClickSetIncompleted"
+            :class="$style.custom_button"
+            title="Set incompleted"
+            size="sm"
+            class="mb-2 mx-auto"
+          />
+          <Button
+            v-show="!isCompleted"
+            @click="handleClickComplete"
+            :class="$style.custom_button"
+            title="Mark as completed"
+            size="sm"
+            class="mb-2 mx-auto"
+          />
+          <Button
+            @click="handleClickDeleteTask"
+            :class="$style.custom_button"
+            title="Delete exams"
+            size="sm"
+            class="mb-2 mx-auto"
+          />
+          <Button
+            @click="handleClickClearSelection"
+            :class="$style.custom_button"
+            title="Clear selection"
+            button-type="outline"
+            size="sm"
+            class="mb-2 mx-auto"
+          />
         </div>
       </div>
     </div>
@@ -187,5 +248,12 @@
   #primary_color::-webkit-color-swatch {
     border: none;
     border-radius: 50%;
+  }
+</style>
+
+<style lang="scss" module>
+  .custom_button {
+    padding: 12px;
+    min-width: 40%;
   }
 </style>

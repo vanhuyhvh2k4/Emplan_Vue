@@ -23,8 +23,8 @@
     data() {
       return {
         sizes: {
-          sm: "h-10 px-[40px] py-2 text-md font-medium",
-          md: "h-12 px-[60px] py-2 text-lg font-bold",
+          sm: "h-10 px-[40px] py-2 text-md font-light",
+          md: "h-12 px-[60px] py-2 text-lg font-normal",
         },
         type: {
           primary: "bg-primary hover:opacity-90 text-white",

@@ -8,7 +8,7 @@
       @click.stop
     >
       <div class="flex justify-between p-6 bg-primary">
-        <section class="text-white text-xl font-medium">{{ title }}</section>
+        <section class="text-white text-xl font-normal">{{ title }}</section>
         <section class="text-white flex gap-6 text-xl">
           <slot name="header-right" />
         </section>

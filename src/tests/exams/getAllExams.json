@@ -1,0 +1,42 @@
+[
+    {
+        "id": 1,
+        "course_id": 2,
+        "course_name": "Web technology",
+        "room": "KA.104",
+        "duration": 90,
+        "start": "01:00 PM",
+        "date": "27/12/2023",
+        "completed": false
+    },
+    {
+        "id": 2,
+        "course_id": 1,
+        "course_name": "Computer architecture",
+        "room": "KA.207",
+        "duration": 60,
+        "start": "08:00 AM",
+        "date": "27/12/2023",
+        "completed": false
+    },
+    {
+        "id": 3,
+        "course_id": 3,
+        "course_name": "Math",
+        "room": "KA.207",
+        "duration": 60,
+        "start": "08:00 AM",
+        "date": "27/12/2023",
+        "completed": true
+    },
+    {
+        "id": 4,
+        "course_id": 4,
+        "course_name": "English",
+        "room": "KA.207",
+        "duration": 60,
+        "start": "08:00 AM",
+        "date": "27/12/2023",
+        "completed": true
+    }
+]
