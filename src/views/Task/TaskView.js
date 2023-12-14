@@ -6,6 +6,29 @@ export default {
     const allCourse = courseService.getAllCourse();
     return {
       isShowForm: false,
+      showPopupTask: false,
+      showEditForm: false,
+      popupTaskData: {
+        id: "",
+        course_id: "",
+        course_name: "",
+        task_name: "",
+        type: "",
+        due_at: "",
+        distance_day: "",
+        completed: "",
+        detail: "",
+        color: "",
+      },
+      editTaskData: {
+        id: "",
+        course_id: "",
+        task_name: "",
+        type: "",
+        due_at: "",
+        detail: "",
+        color: "",
+      },
       isCompleted: false,
       showTask: [],
       selectVal: "all",
@@ -18,7 +41,7 @@ export default {
       },
       newTaskData: {
         subject: allCourse[0].id,
-        type: "assignment",
+        type: "Assignment",
         due: null,
         title: null,
         color: null,
@@ -27,6 +50,17 @@ export default {
     };
   },
   methods: {
+    handleClickTask(item) {
+      this.showPopupTask = true;
+      this.popupTaskData.distance_day = this.distanceDateWithCurrent(
+        item.due_at,
+      );
+      for (const key in this.popupTaskData) {
+        if (key !== "distance_day") {
+          this.popupTaskData[key] = item[key];
+        }
+      }
+    },
     handleChangeCompleted() {
       this.handleClickClearSelection();
       this.filterTasks();
@@ -60,13 +94,19 @@ export default {
         this.checkboxVals = this.checkboxVals.filter((item) => item !== value);
       }
     },
-    handleClickComplete() {
-      alert("complete taskId: " + this.checkboxVals);
-    },
-    handleClickSetIncompleted() {
-      alert("set incompleted taskId: " + this.checkboxVals);
+    handleClickCompleteTask() {
+      alert("complete taskId: " + this.popupTaskData.id);
     },
     handleClickDeleteTask() {
+      alert("delete taskId: " + this.popupTaskData.id);
+    },
+    handleClickCompleteSelectedTask() {
+      alert("complete taskId: " + this.checkboxVals);
+    },
+    handleClickSelectSetIncompleted() {
+      alert("set incompleted taskId: " + this.checkboxVals);
+    },
+    handleClickDeleteSelectedTask() {
       alert("delete taskId: " + this.checkboxVals);
     },
     handleClickClearSelection() {
@@ -80,17 +120,40 @@ export default {
       alert("create task");
       console.log(this.newTaskData);
     },
-    handleInputDate(value) {
-      this.newTaskData.due = value;
+    distanceDateWithCurrent(date) {
+      var dayMonthYear = date.split("/");
+      var formatDate =
+        dayMonthYear[2] + "-" + dayMonthYear[1] + "-" + dayMonthYear[0];
+      let currentDate = new Date();
+      let paramsDate = new Date(formatDate);
+      let currentMili = currentDate.getTime();
+      let dateMili = paramsDate.getTime();
+      let distanceMili = dateMili - currentMili;
+      let distanceDay = Math.floor(distanceMili / (1000 * 60 * 60 * 24)) + 1;
+      return distanceDay;
     },
-    handleInputTitle(value) {
-      this.newTaskData.title = value;
+    formatDate(date) {
+      var dayMonthYear = date.split("/");
+      var formatDate =
+        dayMonthYear[2] + "-" + dayMonthYear[1] + "-" + dayMonthYear[0];
+      return formatDate;
     },
-    handleInputColor(e) {
-      this.newTaskData.color = e.target.value;
+    handleClickEditTask() {
+      this.showEditForm = true;
+      for (const key in this.editTaskData) {
+        this.editTaskData[key] = this.popupTaskData[key];
+      }
     },
-    handleInputDetail(value) {
-      this.newTaskData.detail = value;
+    handleClickSaveEditTask() {
+      const changedData = {
+        id: this.editTaskData["id"],
+      };
+      for (const key in this.editTaskData) {
+        if (this.editTaskData[key] !== this.popupTaskData[key]) {
+          changedData[key] = this.editTaskData[key];
+        }
+      }
+      console.log(changedData);
     },
   },
   created() {

@@ -34,8 +34,6 @@
 </template>
 
 <script>
-  import { BaseTransitionPropsValidators } from "vue";
-
   export default {
     name: "Input",
     data() {

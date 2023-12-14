@@ -43,6 +43,9 @@
       v-show="showPopup"
       @click-overlay="this.showPopup = false"
     >
+      <template #header-left>
+        <h3>Create new class</h3>
+      </template>
       <Select
         :arrOptions="courses.all"
         value="id"

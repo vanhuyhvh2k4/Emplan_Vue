@@ -22,6 +22,7 @@
         <span class="text-green-500 font-medium">Finished</span>
       </span>
       <input
+        @click.stop
         v-model="checkboxVal"
         @change="handleChangeCheckbox"
         class="w-6 h-6"

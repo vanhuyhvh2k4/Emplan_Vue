@@ -2,73 +2,89 @@
   {
     "id": 1,
     "course_id": 1,
+    "type": "Reminder",
     "course_name": "Computer Architect",
     "task_name": "Design Minimap",
-    "due_at": "15/11/2023",
+    "due_at": "15/12/2023",
     "completed": false,
+    "detail": "detail",
     "color": "#fabb18"
   },
   {
     "id": 2,
     "course_id": 1,
+    "type": "Revision",
     "course_name": "Computer Architect",
     "task_name": "Mid Term",
-    "due_at": "15/11/2023",
+    "due_at": "14/12/2023",
     "completed": true,
+    "detail": "detail",
     "color": "#ff253a"
   },
   {
     "id": 3,
     "course_id": 2,
+    "type": "Assignment",
     "course_name": "Web Technology",
     "task_name": "Final Test",
-    "due_at": "15/11/2023",
+    "due_at": "12/12/2023",
     "completed": false,
+    "detail": "detail",
     "color": "#01a31c"
   },
   {
     "id": 4,
     "course_id": 2,
+    "type": "Assignment",
     "course_name": "Web Technology",
     "task_name": "Final Test",
-    "due_at": "15/11/2023",
+    "due_at": "18/12/2023",
     "completed": true,
+    "detail": "detail",
     "color": "#01a31c"
   },
   {
     "id": 5,
     "course_id": 3,
+    "type": "Assignment",
     "course_name": "Math",
     "task_name": "Middle test",
-    "due_at": "15/11/2023",
+    "due_at": "19/12/2023",
     "completed": false,
+    "detail": "detail",
     "color": "#3f043c"
   },
   {
     "id": 6,
     "course_id": 3,
+    "type": "Revision",
     "course_name": "Math",
     "task_name": "Final Test",
-    "due_at": "15/11/2023",
+    "due_at": "14/12/2023",
     "completed": true,
+    "detail": "detail",
     "color": "#5c4923"
   },
   {
     "id": 7,
     "course_id": 4,
+    "type": "Assignment",
     "course_name": "English",
     "task_name": "Writing",
-    "due_at": "15/11/2023",
+    "due_at": "17/12/2023",
     "completed": false,
+    "detail": "detail",
     "color": "#6ca4f2"
   },
   {
     "id": 8,
     "course_id": 4,
+    "type": "Reminder",
     "course_name": "English",
     "task_name": "Reading",
-    "due_at": "15/11/2023",
+    "due_at": "11/12/2023",
     "completed": true,
+    "detail": "detail",
     "color": "#9fa321"
   }
 ]

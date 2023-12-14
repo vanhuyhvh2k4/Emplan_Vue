@@ -7,8 +7,13 @@
       class="w-full h-fit max-w-[630px] bg-white rounded-lg shadow-xl overflow-hidden"
       @click.stop
     >
-      <div class="flex justify-between p-6 bg-primary">
-        <section class="text-white text-xl font-normal">{{ title }}</section>
+      <div
+        class="flex justify-between items-center p-6 bg-primary"
+        :style="color && `background-color: ${color}`"
+      >
+        <section class="text-white text-xl font-normal">
+          <slot name="header-left" />
+        </section>
         <section class="text-white flex gap-6 text-xl">
           <slot name="header-right" />
         </section>
@@ -27,6 +32,10 @@
       title: {
         type: String,
         default: "Web technology",
+      },
+      color: {
+        type: String,
+        default: "#FABB18",
       },
     },
     methods: {

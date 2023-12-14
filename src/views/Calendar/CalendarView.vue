@@ -4,6 +4,9 @@
       <FullCalendar :options="calendarOptions" />
     </div>
     <Popup v-show="isShowPopup" @clickOverlay="this.isShowPopup = false">
+      <template #header-left>
+        <h3>Web Technology</h3>
+      </template>
       <template #header-right>
         <font-awesome-icon
           class="cursor-pointer"
@@ -47,7 +50,9 @@
         </h4>
       </section>
       <section>
-        <span class="text-gray-500">There are no tasks due for this class</span>
+        <span class="text-gray-500 font-light"
+          >There are no tasks due for this class</span
+        >
       </section>
     </Popup>
   </div>
