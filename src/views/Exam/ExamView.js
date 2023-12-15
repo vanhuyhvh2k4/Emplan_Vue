@@ -1,18 +1,40 @@
-import * as taskService from "@/services/taskService";
 import * as courseService from "@/services/courseService";
 import * as examService from "@/services/examService";
+import formatDate from "@/utils/formatDate";
 
 export default {
   data() {
     return {
+      formatDate,
       isShowForm: false,
       isCompleted: false,
+      showPopupExam: false,
+      showEditForm: false,
       showExams: [],
       selectVal: "all",
       checkboxVal: false,
       arrCheckboxValues: [],
       course: {
         allCourse: courseService.getAllCourse(),
+      },
+      popupExamData: {
+        id: "",
+        course_id: "",
+        course_name: "",
+        teacher: "",
+        room: "",
+        duration: "",
+        start: "",
+        date: "",
+        completed: "",
+      },
+      editExamData: {
+        id: "",
+        course_id: "",
+        room: "",
+        duration: "",
+        start: "",
+        date: "",
       },
       newExamData: {
         subject: "",
@@ -91,6 +113,30 @@ export default {
       checkboxRefs.forEach((element) => {
         element.checked = false;
       });
+    },
+    handleClickExamItem(item) {
+      for (const key in this.popupExamData) {
+        this.popupExamData[key] = item[key];
+      }
+      this.showPopupExam = true;
+    },
+    handleClickEditTask() {
+      for (const key in this.editExamData) {
+        this.editExamData[key] = this.popupExamData[key];
+      }
+      this.showEditForm = true;
+    },
+    handleClickSaveEditExam() {
+      const changedData = {};
+      for (const key in this.editExamData) {
+        if (this.editExamData[key] !== this.popupExamData[key]) {
+          changedData[key] = this.editExamData[key];
+        }
+      }
+      if (Object.keys(changedData).length !== 0) {
+        changedData["id"] = this.editExamData["id"];
+      }
+      console.log(changedData);
     },
   },
   created() {

@@ -202,8 +202,13 @@
         />
       </template>
       <ul>
-        <li class="p-4 cursor-pointer hover:bg-gray-200">PTTKHT</li>
-        <li class="p-4 cursor-pointer hover:bg-gray-200">Web technology</li>
+        <li
+          v-for="(item, index) in courses.all"
+          :key="index"
+          class="p-4 cursor-pointer hover:bg-gray-200"
+          :class="courses.all.length > 1 && 'border-b-[1px] border-gray-200'"
+          >{{ item.name }}</li
+        >
       </ul>
       <Button
         @click="

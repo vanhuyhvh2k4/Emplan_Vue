@@ -106,7 +106,7 @@
           eventContent: (eventInfo) => {
             return {
               html: `
-          <div class="bg-blue-500 w-full">
+          <div class="w-full">
             <span>${eventInfo.timeText}</span>
             <br>
             <span>${eventInfo.event.title}</span>

@@ -36,6 +36,7 @@
         class="mt-6 bg-white rounded-lg p-4 max-h-[500px] overflow-y-scroll custom_scrollbar"
       >
         <div
+          @click="handleClickExamItem(item)"
           v-for="(item, index) in showExams"
           :key="index"
           class="flex justify-between item-center border border-gray-200 rounded-lg px-4 py-2 hover:bg-gray-200 cursor-pointer"
@@ -52,7 +53,7 @@
           <section class="flex items-center gap-4">
             <div class="font-bold">
               <small>{{ item.start }}</small> <br />
-              <small>{{ item.date }}</small>
+              <small>{{ formatDate(item.date) }}</small>
             </div>
             <span v-show="item.completed">
               <font-awesome-icon
@@ -62,7 +63,7 @@
               <span class="text-green-500 font-medium">Finished</span>
             </span>
             <input
-              @click="handleClickCheckbox($event.target.checked, item)"
+              @click.stop="handleClickCheckbox($event.target.checked, item)"
               class="w-6 h-6"
               type="checkbox"
               ref="checkboxExamRefs"
@@ -179,6 +180,119 @@
         </div>
       </div>
     </div>
+    <Popup
+      v-if="showPopupExam"
+      @click-overlay="
+        () => {
+          showPopupExam = false;
+          showEditForm = false;
+        }
+      "
+    >
+      <template #header-left>
+        <h3>{{ popupExamData.course_name }}</h3>
+      </template>
+      <template #header-right>
+        <font-awesome-icon
+          @click="handleClickDeleteTask"
+          class="cursor-pointer"
+          :icon="['fas', 'trash-alt']"
+        />
+        <font-awesome-icon
+          @click="handleClickEditTask"
+          class="cursor-pointer"
+          :icon="['fas', 'pen']"
+        />
+        <font-awesome-icon
+          @click="
+            () => {
+              showPopupExam = false;
+            }
+          "
+          class="cursor-pointer"
+          :icon="['fas', 'times']"
+        />
+      </template>
+      <div v-show="!showEditForm">
+        <div class="flex gap-4 items-start p-4">
+          <font-awesome-icon :icon="['fas', 'chalkboard-teacher']" />
+          <p>{{ popupExamData.teacher }}</p>
+        </div>
+        <div class="flex gap-4 items-start p-4">
+          <font-awesome-icon :icon="['far', 'calendar-alt']" />
+          <p>{{ popupExamData.start }}-{{ formatDate(popupExamData.date) }}</p>
+        </div>
+        <div class="flex gap-4 items-start p-4">
+          <font-awesome-icon :icon="['far', 'clock']" />
+          <p>{{ popupExamData.duration }} minutes</p>
+        </div>
+        <div class="flex gap-4 items-start p-4">
+          <font-awesome-icon :icon="['fas', 'map-marker-alt']" />
+          <p>{{ popupExamData.room }}</p>
+        </div>
+        <section class="mt-4">
+          <h4
+            class="relative after:w-full after:h-[1px] after:bg-blue-300 after:right-0 after:absolute after:top-1/2"
+          >
+            <span class="bg-white relative z-10 pr-4">Revision task</span>
+          </h4>
+        </section>
+        <section>
+          <span class="text-gray-500 font-light"
+            >This exam has no incomplete revision tasks.</span
+          >
+        </section>
+      </div>
+      <div v-show="showEditForm">
+        <Select
+          class="mb-2"
+          label="Subject"
+          value="id"
+          show="name"
+          :defaultValue="popupExamData.course_id"
+          :arrOptions="course.allCourse"
+          @select-change="(value) => (editExamData.course_id = value)"
+        />
+        <div class="flex gap-4 mb-2">
+          <Input
+            @input-enter="(value) => (editExamData.room = value)"
+            type="text"
+            label="Room number"
+            :defaultValue="popupExamData.room"
+          />
+          <Input
+            type="date"
+            label="Date"
+            @input-enter="(value) => (editExamData.date = value)"
+            :defaultValue="popupExamData.date"
+          />
+        </div>
+        <div class="mb-2 flex gap-6">
+          <Input
+            @input-enter="(value) => (editExamData.start = value)"
+            label="Start"
+            type="time"
+            :defaultValue="popupExamData.start"
+          />
+          <Input
+            @input-enter="(value) => (editExamData.duration = value)"
+            :defaultValue="popupExamData.duration"
+            label="Duration"
+            type="number"
+            placeholder=""
+          />
+        </div>
+        <div class="mt-4 flex justify-end gap-6">
+          <Button
+            size="sm"
+            buttonType="outline"
+            title="Cancel"
+            @click="() => (this.showEditForm = false)"
+          />
+          <Button @click="handleClickSaveEditExam" size="sm" title="Save" />
+        </div>
+      </div>
+    </Popup>
   </div>
 </template>
 
@@ -189,9 +303,10 @@
   import Input from "@/components/Input/Input.vue";
   import TaskColor from "@/components/TaskColor/TaskColor.vue";
   import ExamView from "./ExamView.js";
+  import Popup from "@/components/Popup/Popup.vue";
   export default {
     name: "TaskView",
-    components: { TaskColor, Button, Form, Input, Select },
+    components: { TaskColor, Button, Form, Input, Select, Popup },
     mixins: [ExamView],
   };
 </script>

@@ -43,7 +43,7 @@
           :hexColor="item.color"
           :desc="item.course_name"
           :title="item.task_name"
-          :date="item.due_at"
+          :date="formatDate(item.due_at)"
           :isCompleted="item.completed"
           class="mb-4"
           v-for="(item, index) in showTask"
@@ -227,29 +227,51 @@
         <div class="flex gap-4 items-center">
           <font-awesome-icon :icon="['far', 'calendar-alt']" />
           <div>
-            <p>Due at {{ popupTaskData.due_at }}</p>
+            <p>Due at {{ formatDate(popupTaskData.due_at) }}</p>
             <p
-              v-show="popupTaskData.distance_day > 0"
+              v-show="
+                popupTaskData.distance_day > 0 &&
+                popupTaskData.completed === false
+              "
               class="text-sm text-green-400"
               >{{ popupTaskData.distance_day }} days to complete</p
             >
             <p
-              v-show="popupTaskData.distance_day < 0"
+              v-show="
+                popupTaskData.distance_day < 0 &&
+                popupTaskData.completed === false
+              "
               class="text-sm text-danger"
               >Overdue by {{ Math.abs(popupTaskData.distance_day) }} days</p
             >
             <p
-              v-show="popupTaskData.distance_day === 0"
+              v-show="
+                popupTaskData.distance_day === 0 &&
+                popupTaskData.completed === false
+              "
               class="text-sm text-primary"
               >Exprises in today</p
+            >
+            <p
+              v-show="popupTaskData.completed === true"
+              class="text-sm text-blue-400"
+              >Completed</p
             >
           </div>
         </div>
         <Button
+          v-if="popupTaskData.completed === false"
           @click="handleClickCompleteTask"
           class="mt-4"
           size="sm"
           title="Complete"
+        />
+        <Button
+          v-if="popupTaskData.completed === true"
+          @click="handleClickSetIncompleteTask"
+          class="mt-4"
+          size="sm"
+          title="Set incomplete"
         />
         <section class="mt-4">
           <h4
@@ -287,7 +309,7 @@
               @input-enter="(value) => (editTaskData.due_at = value)"
               type="date"
               label="Due Date"
-              :defaultValue="formatDate(popupTaskData.due_at)"
+              :defaultValue="popupTaskData.due_at"
             />
           </div>
           <div class="mb-2 flex gap-6">

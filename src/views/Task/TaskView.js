@@ -1,10 +1,12 @@
 import * as taskService from "@/services/taskService";
 import * as courseService from "@/services/courseService";
+import formatDate from "@/utils/formatDate";
 
 export default {
   data() {
     const allCourse = courseService.getAllCourse();
     return {
+      formatDate,
       isShowForm: false,
       showPopupTask: false,
       showEditForm: false,
@@ -100,6 +102,9 @@ export default {
     handleClickDeleteTask() {
       alert("delete taskId: " + this.popupTaskData.id);
     },
+    handleClickSetIncompleteTask() {
+      alert("set incomplete taskId: " + this.popupTaskData.id);
+    },
     handleClickCompleteSelectedTask() {
       alert("complete taskId: " + this.checkboxVals);
     },
@@ -121,22 +126,13 @@ export default {
       console.log(this.newTaskData);
     },
     distanceDateWithCurrent(date) {
-      var dayMonthYear = date.split("/");
-      var formatDate =
-        dayMonthYear[2] + "-" + dayMonthYear[1] + "-" + dayMonthYear[0];
       let currentDate = new Date();
-      let paramsDate = new Date(formatDate);
+      let paramsDate = new Date(date);
       let currentMili = currentDate.getTime();
       let dateMili = paramsDate.getTime();
       let distanceMili = dateMili - currentMili;
       let distanceDay = Math.floor(distanceMili / (1000 * 60 * 60 * 24)) + 1;
       return distanceDay;
-    },
-    formatDate(date) {
-      var dayMonthYear = date.split("/");
-      var formatDate =
-        dayMonthYear[2] + "-" + dayMonthYear[1] + "-" + dayMonthYear[0];
-      return formatDate;
     },
     handleClickEditTask() {
       this.showEditForm = true;
@@ -145,13 +141,15 @@ export default {
       }
     },
     handleClickSaveEditTask() {
-      const changedData = {
-        id: this.editTaskData["id"],
-      };
+      const changedData = {};
       for (const key in this.editTaskData) {
         if (this.editTaskData[key] !== this.popupTaskData[key]) {
           changedData[key] = this.editTaskData[key];
         }
+      }
+
+      if (Object.keys(changedData).length !== 0) {
+        changedData["id"] = this.editTaskData["id"];
       }
       console.log(changedData);
     },

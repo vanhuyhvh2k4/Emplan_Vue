@@ -3,40 +3,44 @@
         "id": 1,
         "course_id": 2,
         "course_name": "Web technology",
+        "teacher": "Nguyen Van Dai",
         "room": "KA.104",
         "duration": 90,
-        "start": "01:00 PM",
-        "date": "27/12/2023",
+        "start": "01:00",
+        "date": "2023-12-23",
         "completed": false
     },
     {
         "id": 2,
         "course_id": 1,
         "course_name": "Computer architecture",
+        "teacher": "Nguyen Thanh Binh",
         "room": "KA.207",
         "duration": 60,
-        "start": "08:00 AM",
-        "date": "27/12/2023",
+        "start": "08:00",
+        "date": "2023-12-20",
         "completed": false
     },
     {
         "id": 3,
         "course_id": 3,
         "course_name": "Math",
+        "teacher": "Tran Thi Bich Hoa",
         "room": "KA.207",
         "duration": 60,
-        "start": "08:00 AM",
-        "date": "27/12/2023",
+        "start": "08:00",
+        "date": "2023-12-28",
         "completed": true
     },
     {
         "id": 4,
         "course_id": 4,
         "course_name": "English",
+        "teacher": "Le Xuan Phuong",
         "room": "KA.207",
         "duration": 60,
-        "start": "08:00 AM",
-        "date": "27/12/2023",
+        "start": "08:00",
+        "date": "2023-12-29",
         "completed": true
     }
 ]
