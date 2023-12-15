@@ -8,7 +8,7 @@
       @input="handleOnInput"
       :id="label"
       :placeholder="placeholder"
-      class="px-6 py-2 text-lg outline-none w-full rounded-xl bg-gray-200"
+      class="px-6 py-2 text-lg outline-none w-full rounded-xl bg-gray-200 font-light"
       :type="type"
       :required="required"
       v-if="

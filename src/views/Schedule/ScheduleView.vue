@@ -17,6 +17,7 @@
             size="sm"
             :class="$style.custom_button"
             title="Manage course"
+            @click="() => (showManageCourse = true)"
           />
           <Button
             size="sm"
@@ -185,6 +186,64 @@
         >
       </section>
     </Popup>
+    <Popup
+      v-if="showManageCourse"
+      @click-overlay="() => (showManageCourse = false)"
+      :class="$style.custom_popup"
+    >
+      <template #header-left>
+        <h3>Manage course</h3>
+      </template>
+      <template #header-right>
+        <font-awesome-icon
+          class="cursor-pointer"
+          @click="() => (showManageCourse = false)"
+          :icon="['fas', 'times']"
+        />
+      </template>
+      <ul>
+        <li class="p-4 cursor-pointer hover:bg-gray-200">PTTKHT</li>
+        <li class="p-4 cursor-pointer hover:bg-gray-200">Web technology</li>
+      </ul>
+      <Button
+        @click="
+          () => {
+            showManageCourse = false;
+            showAddCourse = true;
+          }
+        "
+        size="sm"
+        title="New subject"
+        class="ml-auto mt-4"
+      />
+    </Popup>
+    <Popup v-if="showAddCourse">
+      <template #header-left>
+        <h3>New subject</h3>
+      </template>
+      <Input label="Name" placeholder="" />
+      <p class="mt-4">
+        <strong class="font-normal">What Are Subjects?</strong> <br />
+        <small class="text-gray-700">
+          Subjects are also known as courses and enable you to group all of your
+          classes, tasks and exams for that course.
+        </small>
+      </p>
+      <div class="flex justify-end mt-4 gap-4">
+        <Button
+          @click="
+            () => {
+              showAddCourse = false;
+              showManageCourse = true;
+            }
+          "
+          title="Cancel"
+          size="sm"
+          button-type="outline"
+        />
+        <Button title="Save" size="sm" />
+      </div>
+    </Popup>
   </div>
 </template>
 
@@ -207,5 +266,16 @@
 <style lang="scss" module>
   .custom_button {
     background-color: black;
+    &:hover {
+      background-color: white;
+      color: black;
+      border-color: #ccc;
+    }
+  }
+
+  .custom_popup {
+    & > div {
+      max-width: 400px;
+    }
   }
 </style>

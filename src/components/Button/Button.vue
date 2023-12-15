@@ -1,6 +1,6 @@
 <template>
   <button
-    class="rounded-md flex items-center justify-center"
+    class="rounded-md flex items-center justify-center border"
     :class="[
       size == 'sm' && this.sizes.sm,
       size == 'md' && this.sizes.md,
@@ -27,7 +27,7 @@
           md: "h-12 px-[60px] py-2 text-lg font-normal",
         },
         type: {
-          primary: "bg-primary hover:opacity-90 text-white",
+          primary: "bg-primary hover:bg-black text-white border-transparent",
           outline:
             "bg-transparent border border-gray-500 hover:bg-gray-200 text-gray-500",
         },

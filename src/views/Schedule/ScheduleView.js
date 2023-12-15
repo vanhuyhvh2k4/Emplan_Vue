@@ -24,6 +24,8 @@ export default {
       arrRepeatTime: [],
       showFormAddTime: false,
       showAddTimeButton: true,
+      showManageCourse: false,
+      showAddCourse: false,
     };
   },
   methods: {
