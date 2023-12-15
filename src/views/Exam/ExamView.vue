@@ -162,22 +162,6 @@
             >{{ arrCheckboxValues.length }} exams selected</small
           >
           <Button
-            v-show="isCompleted"
-            @click="handleClickSetIncompleted"
-            :class="$style.custom_button"
-            title="Set incompleted"
-            size="sm"
-            class="mb-2 mx-auto"
-          />
-          <Button
-            v-show="!isCompleted"
-            @click="handleClickComplete"
-            :class="$style.custom_button"
-            title="Mark as completed"
-            size="sm"
-            class="mb-2 mx-auto"
-          />
-          <Button
             @click="handleClickDeleteTask"
             :class="$style.custom_button"
             title="Delete exams"

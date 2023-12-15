@@ -141,7 +141,7 @@
                 v-if="arrRepeatTime.length > 0"
                 v-for="(item, index) in arrRepeatTime"
                 :key="index"
-                class="flex justify-between items-center py-2"
+                class="flex justify-between items-center py-2 mt-2"
                 :class="
                   arrRepeatTime.length > 1 && 'border-b-[1px] border-gray-200'
                 "

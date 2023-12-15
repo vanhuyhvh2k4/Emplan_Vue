@@ -82,12 +82,6 @@ export default {
         );
       }
     },
-    handleClickComplete() {
-      alert("complete examId: " + this.arrCheckboxValues);
-    },
-    handleClickSetIncompleted() {
-      alert("set incompleted examId: " + this.arrCheckboxValues);
-    },
     handleClickDeleteTask() {
       alert("delete examId: " + this.arrCheckboxValues);
     },
