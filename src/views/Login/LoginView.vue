@@ -1,5 +1,9 @@
 <template>
-  <h2 class="text-2xl font-bold mt-6">Login</h2>
+  <h1 class="text-2xl font-black">
+    <span>EMPLANN</span>
+    <span class="text-primary">ER.</span>
+  </h1>
+  <h2 class="text-2xl font-bold text-input_label mt-6">Login</h2>
   <form
     class="w-4/5 flex flex-col items-center mt-6"
     @submit.prevent="handleSubmitForm"

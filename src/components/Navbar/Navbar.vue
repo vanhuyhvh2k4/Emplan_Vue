@@ -28,7 +28,7 @@
       </div>
       <div class="h-full flex gap-4 items-center cursor-pointer relative group">
         <div class="text-end">
-          <h3 class="text-lg font-medium">Emplanner User</h3>
+          <h3 class="text-lg font-medium">{{ currentUser.name }}</h3>
           <small class="text-gray-500">IT Student</small>
         </div>
         <div class="w-auto h-full">
@@ -58,6 +58,11 @@
 <script>
   export default {
     name: "Navbar",
+    data() {
+      return {
+        currentUser: {},
+      };
+    },
     methods: {
       handleClickBars() {
         this.$emit("click-bars");
@@ -65,6 +70,10 @@
       handleClickLogout() {
         this.$emit("click-logout");
       },
+    },
+    mounted() {
+      const storedPayloadString = localStorage.getItem("current_user");
+      this.currentUser = JSON.parse(storedPayloadString);
     },
   };
 </script>

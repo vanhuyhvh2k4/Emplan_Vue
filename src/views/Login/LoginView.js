@@ -18,6 +18,8 @@ export default {
       this.isPending = false;
       if (response.status === 200) {
         this.$cookies.set("gid", response.data.data.token, "7d");
+        const payloadString = JSON.stringify(response.data.data.user);
+        localStorage.setItem("current_user", payloadString);
         this.$router.push({ name: "dashboard" });
       } else {
         this.$refs.childRef1.clearInput();

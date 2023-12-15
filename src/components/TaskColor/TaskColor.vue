@@ -22,6 +22,7 @@
         <span class="text-green-500 font-medium">Finished</span>
       </span>
       <input
+        v-if="showCheckbox"
         @click.stop
         v-model="checkboxVal"
         @change="handleChangeCheckbox"
@@ -29,11 +30,26 @@
         type="checkbox"
         :value="checkboxId"
       />
+      <Button
+        v-if="!showCheckbox"
+        title="Detail"
+        :class="$style.custom_button"
+        size="sm"
+      />
     </section>
   </li>
 </template>
 
+<style lang="scss" module>
+  .custom_button {
+    padding: 6px 12px;
+    height: 34px;
+  }
+</style>
+
 <script>
+  import Button from "../Button/Button.vue";
+
   export default {
     name: "TaskColor",
     data() {
@@ -66,6 +82,10 @@
         type: Boolean,
         default: false,
       },
+      showCheckbox: {
+        type: Boolean,
+        default: true,
+      },
     },
     methods: {
       handleChangeCheckbox(e) {
@@ -75,5 +95,6 @@
         this.checkboxVal = false;
       },
     },
+    components: { Button },
   };
 </script>

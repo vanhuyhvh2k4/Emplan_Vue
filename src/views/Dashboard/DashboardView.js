@@ -10,6 +10,7 @@ export default {
         completed: null,
         incompleted: null,
         cumulative: null,
+        due: [],
       },
       course: {
         courseToday: [],
@@ -31,6 +32,14 @@ export default {
 
       if (response.status === 200) {
         this.course.courseToday = response.data.classes.data;
+      }
+    },
+    async getDueTask() {
+      const response = await taskService.getDueTask();
+
+      if (response.status === 200) {
+        this.task.due = response.data;
+        console.log(this.task.due);
       }
     },
   },
@@ -60,6 +69,7 @@ export default {
     }, 1000);
 
     this.getTodayTaskDetail();
+    this.getDueTask();
   },
   mounted() {
     document.title = "Dashboard | Emplanner";

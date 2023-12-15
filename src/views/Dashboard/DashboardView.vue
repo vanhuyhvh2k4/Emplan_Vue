@@ -121,31 +121,19 @@
         <div class="flex justify-between text-gray-500 px-4">
           <span>Information</span>
           <div class="flex gap-9">
-            <span>Room</span>
-            <span>Start Time</span>
-            <span>Detail</span>
+            <span>Due at</span>
+            <span class="mr-6">Detail</span>
           </div>
         </div>
         <ul class="max-h-[188px] overflow-y-scroll mt-2 custom_scrollbar pr-1">
-          <Task
-            v-for="(item, index) in 3"
+          <TaskColor
+            v-for="(item, index) in task.due"
             :key="index"
-            class="mb-2 max-h-[86px]"
-            detail
-          >
-            <div class="flex items-center gap-4">
-              <img
-                class="w-10 h-10 rounded-full object-contain"
-                src="https://th.bing.com/th/id/OIP.audMX4ZGbvT2_GJTx2c4GgHaHw?w=182&h=190&c=7&r=0&o=5&pid=1.7"
-                alt=""
-              />
-              <div>
-                <h4 class="font-medium">Class</h4>
-                <h3 class="font-medium text-lg">Web Technology</h3>
-                <h5 class="font-light">Vo Ngoc Dat</h5>
-              </div>
-            </div>
-          </Task>
+            :showCheckbox="false"
+            :class="index > 0 && 'mt-2'"
+            :title="item.name"
+            :date="item.end_date"
+          />
         </ul>
       </Card>
       <Card
@@ -190,6 +178,7 @@
   import Card from "@/components/Card/Card.vue";
   import Task from "@/components/Task/Task.vue";
   import DashboardView from "./DashboardView";
+  import TaskColor from "@/components/TaskColor/TaskColor.vue";
 
   export default {
     name: "DashboardView",
@@ -197,6 +186,7 @@
       SmallCard,
       Card,
       Task,
+      TaskColor,
     },
     mixins: [DashboardView],
   };

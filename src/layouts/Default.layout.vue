@@ -31,6 +31,7 @@
       },
       handleClickLogout() {
         this.$cookies.remove("gid");
+        localStorage.removeItem("current_user");
         this.$router.push({ name: "login" });
       },
     },

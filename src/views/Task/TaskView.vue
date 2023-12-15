@@ -79,27 +79,22 @@
                   label="Due Date"
                 />
               </div>
-              <div class="mb-2 flex gap-6">
-                <Input
-                  @input-enter="(value) => (newTaskData.title = value)"
-                  label="Title"
-                  class="mb-2"
-                  placeholder="Enter the title"
-                />
-                <div>
-                  <label
-                    class="text-input_label font-normal text-lg"
-                    for="primary_color"
-                    >Color</label
-                  >
-                  <input
-                    v-model="newTaskData.color"
-                    class="mt-2"
-                    type="color"
-                    id="primary_color"
-                  />
-                </div>
-              </div>
+              <Select
+                @select-change="(value) => (newTaskData.examId = value)"
+                class="mb-2"
+                v-if="newTaskData.type === 'Revision'"
+                label="Exams"
+                :arrOptions="exam.all"
+                show="course_name"
+                value="id"
+                :defaultValue="exam.all[0].id"
+              />
+              <Input
+                @input-enter="(value) => (newTaskData.title = value)"
+                label="Title"
+                class="mb-2"
+                placeholder="Enter the title"
+              />
               <Input
                 @input-enter="(value) => (newTaskData.detail = value)"
                 type="textarea"
@@ -312,29 +307,13 @@
               :defaultValue="popupTaskData.due_at"
             />
           </div>
-          <div class="mb-2 flex gap-6">
-            <Input
-              @input-enter="(value) => (editTaskData.task_name = value)"
-              label="Title"
-              class="mb-2"
-              placeholder="Enter the title"
-              :defaultValue="popupTaskData.task_name"
-            />
-            <div>
-              <label
-                class="text-input_label font-normal text-lg"
-                for="primary_color"
-                >Color</label
-              >
-              <input
-                :value="popupTaskData.color"
-                @change="($event) => (editTaskData.color = $event.target.value)"
-                class="mt-2"
-                type="color"
-                id="primary_color"
-              />
-            </div>
-          </div>
+          <Input
+            @input-enter="(value) => (editTaskData.task_name = value)"
+            label="Title"
+            class="mb-2"
+            placeholder="Enter the title"
+            :defaultValue="popupTaskData.task_name"
+          />
           <Input
             @input-enter="(value) => (editTaskData.detail = value)"
             type="textarea"

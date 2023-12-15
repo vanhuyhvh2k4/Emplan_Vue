@@ -1,10 +1,12 @@
 import * as taskService from "@/services/taskService";
 import * as courseService from "@/services/courseService";
+import * as examService from "@/services/examService";
 import formatDate from "@/utils/formatDate";
 
 export default {
   data() {
     const allCourse = courseService.getAllCourse();
+    const allExams = examService.getAllExams();
     return {
       formatDate,
       isShowForm: false,
@@ -29,7 +31,6 @@ export default {
         type: "",
         due_at: "",
         detail: "",
-        color: "",
       },
       isCompleted: false,
       showTask: [],
@@ -41,12 +42,15 @@ export default {
       task: {
         allTask: [],
       },
+      exam: {
+        all: allExams,
+      },
       newTaskData: {
         subject: allCourse[0].id,
+        examId: null,
         type: "Assignment",
         due: null,
         title: null,
-        color: null,
         detail: null,
       },
     };
@@ -120,10 +124,27 @@ export default {
         this.$refs.taskRefs[i].resetCheckbox();
       }
     },
-    handleClickNewTask() {
+    async handleClickNewTask() {
       this.isShowForm = false;
-      alert("create task");
-      console.log(this.newTaskData);
+      const payload = {
+        course_id: this.newTaskData.subject,
+        name: this.newTaskData.title,
+        description: this.newTaskData.detail,
+        start_date: "2023-11-26",
+        end_date: this.newTaskData.due,
+        type: this.newTaskData.type,
+        exam_id: this.newTaskData.examId,
+      };
+
+      if (payload.type !== "Revision") {
+        delete payload.exam_id;
+      }
+
+      const response = await taskService.createTask(payload);
+
+      if (response.status === 200) {
+        alert("Task created successfully");
+      }
     },
     distanceDateWithCurrent(date) {
       let currentDate = new Date();

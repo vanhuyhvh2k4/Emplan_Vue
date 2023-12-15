@@ -14,3 +14,13 @@ export const getTodayTaskDetail = async () => {
 
   return res;
 };
+
+export const getDueTask = async () => {
+  const res = await request.get("dashboard/get_due_tasks");
+  return res;
+};
+
+export const createTask = async (payload) => {
+  const res = await request.post("tasks", payload);
+  return res;
+};
