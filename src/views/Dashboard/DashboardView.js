@@ -1,9 +1,11 @@
 import svgs from "@/assets/svg/export.js";
 import * as taskService from "@/services/taskService";
 import * as courseService from "@/services/courseService";
+import formatDate from "@/utils/formatDate";
 export default {
   data() {
     return {
+      formatDate,
       svgs,
       currentDate: new Date(),
       task: {
@@ -11,6 +13,7 @@ export default {
         incompleted: null,
         cumulative: null,
         due: [],
+        overdue: [],
       },
       course: {
         courseToday: [],
@@ -42,6 +45,13 @@ export default {
         console.log(this.task.due);
       }
     },
+    async getOverdueTask() {
+      const response = await taskService.getOverdueTask();
+
+      if (response.status === 200) {
+        this.task.overdue = response.data;
+      }
+    },
   },
   computed: {
     formattedDate() {
@@ -70,6 +80,7 @@ export default {
 
     this.getTodayTaskDetail();
     this.getDueTask();
+    this.getOverdueTask();
   },
   mounted() {
     document.title = "Dashboard | Emplanner";

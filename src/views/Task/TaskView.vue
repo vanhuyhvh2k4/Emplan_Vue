@@ -24,8 +24,7 @@
         <div class="flex item-center gap-4">
           <span class="font-medium text-lg">Completed</span>
           <input
-            @change="handleChangeCompleted"
-            v-model="isCompleted"
+            @change="handleChangeCompleted($event.target.checked)"
             class="w-6 h-6"
             type="checkbox"
           />
@@ -43,8 +42,8 @@
           :hexColor="item.color"
           :desc="item.course_name"
           :title="item.task_name"
-          :date="formatDate(item.due_at)"
-          :isCompleted="item.completed"
+          :date="formatDate(item.end_date)"
+          :isCompleted="item.status === 0 ? false : true"
           class="mb-4"
           v-for="(item, index) in showTask"
           :key="index"
@@ -222,34 +221,29 @@
         <div class="flex gap-4 items-center">
           <font-awesome-icon :icon="['far', 'calendar-alt']" />
           <div>
-            <p>Due at {{ formatDate(popupTaskData.due_at) }}</p>
+            <p>Due at {{ formatDate(popupTaskData.end_date) }}</p>
             <p
               v-show="
-                popupTaskData.distance_day > 0 &&
-                popupTaskData.completed === false
+                popupTaskData.distance_day > 0 && popupTaskData.status === 0
               "
               class="text-sm text-green-400"
               >{{ popupTaskData.distance_day }} days to complete</p
             >
             <p
               v-show="
-                popupTaskData.distance_day < 0 &&
-                popupTaskData.completed === false
+                popupTaskData.distance_day < 0 && popupTaskData.status === 0
               "
               class="text-sm text-danger"
               >Overdue by {{ Math.abs(popupTaskData.distance_day) }} days</p
             >
             <p
               v-show="
-                popupTaskData.distance_day === 0 &&
-                popupTaskData.completed === false
+                popupTaskData.distance_day === 0 && popupTaskData.status === 0
               "
               class="text-sm text-primary"
               >Exprises in today</p
             >
-            <p
-              v-show="popupTaskData.completed === true"
-              class="text-sm text-blue-400"
+            <p v-show="popupTaskData.status === 1" class="text-sm text-blue-400"
               >Completed</p
             >
           </div>

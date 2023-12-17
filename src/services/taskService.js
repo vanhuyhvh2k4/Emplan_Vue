@@ -1,8 +1,9 @@
 import taskApi from "@/tests/tasks/taskApi";
 import * as request from "@/utils/httpRequest.js";
 
-export const getAllTask = () => {
-  return taskApi.getAllTask;
+export const getAllTask = async () => {
+  const res = await request.get("tasks");
+  return res;
 };
 
 export const getTaskByCourse = () => {
@@ -17,6 +18,11 @@ export const getTodayTaskDetail = async () => {
 
 export const getDueTask = async () => {
   const res = await request.get("dashboard/get_due_tasks");
+  return res;
+};
+
+export const getOverdueTask = async () => {
+  const res = await request.get("dashboard/get_overdue_tasks");
   return res;
 };
 

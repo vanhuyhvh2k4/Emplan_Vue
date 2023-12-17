@@ -18,9 +18,9 @@ export default {
         course_name: "",
         task_name: "",
         type: "",
-        due_at: "",
+        end_date: "",
         distance_day: "",
-        completed: "",
+        status: "",
         detail: "",
         color: "",
       },
@@ -32,7 +32,7 @@ export default {
         due_at: "",
         detail: "",
       },
-      isCompleted: false,
+      isCompleted: 0,
       showTask: [],
       selectVal: "all",
       checkboxVals: [],
@@ -56,10 +56,17 @@ export default {
     };
   },
   methods: {
+    async getAllTask() {
+      const response = await taskService.getAllTask();
+
+      if (response.status === 200) {
+        this.task.allTask = response.data;
+      }
+    },
     handleClickTask(item) {
       this.showPopupTask = true;
       this.popupTaskData.distance_day = this.distanceDateWithCurrent(
-        item.due_at,
+        item.end_date,
       );
       for (const key in this.popupTaskData) {
         if (key !== "distance_day") {
@@ -67,7 +74,13 @@ export default {
         }
       }
     },
-    handleChangeCompleted() {
+    handleChangeCompleted(checked) {
+      if (checked) {
+        this.isCompleted = 1;
+      } else {
+        this.isCompleted = 0;
+      }
+      console.log(this.isCompleted);
       this.handleClickClearSelection();
       this.filterTasks();
     },
@@ -82,10 +95,10 @@ export default {
         if (options.courseId !== null) {
           return (
             task.course_id === options.courseId &&
-            task.completed === options.isCompleted
+            task.status === options.isCompleted
           );
         } else {
-          return task.completed === options.isCompleted;
+          return task.status === options.isCompleted;
         }
       });
       this.showTask = tasksFiltered;
@@ -175,9 +188,8 @@ export default {
       console.log(changedData);
     },
   },
-  created() {
-    const taskResponse = taskService.getAllTask();
-    this.task.allTask = taskResponse;
+  async created() {
+    await this.getAllTask();
     this.filterTasks();
   },
   mounted() {
