@@ -5,7 +5,7 @@
     </div>
     <Popup v-show="isShowPopup" @clickOverlay="this.isShowPopup = false">
       <template #header-left>
-        <h3>Web Technology</h3>
+        <h3>{{ popupData.course_name }}</h3>
       </template>
       <template #header-right>
         <font-awesome-icon
@@ -24,21 +24,25 @@
           class="text-xl mr-4 float-left"
           :icon="['far', 'calendar-alt']"
         />
-        <span class="text-lg">9:00 AM - 10:30 AM Today</span>
+        <span class="text-lg"
+          >{{ formatTime(popupData.start_time) }} -
+          {{ formatTime(popupData.end_time) }}
+          {{ formatDate(popupData.date) }}</span
+        >
       </section>
       <section class="flex items-center mb-6">
         <font-awesome-icon
           class="text-xl mr-4 float-left"
           :icon="['fas', 'map-marker-alt']"
         />
-        <span class="text-lg">KA.301</span>
+        <span class="text-lg">{{ popupData.room }}</span>
       </section>
       <section class="flex items-center mb-6">
         <font-awesome-icon
           class="text-xl mr-4 float-left"
           :icon="['fas', 'chalkboard-teacher']"
         />
-        <span class="text-lg">Mr.Dai</span>
+        <span class="text-lg">{{ popupData.teacher }}</span>
       </section>
       <section>
         <h4
@@ -50,7 +54,20 @@
         </h4>
       </section>
       <section>
-        <span class="text-gray-500 font-light"
+        <ul class="mt-4 max-h-[200px] overflow-y-scroll">
+          <TaskColor
+            v-if="popupData.tasks.length > 0"
+            v-for="(item, index) in popupData.tasks"
+            :key="index"
+            :show-checkbox="false"
+            class="mb-2"
+            :title="item.name"
+            :desc="item.course_name"
+          />
+        </ul>
+        <span
+          v-if="popupData.tasks.length === 0"
+          class="text-gray-500 font-light"
           >There are no tasks due for this class</span
         >
       </section>
@@ -59,69 +76,20 @@
 </template>
 
 <script>
+  import CalendarView from "./CalendarView";
   import FullCalendar from "@fullcalendar/vue3";
-  import timeGridPlugin from "@fullcalendar/timegrid";
-  import dayGridPlugin from "@fullcalendar/daygrid";
-  import interactionPlugin from "@fullcalendar/interaction";
   import Popup from "@/components/Popup/Popup.vue";
-  import moment from "moment";
+  import formatTime from "@/utils/formatTime";
+  import formatDate from "@/utils/formatDate";
+  import TaskColor from "@/components/TaskColor/TaskColor.vue";
 
   export default {
     name: "CalendarViews",
     components: {
       FullCalendar,
       Popup,
+      TaskColor,
     },
-    data() {
-      return {
-        isShowPopup: false,
-        calendarOptions: {
-          plugins: [timeGridPlugin, dayGridPlugin, interactionPlugin],
-          initialView: "timeGridWeek",
-          headerToolbar: {
-            left: "",
-            center: "prev today next",
-            right: "timeGridWeek,dayGridMonth", // user can switch between the two
-          },
-          allDaySlot: false,
-          nowIndicator: true,
-          contentHeight: "auto",
-          events: [
-            {
-              title: "Web Technology",
-              start: moment("2023-11-16 07:00", "YYYY-MM-DD HH:mm").format(
-                "YYYY-MM-DDTHH:mm",
-              ),
-              end: moment("2023-11-16 09:00", "YYYY-MM-DD HH:mm").format(
-                "YYYY-MM-DDTHH:mm",
-              ),
-              extendedProps: {
-                room: "KA.301",
-              },
-            },
-          ],
-          eventClick: (info) => {
-            this.isShowPopup = true;
-          },
-          eventContent: (eventInfo) => {
-            return {
-              html: `
-          <div class="w-full">
-            <span>${eventInfo.timeText}</span>
-            <br>
-            <span>${eventInfo.event.title}</span>
-            <br>
-            <span>${eventInfo.event.extendedProps.room}</span>
-          </div>
-        `,
-            };
-          },
-        },
-      };
-    },
-    methods: {},
-    mounted() {
-      document.title = "Calendar | Eplanner";
-    },
+    mixins: [CalendarView],
   };
 </script>
