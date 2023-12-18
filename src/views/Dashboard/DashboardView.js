@@ -2,9 +2,11 @@ import svgs from "@/assets/svg/export.js";
 import * as taskService from "@/services/taskService";
 import * as courseService from "@/services/courseService";
 import formatDate from "@/utils/formatDate";
+import formatTime from "@/utils/formatTime";
 export default {
   data() {
     return {
+      formatTime,
       formatDate,
       svgs,
       currentDate: new Date(),
@@ -16,7 +18,12 @@ export default {
         overdue: [],
       },
       course: {
-        courseToday: [],
+        today: [],
+        tomorrow: [],
+      },
+      exam: {
+        today: [],
+        tomorrow: [],
       },
     };
   },
@@ -30,11 +37,14 @@ export default {
         this.task.cumulative = response.data.cumulative_time;
       }
     },
-    async getCourseToday() {
-      const response = await courseService.getCourseToday();
+    async getClassExam() {
+      const response = await courseService.getClassExam();
 
       if (response.status === 200) {
-        this.course.courseToday = response.data.classes.data;
+        this.course.today = response.data.today.class;
+        this.exam.today = response.data.today.exam;
+        this.course.tomorrow = response.data.tomorrow.class;
+        this.exam.tomorrow = response.data.tomorrow.exam;
       }
     },
     async getDueTask() {
@@ -42,7 +52,6 @@ export default {
 
       if (response.status === 200) {
         this.task.due = response.data;
-        console.log(this.task.due);
       }
     },
     async getOverdueTask() {
@@ -81,6 +90,7 @@ export default {
     this.getTodayTaskDetail();
     this.getDueTask();
     this.getOverdueTask();
+    this.getClassExam();
   },
   mounted() {
     document.title = "Dashboard | Emplanner";

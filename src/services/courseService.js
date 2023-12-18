@@ -5,7 +5,7 @@ export const getAllCourse = () => {
   return courseApi.getAllCourse;
 };
 
-export const getCourseToday = async () => {
+export const getClassExam = async () => {
   const res = await request.get("dashboard/get_classes_exams");
   return res;
 };

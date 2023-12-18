@@ -59,9 +59,12 @@
         </div>
         <ul class="max-h-[188px] overflow-y-scroll mt-2 custom_scrollbar pr-1">
           <Task
-            v-for="(item, index) in 2"
+            v-if="course.today.length > 0"
+            v-for="(item, index) in course.today"
             :key="index"
             class="mb-2 max-h-[86px]"
+            :room="item.room"
+            :date="formatTime(item.start_time)"
           >
             <div class="flex items-center gap-4">
               <img
@@ -70,12 +73,32 @@
                 alt=""
               />
               <div>
-                <h4 class="font-medium">Class</h4>
-                <h3 class="font-medium text-lg">Web Technology</h3>
-                <h5 class="font-light">Vo Ngoc Dat</h5>
+                <h3 class="font-medium text-lg">{{ item.course_name }}</h3>
+                <h5 class="font-light">{{ item.teacher }}</h5>
               </div>
             </div>
           </Task>
+          <Task
+            v-if="course.today.length > 0"
+            v-for="(item, index) in exam.today"
+            :key="index"
+            class="mb-2 max-h-[86px]"
+            :room="item.room"
+            :date="formatTime(item.start_time)"
+          >
+            <div class="flex items-center gap-4">
+              <img
+                class="w-10 h-10 rounded-full object-contain"
+                src="https://th.bing.com/th/id/OIP.audMX4ZGbvT2_GJTx2c4GgHaHw?w=182&h=190&c=7&r=0&o=5&pid=1.7"
+                alt=""
+              />
+              <div>
+                <h3 class="font-medium text-lg">{{ item.course_name }}</h3>
+                <h5 class="font-light">{{ item.teacher }}</h5>
+              </div>
+            </div>
+          </Task>
+          <p v-if="course.today.length === 0">Not found any task</p>
         </ul>
       </Card>
       <Card
@@ -92,9 +115,12 @@
         </div>
         <ul class="max-h-[188px] overflow-y-scroll mt-2 custom_scrollbar pr-1">
           <Task
-            v-for="(item, index) in 2"
+            v-if="course.tomorrow.length > 0"
+            v-for="(item, index) in course.tomorrow"
             :key="index"
             class="mb-2 max-h-[86px]"
+            :room="item.room"
+            :date="formatTime(item.start_time)"
           >
             <div class="flex items-center gap-4">
               <img
@@ -103,12 +129,32 @@
                 alt=""
               />
               <div>
-                <h4 class="font-medium">Class</h4>
-                <h3 class="font-medium text-lg">Web Technology</h3>
-                <h5 class="font-light">Vo Ngoc Dat</h5>
+                <h3 class="font-medium text-lg">{{ item.course_name }}</h3>
+                <h5 class="font-light">{{ item.teacher }}</h5>
               </div>
             </div>
           </Task>
+          <Task
+            v-if="course.tomorrow.length > 0"
+            v-for="(item, index) in exam.tomorrow"
+            :key="index"
+            class="mb-2 max-h-[86px]"
+            :room="item.room"
+            :date="formatTime(item.start_time)"
+          >
+            <div class="flex items-center gap-4">
+              <img
+                class="w-10 h-10 rounded-full object-contain"
+                src="https://th.bing.com/th/id/OIP.audMX4ZGbvT2_GJTx2c4GgHaHw?w=182&h=190&c=7&r=0&o=5&pid=1.7"
+                alt=""
+              />
+              <div>
+                <h3 class="font-medium text-lg">{{ item.course_name }}</h3>
+                <h5 class="font-light">{{ item.teacher }}</h5>
+              </div>
+            </div>
+          </Task>
+          <p v-if="course.tomorrow.length === 0">Not found any task</p>
         </ul>
       </Card>
     </div>

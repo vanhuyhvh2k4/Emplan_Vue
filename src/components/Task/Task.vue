@@ -7,8 +7,8 @@
       <slot />
     </section>
     <section class="flex gap-5">
-      <div class="rounded-md bg-secondary px-4 py-2 w-fit">KA.101</div>
-      <div class="rounded-md bg-secondary px-4 py-2 w-fit">13:00</div>
+      <div class="rounded-md bg-secondary px-4 py-2 w-fit">{{ room }}</div>
+      <div class="rounded-md bg-secondary px-4 py-2 w-fit">{{ date }}</div>
       <div
         v-if="detail"
         :key="detail"
@@ -32,6 +32,14 @@
       detail: {
         type: Boolean,
         default: false,
+      },
+      room: {
+        type: String,
+        default: "",
+      },
+      date: {
+        type: String,
+        default: "",
       },
     },
   };
