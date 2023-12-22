@@ -43,7 +43,7 @@
           :class="index !== showExams.length - 1 ? 'mb-4' : ''"
         >
           <section>
-            <h3 class="text-lg font-medium">{{ item.course_name }}</h3>
+            <h3 class="text-lg font-medium">{{ item.course.name }}</h3>
             <small>
               <span>{{ item.room }}</span>
               <span> | </span>
@@ -52,8 +52,8 @@
           </section>
           <section class="flex items-center gap-4">
             <div class="font-bold">
-              <small>{{ item.start }}</small> <br />
-              <small>{{ formatDate(item.date) }}</small>
+              <small>{{ formatTime(item.start_time) }}</small> <br />
+              <small>{{ formatDate(item.start_date) }}</small>
             </div>
             <span v-show="item.completed">
               <font-awesome-icon
@@ -215,12 +215,12 @@
       </template>
       <div v-show="!showEditForm">
         <div class="flex gap-4 items-start p-4">
-          <font-awesome-icon :icon="['fas', 'chalkboard-teacher']" />
-          <p>{{ popupExamData.teacher }}</p>
-        </div>
-        <div class="flex gap-4 items-start p-4">
           <font-awesome-icon :icon="['far', 'calendar-alt']" />
-          <p>{{ popupExamData.start }}-{{ formatDate(popupExamData.date) }}</p>
+          <p
+            >{{ formatTime(popupExamData.start_time) }}-{{
+              formatDate(popupExamData.start_date)
+            }}</p
+          >
         </div>
         <div class="flex gap-4 items-start p-4">
           <font-awesome-icon :icon="['far', 'clock']" />
@@ -263,16 +263,16 @@
           <Input
             type="date"
             label="Date"
-            @input-enter="(value) => (editExamData.date = value)"
-            :defaultValue="popupExamData.date"
+            @input-enter="(value) => (editExamData.start_date = value)"
+            :defaultValue="popupExamData.start_date"
           />
         </div>
         <div class="mb-2 flex gap-6">
           <Input
-            @input-enter="(value) => (editExamData.start = value)"
+            @input-enter="(value) => (editExamData.start_time = value)"
             label="Start"
             type="time"
-            :defaultValue="popupExamData.start"
+            :defaultValue="popupExamData.start_time"
           />
           <Input
             @input-enter="(value) => (editExamData.duration = value)"

@@ -30,3 +30,8 @@ export const createTask = async (payload) => {
   const res = await request.post("tasks", payload);
   return res;
 };
+
+export const deleteTaskById = async (taskId) => {
+  const res = await request.remove(`tasks/${taskId}`);
+  return res;
+};

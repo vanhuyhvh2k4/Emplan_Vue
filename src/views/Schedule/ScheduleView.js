@@ -1,4 +1,5 @@
 import * as courseService from "@/services/courseService";
+import * as classService from "@/services/classService";
 export default {
   data() {
     return {
@@ -21,6 +22,10 @@ export default {
         start: "",
         end: "",
       },
+      classes: {
+        all: [],
+      },
+      newCourseData: {},
       arrRepeatTime: [],
       showFormAddTime: false,
       showAddTimeButton: true,
@@ -29,6 +34,17 @@ export default {
     };
   },
   methods: {
+    async getListClasses() {
+      const response = await classService.getListClasses({
+        params: {
+          "school-year-id": 1,
+        },
+      });
+
+      if (response.status === 200) {
+        this.classes.all = response.data;
+      }
+    },
     async getAllCourseApi() {
       const response = await courseService.getAllCourse();
       this.courses.all = response;
@@ -81,6 +97,7 @@ export default {
   },
   created() {
     this.getAllCourseApi();
+    this.getListClasses();
   },
   mounted() {
     document.title = "Schedule | Emplanner";

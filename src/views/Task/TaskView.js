@@ -2,13 +2,16 @@ import * as taskService from "@/services/taskService";
 import * as courseService from "@/services/courseService";
 import * as examService from "@/services/examService";
 import formatDate from "@/utils/formatDate";
+import currentDate from "@/utils/currentDate";
+import compareDate from "@/utils/compareDate";
 
 export default {
   data() {
     const allCourse = courseService.getAllCourse();
-    const allExams = examService.getAllExams();
     return {
       formatDate,
+      currentDate,
+      compareDate,
       isShowForm: false,
       showPopupTask: false,
       showEditForm: false,
@@ -43,7 +46,7 @@ export default {
         allTask: [],
       },
       exam: {
-        all: allExams,
+        all: [],
       },
       newTaskData: {
         subject: allCourse[0].id,
@@ -56,11 +59,24 @@ export default {
     };
   },
   methods: {
+    async getAllExams() {
+      const response = await examService.getAllExams();
+
+      if (response.status === 200) {
+        this.exam.all = response.data;
+      }
+    },
     async getAllTask() {
       const response = await taskService.getAllTask();
 
       if (response.status === 200) {
         this.task.allTask = response.data;
+      }
+    },
+    async deleteTaskById(taskId) {
+      const response = await taskService.deleteTaskById(taskId);
+      if (response.status === 200) {
+        alert("delete successfully");
       }
     },
     handleClickTask(item) {
@@ -116,8 +132,12 @@ export default {
     handleClickCompleteTask() {
       alert("complete taskId: " + this.popupTaskData.id);
     },
-    handleClickDeleteTask() {
-      alert("delete taskId: " + this.popupTaskData.id);
+    async handleClickDeleteTask() {
+      if (confirm("Are you sure to delete")) {
+        await this.deleteTaskById(this.popupTaskData.id);
+        await this.getAllTask();
+        this.filterTasks();
+      }
     },
     handleClickSetIncompleteTask() {
       alert("set incomplete taskId: " + this.popupTaskData.id);
@@ -157,6 +177,8 @@ export default {
 
       if (response.status === 200) {
         alert("Task created successfully");
+        await this.getAllTask();
+        this.filterTasks();
       }
     },
     distanceDateWithCurrent(date) {

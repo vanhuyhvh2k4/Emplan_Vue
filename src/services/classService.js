@@ -5,6 +5,11 @@ export const getClassList = async () => {
   return res;
 };
 
+export const getListClasses = async (...options) => {
+  const res = request.get("schedules/get_class_list", ...options);
+  return res;
+};
+
 export const getDetailClass = async (course_id) => {
   const res = request.get(`calendars/get_detail_class/${course_id}`);
   return res;

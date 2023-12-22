@@ -35,7 +35,14 @@
         <ul
           class="bg-white rounded-lg p-4 max-h-[500px] overflow-y-scroll custom_scrollbar mt-2"
         >
-          <TaskColor class="mb-4" v-for="(item, index) in 5" :key="index" />
+          <TaskColor
+            :title="item.course_name"
+            :desc="item.teacher"
+            :hex-color="item.color_code !== null ? item.color_code : '#000'"
+            class="mb-4"
+            v-for="(item, index) in classes.all"
+            :key="index"
+          />
         </ul>
       </div>
     </div>
@@ -205,10 +212,12 @@
         <li
           v-for="(item, index) in courses.all"
           :key="index"
-          class="p-4 cursor-pointer hover:bg-gray-200"
+          class="p-4 cursor-pointer hover:bg-gray-200 flex items-center gap-2"
           :class="courses.all.length > 1 && 'border-b-[1px] border-gray-200'"
-          >{{ item.name }}</li
         >
+          <span class="block h-7 aspect-square rounded-full bg-blue-400"></span>
+          <span>{{ item.name }}</span>
+        </li>
       </ul>
       <Button
         @click="
@@ -226,7 +235,10 @@
       <template #header-left>
         <h3>New subject</h3>
       </template>
-      <Input label="Name" placeholder="" />
+      <div class="flex items-end gap-4"
+        ><Input label="Name" placeholder="" />
+        <input class="flex-shrink-0" type="color" name="" id="primary_color" />
+      </div>
       <p class="mt-4">
         <strong class="font-normal">What Are Subjects?</strong> <br />
         <small class="text-gray-700">
@@ -282,5 +294,22 @@
     & > div {
       max-width: 400px;
     }
+  }
+
+  #primary_color {
+    border-radius: 50%;
+    height: 40px;
+    width: 40px;
+    border: none;
+    outline: none;
+    -webkit-appearance: none;
+  }
+
+  #primary_color::-webkit-color-swatch-wrapper {
+    padding: 0;
+  }
+  #primary_color::-webkit-color-swatch {
+    border: none;
+    border-radius: 50%;
   }
 </style>

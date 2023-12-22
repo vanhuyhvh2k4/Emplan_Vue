@@ -12,7 +12,7 @@
             v-model="selectVal"
             @change="handleSelectChange"
           >
-            <option value="all">All Task</option>
+            <option value="all">All Courses</option>
             <option
               v-for="(item, index) in course.allCourse"
               :key="index"
@@ -47,6 +47,12 @@
           class="mb-4"
           v-for="(item, index) in showTask"
           :key="index"
+          :class="
+            compareDate(currentDate(), item.end_date) === 'greater' &&
+            item.status === 0
+              ? $style.custom_task_color
+              : null
+          "
         />
       </ul>
     </div>
@@ -369,28 +375,17 @@
       background: #555;
     }
   }
-
-  #primary_color {
-    border-radius: 50%;
-    height: 40px;
-    width: 40px;
-    border: none;
-    outline: none;
-    -webkit-appearance: none;
-  }
-
-  #primary_color::-webkit-color-swatch-wrapper {
-    padding: 0;
-  }
-  #primary_color::-webkit-color-swatch {
-    border: none;
-    border-radius: 50%;
-  }
 </style>
 
 <style lang="scss" module>
   .custom_button {
     padding: 12px;
     min-width: 40%;
+  }
+
+  .custom_task_color {
+    & > section:nth-child(2) > span:first-child {
+      color: #c90019;
+    }
   }
 </style>

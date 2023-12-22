@@ -1,10 +1,14 @@
 import * as courseService from "@/services/courseService";
 import * as examService from "@/services/examService";
+import compareDate from "@/utils/compareDate";
+import currentDate from "@/utils/currentDate";
 import formatDate from "@/utils/formatDate";
+import formatTime from "@/utils/formatTime";
 
 export default {
   data() {
     return {
+      formatTime,
       formatDate,
       isShowForm: false,
       isCompleted: false,
@@ -21,11 +25,10 @@ export default {
         id: "",
         course_id: "",
         course_name: "",
-        teacher: "",
         room: "",
         duration: "",
-        start: "",
-        date: "",
+        start_time: "",
+        start_date: "",
         completed: "",
       },
       editExamData: {
@@ -33,8 +36,8 @@ export default {
         course_id: "",
         room: "",
         duration: "",
-        start: "",
-        date: "",
+        start_time: "",
+        start_date: "",
       },
       newExamData: {
         subject: "",
@@ -52,11 +55,18 @@ export default {
     };
   },
   methods: {
+    async getAllExams() {
+      const response = await examService.getAllExams();
+
+      if (response.status === 200) {
+        this.showExams = response.data;
+      }
+    },
     handleClickNewExamButton() {
       this.isShowForm = !this.isShowForm;
     },
     handleChangeCompleted() {
-      this.filterExams();
+      // this.filterExams();
       this.handleClickClearSelection();
     },
     filterExams(
@@ -73,13 +83,13 @@ export default {
             exam.completed === options.isCompleted
           );
         } else {
-          return exam.completed === options.isCompleted;
+          return exam.start_date === options.isCompleted;
         }
       });
       this.showExams = examsFiltered;
     },
     handleSelectChange() {
-      this.filterExams();
+      // this.filterExams();
     },
     handleClickNewExam() {
       const newExamData = {
@@ -115,8 +125,9 @@ export default {
       });
     },
     handleClickExamItem(item) {
+      this.popupExamData.course_name = item.course.name;
       for (const key in this.popupExamData) {
-        this.popupExamData[key] = item[key];
+        if (key !== "course_name") this.popupExamData[key] = item[key];
       }
       this.showPopupExam = true;
     },
@@ -140,9 +151,8 @@ export default {
     },
   },
   created() {
-    const examResponse = examService.getAllExams();
-    this.exam.all = examResponse;
-    this.filterExams();
+    this.getAllExams();
+    // this.filterExams();
   },
   mounted() {
     document.title = "Exam | Emplanner";

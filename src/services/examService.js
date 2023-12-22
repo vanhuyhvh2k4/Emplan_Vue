@@ -1,5 +1,11 @@
-import examApi from "@/tests/exams/examApi";
+import * as request from "@/utils/httpRequest";
 
-export const getAllExams = () => {
-  return examApi.getAllExams;
+export const getAllExams = async () => {
+  const res = await request.get("exams");
+  return res;
+};
+
+export const deleteExamById = async (examId) => {
+  const res = await request.remove(`exams/${examId}`);
+  return res;
 };
