@@ -32,7 +32,7 @@ export default {
         course_id: "",
         task_name: "",
         type: "",
-        due_at: "",
+        end_date: "",
         detail: "",
       },
       isCompleted: 0,
@@ -71,6 +71,13 @@ export default {
 
       if (response.status === 200) {
         this.task.allTask = response.data;
+        this.filterTasks();
+      }
+    },
+    async updateTask(taskId, payload) {
+      const response = await taskService.updateTask(taskId, payload);
+      if (response.status === 200) {
+        alert("updated successfully");
       }
     },
     async deleteTaskById(taskId) {
@@ -135,8 +142,8 @@ export default {
     async handleClickDeleteTask() {
       if (confirm("Are you sure to delete")) {
         await this.deleteTaskById(this.popupTaskData.id);
-        await this.getAllTask();
-        this.filterTasks();
+        this.getAllTask();
+        this.showPopupTask = false;
       }
     },
     handleClickSetIncompleteTask() {
@@ -177,8 +184,7 @@ export default {
 
       if (response.status === 200) {
         alert("Task created successfully");
-        await this.getAllTask();
-        this.filterTasks();
+        this.getAllTask();
       }
     },
     distanceDateWithCurrent(date) {
@@ -196,23 +202,24 @@ export default {
         this.editTaskData[key] = this.popupTaskData[key];
       }
     },
-    handleClickSaveEditTask() {
-      const changedData = {};
-      for (const key in this.editTaskData) {
-        if (this.editTaskData[key] !== this.popupTaskData[key]) {
-          changedData[key] = this.editTaskData[key];
-        }
-      }
+    async handleClickSaveEditTask() {
+      const updateData = {
+        course_id: this.editTaskData.course_id,
+        name: this.editTaskData.task_name,
+        description: this.editTaskData.detail,
+        start_date: "2023-11-26",
+        end_date: this.editTaskData.end_date,
+        type: this.editTaskData.type,
+        status: 0,
+      };
 
-      if (Object.keys(changedData).length !== 0) {
-        changedData["id"] = this.editTaskData["id"];
-      }
-      console.log(changedData);
+      await this.updateTask(this.editTaskData.id, updateData);
+      this.getAllTask();
+      this.showPopupTask = false;
     },
   },
-  async created() {
-    await this.getAllTask();
-    this.filterTasks();
+  created() {
+    this.getAllTask();
   },
   mounted() {
     document.title = "Task | Emplanner";

@@ -15,6 +15,11 @@ export const patch = async (path, options = {}, config = {}) => {
   return res;
 };
 
+export const put = async (path, options = {}, config = {}) => {
+  const res = await request.put(path, options, config);
+  return res.data;
+};
+
 export const remove = async (path) => {
   const res = await request.delete(path);
   return res.data;

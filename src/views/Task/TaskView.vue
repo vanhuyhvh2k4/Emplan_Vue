@@ -255,14 +255,14 @@
           </div>
         </div>
         <Button
-          v-if="popupTaskData.completed === false"
+          v-if="popupTaskData.status === 0"
           @click="handleClickCompleteTask"
           class="mt-4"
           size="sm"
           title="Complete"
         />
         <Button
-          v-if="popupTaskData.completed === true"
+          v-if="popupTaskData.status === 1"
           @click="handleClickSetIncompleteTask"
           class="mt-4"
           size="sm"
@@ -301,10 +301,10 @@
               :defaultValue="popupTaskData.type"
             />
             <Input
-              @input-enter="(value) => (editTaskData.due_at = value)"
+              @input-enter="(value) => (editTaskData.end_date = value)"
               type="date"
               label="Due Date"
-              :defaultValue="popupTaskData.due_at"
+              :defaultValue="popupTaskData.end_date"
             />
           </div>
           <Input
