@@ -7,7 +7,6 @@ import compareDate from "@/utils/compareDate";
 
 export default {
   data() {
-    const allCourse = courseService.getAllCourse();
     return {
       formatDate,
       currentDate,
@@ -40,16 +39,17 @@ export default {
       selectVal: "all",
       checkboxVals: [],
       course: {
-        allCourse,
+        all: [],
       },
       task: {
         allTask: [],
       },
       exam: {
         all: [],
+        byCourse: [],
       },
       newTaskData: {
-        subject: allCourse[0].id,
+        subject: 1,
         examId: null,
         type: "Assignment",
         due: null,
@@ -59,11 +59,25 @@ export default {
     };
   },
   methods: {
+    async getAllCourse() {
+      const response = await courseService.getAllCourse();
+
+      if (response.status === 200) {
+        this.course.all = response.data;
+      }
+    },
     async getAllExams() {
       const response = await examService.getAllExams();
 
       if (response.status === 200) {
         this.exam.all = response.data;
+      }
+    },
+    async getExamsByCourseId(courseId) {
+      const response = await examService.getExamsByCourseId(courseId);
+
+      if (response.status === 200) {
+        this.exam.byCourse = response.data;
       }
     },
     async getAllTask() {
@@ -106,6 +120,12 @@ export default {
       console.log(this.isCompleted);
       this.handleClickClearSelection();
       this.filterTasks();
+    },
+    async handleChangeNewType(value) {
+      this.newTaskData.type = value;
+      if (this.newTaskData.type === "Revision") {
+        await this.getExamsByCourseId(this.newTaskData.subject);
+      }
     },
     filterTasks(
       tasks = this.task.allTask,
@@ -219,6 +239,7 @@ export default {
     },
   },
   created() {
+    this.getAllCourse();
     this.getAllTask();
   },
   mounted() {

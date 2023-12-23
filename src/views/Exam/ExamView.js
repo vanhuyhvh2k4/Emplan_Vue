@@ -19,7 +19,7 @@ export default {
       checkboxVal: false,
       arrCheckboxValues: [],
       course: {
-        allCourse: courseService.getAllCourse(),
+        all: [],
       },
       popupExamData: {
         id: "",
@@ -40,11 +40,12 @@ export default {
         start_date: "",
       },
       newExamData: {
+        name: "",
         subject: "",
         room: "",
         date: "",
         start: "",
-        duration: "",
+        duration: 50,
       },
       task: {
         allTask: [],
@@ -60,6 +61,25 @@ export default {
 
       if (response.status === 200) {
         this.showExams = response.data;
+      }
+    },
+    async createNewExam(payload) {
+      const response = await examService.createNewExam(payload);
+
+      if (response.status === 201) {
+        alert("Created successfull");
+      }
+    },
+    async deleteExamById(examId) {
+      const response = await examService.deleteExamById(examId);
+      if (response.status === 200) {
+        alert("Deleted successfully");
+      }
+    },
+    async getAllCourse() {
+      const response = await courseService.getAllCourse();
+      if (response.status === 200) {
+        this.course.all = response.data;
       }
     },
     handleClickNewExamButton() {
@@ -91,19 +111,22 @@ export default {
     handleSelectChange() {
       // this.filterExams();
     },
-    handleClickNewExam() {
+    async handleClickNewExam() {
       const newExamData = {
-        subject:
+        name: this.newExamData.name,
+        room: this.newExamData.room,
+        start_date: this.newExamData.date,
+        start_time: this.newExamData.start,
+        duration: this.newExamData.duration,
+        course_id:
           this.newExamData.subject === ""
             ? this.course.allCourse[0].id
             : this.newExamData.subject,
         room: this.newExamData.room,
-        date: this.newExamData.date,
-        start: this.newExamData.start,
-        duration: this.newExamData.duration,
       };
 
-      console.log(newExamData);
+      await this.createNewExam(newExamData);
+      await this.getAllExams();
     },
     handleClickCheckbox(checked, item) {
       if (checked) {
@@ -114,7 +137,14 @@ export default {
         );
       }
     },
-    handleClickDeleteTask() {
+    async handleClickDeleteExam() {
+      if (confirm("Are you sure to delete")) {
+        await this.deleteExamById(this.popupExamData.id);
+        this.getAllExams();
+        this.showPopupExam = false;
+      }
+    },
+    handleClickSelectedDelete() {
       alert("delete examId: " + this.arrCheckboxValues);
     },
     handleClickClearSelection() {
@@ -152,6 +182,7 @@ export default {
   },
   created() {
     this.getAllExams();
+    this.getAllCourse();
     // this.filterExams();
   },
   mounted() {

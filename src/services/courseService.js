@@ -1,8 +1,8 @@
-import courseApi from "@/tests/courses/courseApi";
 import * as request from "@/utils/httpRequest";
 
-export const getAllCourse = () => {
-  return courseApi.getAllCourse;
+export const getAllCourse = async () => {
+  const res = await request.get("tasks/get_courses");
+  return res;
 };
 
 export const getClassExam = async () => {

@@ -14,7 +14,7 @@
           >
             <option value="all">All Courses</option>
             <option
-              v-for="(item, index) in course.allCourse"
+              v-for="(item, index) in course.all"
               :key="index"
               :value="item.id"
               >{{ item.name }}</option
@@ -65,7 +65,7 @@
               <Select
                 class="mb-2"
                 label="Subject"
-                :arrOptions="course.allCourse"
+                :arrOptions="course.all"
                 value="id"
                 show="name"
                 defaultValue="1"
@@ -73,7 +73,7 @@
               />
               <div class="flex gap-4 mb-2">
                 <Select
-                  @select-change="(value) => (newTaskData.type = value)"
+                  @select-change="handleChangeNewType"
                   label="Type"
                   :arrOptions="['Assignment', 'Reminder', 'Revision']"
                   :defaultValue="newTaskData.type"
@@ -89,10 +89,10 @@
                 class="mb-2"
                 v-if="newTaskData.type === 'Revision'"
                 label="Exams"
-                :arrOptions="exam.all"
-                show="course_name"
+                :arrOptions="exam.byCourse"
+                show="name"
                 value="id"
-                :defaultValue="exam.all[0].id"
+                :defaultValue="exam.byCourse[0]?.id"
               />
               <Input
                 @input-enter="(value) => (newTaskData.title = value)"
@@ -287,7 +287,7 @@
           <Select
             class="mb-2"
             label="Subject"
-            :arrOptions="course.allCourse"
+            :arrOptions="course.all"
             value="id"
             show="name"
             :defaultValue="popupTaskData.course_id"

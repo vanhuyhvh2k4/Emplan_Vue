@@ -12,9 +12,9 @@
             v-model="selectVal"
             @change="handleSelectChange"
           >
-            <option value="all">All Task</option>
+            <option value="all">All Courses</option>
             <option
-              v-for="(item, index) in course.allCourse"
+              v-for="(item, index) in course.all"
               :key="index"
               :value="item.id"
               >{{ item.name }}</option
@@ -43,11 +43,15 @@
           :class="index !== showExams.length - 1 ? 'mb-4' : ''"
         >
           <section>
-            <h3 class="text-lg font-medium">{{ item.course.name }}</h3>
-            <small>
-              <span>{{ item.room }}</span>
+            <h3>
+              <span>{{ item.name }}</span>
               <span> | </span>
-              <span>{{ item.duration }} mins</span>
+              <span>{{ item.course.name }}</span>
+            </h3>
+            <small>
+              <span>Room: {{ item.room }}</span>
+              <span> | </span>
+              <span>Duration: {{ item.duration }} mins</span>
             </small>
           </section>
           <section class="flex items-center gap-4">
@@ -86,9 +90,19 @@
               label="Subject"
               value="id"
               show="name"
-              :defaultValue="course.allCourse[0].id"
-              :arrOptions="course.allCourse"
+              :defaultValue="course.all[0]?.id"
+              :arrOptions="course.all"
               @select-change="(value) => (newExamData.subject = value)"
+            />
+            <Input
+              class="mb-2"
+              type="text"
+              label="Name"
+              @input-enter="
+                (value) => {
+                  newExamData.name = value;
+                }
+              "
             />
             <div class="flex gap-4 mb-2">
               <Input
@@ -163,7 +177,7 @@
             >{{ arrCheckboxValues.length }} exams selected</small
           >
           <Button
-            @click="handleClickDeleteTask"
+            @click="handleClickSelectedDelete"
             :class="$style.custom_button"
             title="Delete exams"
             size="sm"
@@ -194,7 +208,7 @@
       </template>
       <template #header-right>
         <font-awesome-icon
-          @click="handleClickDeleteTask"
+          @click="handleClickDeleteExam"
           class="cursor-pointer"
           :icon="['fas', 'trash-alt']"
         />
