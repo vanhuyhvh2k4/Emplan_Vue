@@ -7,12 +7,12 @@ export const get = async (path, options = {}) => {
 
 export const post = async (path, options = {}, config = {}) => {
   const res = await request.post(path, options, config);
-  return res;
+  return res.data;
 };
 
 export const patch = async (path, options = {}, config = {}) => {
   const res = await request.patch(path, options, config);
-  return res;
+  return res.data;
 };
 
 export const put = async (path, options = {}, config = {}) => {

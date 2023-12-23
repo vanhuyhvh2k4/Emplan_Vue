@@ -25,7 +25,11 @@
             title="Edit 2023-2024"
           />
         </div>
-        <Button size="sm" title="New year" />
+        <Button
+          @click="() => (showPopupNewYear = true)"
+          size="sm"
+          title="New year"
+        />
       </div>
       <div class="w-full bg-white mt-4 rounded-lg p-4">
         <div class="flex item-center justify-between">
@@ -208,7 +212,7 @@
           :icon="['fas', 'times']"
         />
       </template>
-      <ul>
+      <ul class="max-h-[244px] overflow-y-scroll">
         <li
           v-for="(item, index) in courses.all"
           :key="index"
@@ -235,11 +239,35 @@
       <template #header-left>
         <h3>New subject</h3>
       </template>
-      <div class="flex items-end gap-4"
+      <div class="flex items-end gap-4 mb-2"
         ><Input label="Name" placeholder="" />
         <input class="flex-shrink-0" type="color" name="" id="primary_color" />
       </div>
-      <p class="mt-4">
+      <div class="flex items-center gap-4 mb-2">
+        <Input class="flex-[0.5]" />
+        <div class="relative flex-[0.5]">
+          <Input />
+          <div class="py-4 w-full bg-white shadow-md absolute">
+            <strong
+              class="relative px-4 py-2 cursor-pointer block hover:bg-gray-200"
+              >2023-2024
+              <div
+                class="hidden absolute shadow-md min-h-[100px] bg-white right-0 bottom-0 w-1/2"
+              >
+                <small
+                  class="border border-gray-200 p-2 cursor-pointer hover:bg-gray-200 w-full block"
+                  >Term 1</small
+                >
+              </div>
+            </strong>
+          </div>
+        </div>
+      </div>
+      <div class="flex items-center gap-4 mb-2">
+        <Input type="date" />
+        <Input type="date" />
+      </div>
+      <p>
         <strong class="font-normal">What Are Subjects?</strong> <br />
         <small class="text-gray-700">
           Subjects are also known as courses and enable you to group all of your
@@ -259,6 +287,56 @@
           button-type="outline"
         />
         <Button title="Save" size="sm" />
+      </div>
+    </Popup>
+    <Popup
+      @click-overlay="() => (showPopupNewYear = false)"
+      v-if="showPopupNewYear"
+    >
+      <template #header-left>
+        <h3>New Academic Year</h3>
+      </template>
+      <div class="flex items-center gap-4">
+        <Input
+          @input-enter="(value) => (newYearData.startDate = value)"
+          label="Start date"
+          type="date"
+        />
+        <Input
+          @input-enter="(value) => (newYearData.endDate = value)"
+          label="End date"
+          type="date"
+        />
+      </div>
+      <!-- <div class="p-4 border border-gray-200 mt-4">
+        <div v-if="showAddTerm" class="mb-4">
+          <font-awesome-icon
+          @click="() => showAddTerm = false"
+            class="float-right text-lg text-gray-400 cursor-pointer hover:text-black"
+            :icon="['fas', 'times']"
+          />
+          <Input />
+          <div class="flex items-center gap-4">
+            <Input type="date" />
+            <Input type="date" />
+          </div>
+          <Button class="w-full mt-4" size="sm" />
+        </div>
+        <div
+          @click="() => (showAddTerm = true)"
+          v-if="!showAddTerm"
+          class="m-auto w-fit text-primary cursor-pointer"
+          >New term</div
+        >
+      </div> -->
+      <div class="flex justify-end gap-4 mt-4">
+        <Button
+          @click="() => (showPopupNewYear = false)"
+          title="Cancel"
+          size="sm"
+          button-type="outline"
+        />
+        <Button @click="handleClickCreateSchoolYear" title="Create" size="sm" />
       </div>
     </Popup>
   </div>

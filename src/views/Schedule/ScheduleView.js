@@ -1,5 +1,6 @@
 import * as courseService from "@/services/courseService";
 import * as classService from "@/services/classService";
+import * as schoolYearService from "@/services/schoolYearService";
 export default {
   data() {
     return {
@@ -22,6 +23,10 @@ export default {
         start: "",
         end: "",
       },
+      newYearData: {
+        startDate: "",
+        endDate: "",
+      },
       classes: {
         all: [],
       },
@@ -31,6 +36,7 @@ export default {
       showAddTimeButton: true,
       showManageCourse: false,
       showAddCourse: false,
+      showPopupNewYear: false,
     };
   },
   methods: {
@@ -45,9 +51,17 @@ export default {
         this.classes.all = response.data;
       }
     },
-    async getAllCourseApi() {
+    async getAllCourse() {
       const response = await courseService.getAllCourse();
-      this.courses.all = response;
+      if (response.status === 200) {
+        this.courses.all = response.data;
+      }
+    },
+    async createSchoolYear(payload) {
+      const response = await schoolYearService.createSchoolYear(payload);
+      if (response.status === 201) {
+        alert("Created successfully");
+      }
     },
     handleClickDate(value) {
       this.newAddTimeData.dates = value;
@@ -94,9 +108,17 @@ export default {
         console.log(newClassData);
       }
     },
+    async handleClickCreateSchoolYear() {
+      const newSchoolYear = {
+        start_date: this.newYearData.startDate,
+        end_date: this.newYearData.endDate,
+      };
+      await this.createSchoolYear(newSchoolYear);
+      this.showPopupNewYear = false;
+    },
   },
   created() {
-    this.getAllCourseApi();
+    this.getAllCourse();
     this.getListClasses();
   },
   mounted() {

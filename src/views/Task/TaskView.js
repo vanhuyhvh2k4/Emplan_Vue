@@ -88,6 +88,13 @@ export default {
         this.filterTasks();
       }
     },
+    async createTask(payload) {
+      const response = await taskService.createTask(payload);
+
+      if (response.status === 201) {
+        alert("Task created successfully");
+      }
+    },
     async updateTask(taskId, payload) {
       const response = await taskService.updateTask(taskId, payload);
       if (response.status === 200) {
@@ -199,13 +206,8 @@ export default {
       if (payload.type !== "Revision") {
         delete payload.exam_id;
       }
-
-      const response = await taskService.createTask(payload);
-
-      if (response.status === 200) {
-        alert("Task created successfully");
-        this.getAllTask();
-      }
+      await this.createTask(payload);
+      this.getAllTask();
     },
     distanceDateWithCurrent(date) {
       let currentDate = new Date();
