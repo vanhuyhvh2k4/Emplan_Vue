@@ -23,7 +23,7 @@ export default {
         end_date: null,
         distance_day: null,
         status: null,
-        detail: null,
+        description: null,
         color: null,
       },
       editTaskData: {
@@ -32,7 +32,7 @@ export default {
         task_name: null,
         type: null,
         end_date: null,
-        detail: null,
+        description: null,
       },
       isCompleted: 0,
       showTask: [],
@@ -101,7 +101,7 @@ export default {
     async updateTask(taskId, payload) {
       const response = await taskService.updateTask(taskId, payload);
       if (response.status === 200) {
-        alert("updated successfully");
+        console.log("updated successfully");
       }
     },
     async deleteTaskById(taskId) {
@@ -127,7 +127,6 @@ export default {
       } else {
         this.isCompleted = 0;
       }
-      console.log(this.isCompleted);
       this.handleClickClearSelection();
       this.filterTasks();
     },
@@ -167,7 +166,21 @@ export default {
       }
     },
     handleClickCompleteTask() {
-      alert("complete taskId: " + this.popupTaskData.id);
+      this.updateStatusTask(1);
+    },
+    async updateStatusTask(status = 0) {
+      const updateTask = {
+        course_id: this.popupTaskData.course_id,
+        name: this.popupTaskData.task_name,
+        description: this.popupTaskData.description,
+        start_date: currentDate(),
+        end_date: this.popupTaskData.end_date,
+        type: this.popupTaskData.type,
+        status: status,
+      };
+      await taskService.updateTask(this.popupTaskData.id, updateTask);
+      this.getAllTask();
+      this.showPopupTask = false;
     },
     async handleClickDeleteTask() {
       if (confirm("Are you sure to delete")) {
@@ -178,7 +191,7 @@ export default {
       }
     },
     handleClickSetIncompleteTask() {
-      alert("set incomplete taskId: " + this.popupTaskData.id);
+      this.updateStatusTask(0);
     },
     handleClickCompleteSelectedTask() {
       alert("complete taskId: " + this.checkboxVals);
@@ -207,8 +220,8 @@ export default {
       const payload = {
         course_id: this.newTaskData.subject,
         name: this.newTaskData.title,
-        description: this.newTaskData.detail,
-        start_date: "2023-11-26",
+        description: this.newTaskData.description,
+        start_date: currentDate(),
         end_date: this.newTaskData.due,
         type: this.newTaskData.type,
         exam_id: this.newTaskData.examId,
@@ -239,15 +252,17 @@ export default {
       const updateData = {
         course_id: this.editTaskData.course_id,
         name: this.editTaskData.task_name,
-        description: this.editTaskData.detail,
-        start_date: "2023-11-26",
+        description: this.editTaskData.description,
+        start_date: currentDate(),
         end_date: this.editTaskData.end_date,
         type: this.editTaskData.type,
-        status: 0,
+        status: this.popupTaskData.status,
       };
 
       await this.updateTask(this.editTaskData.id, updateData);
+      alert("Updated successfully");
       this.getAllTask();
+      this.showEditForm = false;
       this.showPopupTask = false;
     },
   },

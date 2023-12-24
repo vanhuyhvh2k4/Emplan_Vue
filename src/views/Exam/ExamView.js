@@ -22,29 +22,31 @@ export default {
         all: [],
       },
       popupExamData: {
-        id: "",
-        course_id: "",
-        course_name: "",
-        room: "",
-        duration: "",
-        start_time: "",
-        start_date: "",
-        completed: "",
+        id: null,
+        course_id: null,
+        course_name: null,
+        name: null,
+        room: null,
+        duration: null,
+        start_time: null,
+        start_date: null,
+        completed: null,
       },
       editExamData: {
-        id: "",
-        course_id: "",
-        room: "",
-        duration: "",
-        start_time: "",
-        start_date: "",
+        id: null,
+        course_id: null,
+        name: null,
+        room: null,
+        duration: null,
+        start_time: null,
+        start_date: null,
       },
       newExamData: {
-        name: "",
-        subject: "",
-        room: "",
-        date: "",
-        start: "",
+        name: null,
+        subject: null,
+        room: null,
+        date: null,
+        start: null,
         duration: 50,
       },
       task: {
@@ -70,16 +72,24 @@ export default {
         alert("Created successfull");
       }
     },
+    async updateExam(examId, payload) {
+      const response = await examService.updateExam(examId, payload);
+
+      if (response.status === 200) {
+        console.log("Updated successfully");
+      }
+    },
     async deleteExamById(examId) {
       const response = await examService.deleteExamById(examId);
       if (response.status === 200) {
-        alert("Deleted successfully");
+        console.log("Deleted successfully");
       }
     },
     async getAllCourse() {
       const response = await courseService.getAllCourse();
       if (response.status === 200) {
         this.course.all = response.data;
+        this.editExamData.course_id = this.course.all[0].id;
       }
     },
     handleClickNewExamButton() {
@@ -142,10 +152,18 @@ export default {
         await this.deleteExamById(this.popupExamData.id);
         this.getAllExams();
         this.showPopupExam = false;
+        alert("Deleted successfully");
       }
     },
     handleClickSelectedDelete() {
-      alert("delete examId: " + this.arrCheckboxValues);
+      if (confirm("Are you sure to delete")) {
+        this.arrCheckboxValues.forEach(async (exam) => {
+          await this.deleteExamById(exam);
+        });
+        this.getAllExams();
+        this.handleClickClearSelection();
+        alert("Deleted successfully");
+      }
     },
     handleClickClearSelection() {
       const checkboxRefs = this.$refs.checkboxExamRefs;
@@ -155,10 +173,13 @@ export default {
       });
     },
     handleClickExamItem(item) {
-      this.popupExamData.course_name = item.course.name;
       for (const key in this.popupExamData) {
-        if (key !== "course_name") this.popupExamData[key] = item[key];
+        if (key !== "course_name") {
+          this.popupExamData[key] = item[key];
+        }
       }
+      this.popupExamData.course_name = item.course.name;
+      this.popupExamData.course_id = item.course.id;
       this.showPopupExam = true;
     },
     handleClickEditTask() {
@@ -167,17 +188,19 @@ export default {
       }
       this.showEditForm = true;
     },
-    handleClickSaveEditExam() {
-      const changedData = {};
-      for (const key in this.editExamData) {
-        if (this.editExamData[key] !== this.popupExamData[key]) {
-          changedData[key] = this.editExamData[key];
-        }
-      }
-      if (Object.keys(changedData).length !== 0) {
-        changedData["id"] = this.editExamData["id"];
-      }
-      console.log(changedData);
+    async handleClickSaveEditExam() {
+      const editExam = {
+        name: this.editExamData.name,
+        course_id: this.editExamData.course_id,
+        start_date: this.editExamData.start_date,
+        start_time: formatTime(this.editExamData.start_time),
+        duration: this.editExamData.duration,
+        room: this.editExamData.room,
+      };
+      await this.updateExam(this.editExamData.id, editExam);
+      this.getAllExams();
+      this.showPopupExam = false;
+      this.showEditForm = false;
     },
   },
   created() {

@@ -34,13 +34,18 @@
         v-show="showTask.length"
         class="mt-6 bg-white rounded-lg p-4 max-h-[500px] overflow-y-scroll custom_scrollbar"
       >
+        <div class="flex justify-between mb-4">
+          <small class="flex-[0.7]">Task infomation</small>
+          <small>Due at</small>
+          <small>Select</small>
+        </div>
         <TaskColor
           ref="taskRefs"
           @click="handleClickTask(item)"
           @checkbox-change="handleCheckboxChange"
           :checkbox-id="item.id"
           :hexColor="item.color"
-          :desc="item.course_name"
+          :desc="'Course: ' + item.course_name + ' | ' + 'Type: ' + item.type"
           :title="item.task_name"
           :date="formatDate(item.end_date)"
           :isCompleted="item.status === 0 ? false : true"
@@ -109,7 +114,7 @@
                 placeholder="Enter the title"
               />
               <Input
-                @input-enter="(value) => (newTaskData.detail = value)"
+                @input-enter="(value) => (newTaskData.description = value)"
                 type="textarea"
                 label="Detail"
                 placeholder="Enter the description"
@@ -212,7 +217,7 @@
     >
       <template #header-left>
         <h3>{{ popupTaskData.task_name }}</h3>
-        <small>{{ popupTaskData.course_name }}</small>
+        <small>Course: {{ popupTaskData.course_name }}</small>
       </template>
       <template #header-right>
         <font-awesome-icon
@@ -328,11 +333,11 @@
             :defaultValue="popupTaskData.task_name"
           />
           <Input
-            @input-enter="(value) => (editTaskData.detail = value)"
+            @input-enter="(value) => (editTaskData.description = value)"
             type="textarea"
             label="Detail"
             placeholder="Enter the description"
-            :defaultValue="popupTaskData.detail"
+            :defaultValue="popupTaskData.description"
           />
         </div>
         <div class="mt-4 pb-4 flex justify-end gap-6">

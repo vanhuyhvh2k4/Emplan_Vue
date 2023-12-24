@@ -15,6 +15,11 @@ export const createNewExam = async (payload) => {
   return res;
 };
 
+export const updateExam = async (examId, payload) => {
+  const res = await request.put(`exams/${examId}`, payload);
+  return res;
+};
+
 export const deleteExamById = async (examId) => {
   const res = await request.remove(`exams/${examId}`);
   return res;

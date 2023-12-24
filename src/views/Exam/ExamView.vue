@@ -82,7 +82,7 @@
         <div class="absolute w-full max-w-[80%] top-0 right-0">
           <Form
             title="Create new exam"
-            v-show="isShowForm"
+            v-if="isShowForm"
             @click-exit="handleClickNewExamButton"
           >
             <Select
@@ -227,7 +227,7 @@
           :icon="['fas', 'times']"
         />
       </template>
-      <div v-show="!showEditForm">
+      <div v-if="!showEditForm">
         <div class="flex gap-4 items-start p-4">
           <font-awesome-icon :icon="['far', 'calendar-alt']" />
           <p
@@ -257,16 +257,23 @@
           >
         </section>
       </div>
-      <div v-show="showEditForm">
-        <Select
-          class="mb-2"
-          label="Subject"
-          value="id"
-          show="name"
-          :defaultValue="popupExamData.course_id"
-          :arrOptions="course.allCourse"
-          @select-change="(value) => (editExamData.course_id = value)"
-        />
+      <div v-if="showEditForm">
+        <div class="flex gap-4">
+          <Select
+            class="mb-2"
+            label="Subject"
+            value="id"
+            show="name"
+            :defaultValue="popupExamData.course_id"
+            :arrOptions="course.all"
+            @select-change="(value) => (editExamData.course_id = value)"
+          />
+          <Input
+            @input-enter="(value) => (editExamData.name = value)"
+            label="Name"
+            :defaultValue="popupExamData.name"
+          />
+        </div>
         <div class="flex gap-4 mb-2">
           <Input
             @input-enter="(value) => (editExamData.room = value)"
@@ -301,7 +308,11 @@
             size="sm"
             buttonType="outline"
             title="Cancel"
-            @click="() => (this.showEditForm = false)"
+            @click="
+              () => {
+                this.showEditForm = false;
+              }
+            "
           />
           <Button @click="handleClickSaveEditExam" size="sm" title="Save" />
         </div>
