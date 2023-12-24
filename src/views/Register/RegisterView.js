@@ -21,7 +21,8 @@ export default {
       this.isPending = false;
 
       if (response.status === 201) {
-        router.push({ name: "verify", query: { uid: response.data.id } });
+        alert("Created successfully, we sent a code to your email.");
+        router.push({ name: "verify", query: { uid: response.id } });
       } else {
         alert(response.response.data.message);
       }

@@ -17,8 +17,8 @@ export default {
       const response = await authService.login(payload);
       this.isPending = false;
       if (response.status === 200) {
-        this.$cookies.set("gid", response.data.data.token, "7d");
-        const payloadString = JSON.stringify(response.data.data.user);
+        this.$cookies.set("gid", response.data.token, "7d");
+        const payloadString = JSON.stringify(response.data.user);
         localStorage.setItem("current_user", payloadString);
         this.$router.push({ name: "dashboard" });
       } else {

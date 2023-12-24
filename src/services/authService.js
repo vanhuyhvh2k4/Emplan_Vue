@@ -21,7 +21,7 @@ export const login = async (payload) => {
 export const verifyEmail = async (userId, payload) => {
   try {
     const res = await request.post(`verify/${userId}`, payload);
-    return res.data;
+    return res;
   } catch (error) {
     return error.response.data;
   }

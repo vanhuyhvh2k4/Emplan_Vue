@@ -308,6 +308,15 @@
           type="date"
         />
       </div>
+      <p class="mt-4">
+        <span> What Are Academic Years?</span>
+        <br />
+        <small
+          >An academic year and its terms are used to represent your school year
+          and any terms (eg. semesters, trimesters, quarters) that you may
+          have.</small
+        >
+      </p>
       <!-- <div class="p-4 border border-gray-200 mt-4">
         <div v-if="showAddTerm" class="mb-4">
           <font-awesome-icon
