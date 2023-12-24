@@ -60,19 +60,27 @@
       <div class="p-4 w-full flex justify-end items-center relative">
         <Button @click="this.isShowForm = true" size="sm" title="New Task" />
         <div class="absolute w-full max-w-[80%] top-0 right-0">
-          <Form title="Create new task" v-show="isShowForm">
+          <Form title="Create new task" v-if="isShowForm">
             <div>
               <Select
+                v-if="newTaskData.subject"
                 class="mb-2"
                 label="Subject"
                 :arrOptions="course.all"
                 value="id"
                 show="name"
-                defaultValue="1"
-                @select-change="(value) => (newTaskData.subject = value)"
+                :defaultValue="newTaskData.subject"
+                @select-change="
+                  (value) => {
+                    newTaskData.subject = value;
+                    newTaskData.type = 'Assignment';
+                    newTaskData.examId = null;
+                  }
+                "
               />
               <div class="flex gap-4 mb-2">
                 <Select
+                  :key="newTaskData.subject"
                   @select-change="handleChangeNewType"
                   label="Type"
                   :arrOptions="['Assignment', 'Reminder', 'Revision']"
@@ -87,12 +95,12 @@
               <Select
                 @select-change="(value) => (newTaskData.examId = value)"
                 class="mb-2"
-                v-if="newTaskData.type === 'Revision'"
+                v-if="newTaskData.type === 'Revision' && newTaskData.examId"
                 label="Exams"
                 :arrOptions="exam.byCourse"
                 show="name"
                 value="id"
-                :defaultValue="exam.byCourse[0]?.id"
+                :defaultValue="newTaskData.examId"
               />
               <Input
                 @input-enter="(value) => (newTaskData.title = value)"
@@ -112,7 +120,12 @@
                 size="sm"
                 buttonType="outline"
                 title="Cancel"
-                @click="this.isShowForm = false"
+                @click="
+                  () => {
+                    this.isShowForm = false;
+                    this.newTaskData.type = 'Assignment';
+                  }
+                "
               />
               <Button @click="handleClickNewTask" size="sm" title="Create" />
             </div>

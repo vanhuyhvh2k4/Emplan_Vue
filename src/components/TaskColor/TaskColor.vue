@@ -8,7 +8,7 @@
         class="rounded-full h-9 w-9"
       ></span>
       <div>
-        <h3 class="text-lg font-medium truncate max-w-[200px]">{{ title }}</h3>
+        <h3 class="text-lg font-medium truncate max-w-[150px]">{{ title }}</h3>
         <small>{{ desc }}</small>
       </div>
     </section>

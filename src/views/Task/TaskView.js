@@ -15,24 +15,24 @@ export default {
       showPopupTask: false,
       showEditForm: false,
       popupTaskData: {
-        id: "",
-        course_id: "",
-        course_name: "",
-        task_name: "",
-        type: "",
-        end_date: "",
-        distance_day: "",
-        status: "",
-        detail: "",
-        color: "",
+        id: null,
+        course_id: null,
+        course_name: null,
+        task_name: null,
+        type: null,
+        end_date: null,
+        distance_day: null,
+        status: null,
+        detail: null,
+        color: null,
       },
       editTaskData: {
-        id: "",
-        course_id: "",
-        task_name: "",
-        type: "",
-        end_date: "",
-        detail: "",
+        id: null,
+        course_id: null,
+        task_name: null,
+        type: null,
+        end_date: null,
+        detail: null,
       },
       isCompleted: 0,
       showTask: [],
@@ -49,7 +49,7 @@ export default {
         byCourse: [],
       },
       newTaskData: {
-        subject: 1,
+        subject: null,
         examId: null,
         type: "Assignment",
         due: null,
@@ -64,6 +64,7 @@ export default {
 
       if (response.status === 200) {
         this.course.all = response.data;
+        this.newTaskData.subject = this.course.all[0].id;
       }
     },
     async getAllExams() {
@@ -78,6 +79,7 @@ export default {
 
       if (response.status === 200) {
         this.exam.byCourse = response.data;
+        this.newTaskData.examId = this.exam.byCourse[0].id;
       }
     },
     async getAllTask() {
@@ -93,6 +95,7 @@ export default {
 
       if (response.status === 201) {
         alert("Task created successfully");
+        this.newTaskData.type = "Assignment";
       }
     },
     async updateTask(taskId, payload) {
@@ -104,7 +107,7 @@ export default {
     async deleteTaskById(taskId) {
       const response = await taskService.deleteTaskById(taskId);
       if (response.status === 200) {
-        alert("delete successfully");
+        console.log("delete successfully");
       }
     },
     handleClickTask(item) {
@@ -169,6 +172,7 @@ export default {
     async handleClickDeleteTask() {
       if (confirm("Are you sure to delete")) {
         await this.deleteTaskById(this.popupTaskData.id);
+        alert("Deleted successfully");
         this.getAllTask();
         this.showPopupTask = false;
       }
@@ -183,7 +187,14 @@ export default {
       alert("set incompleted taskId: " + this.checkboxVals);
     },
     handleClickDeleteSelectedTask() {
-      alert("delete taskId: " + this.checkboxVals);
+      if (confirm("Are you sure to delete")) {
+        this.checkboxVals.forEach(async (taskId) => {
+          await taskService.deleteTaskById(taskId);
+        });
+        alert("Deleted successfully");
+        this.getAllTask();
+        this.handleClickClearSelection();
+      }
     },
     handleClickClearSelection() {
       this.checkboxVals = [];
