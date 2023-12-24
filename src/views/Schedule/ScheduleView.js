@@ -15,20 +15,19 @@ export default {
       newAddTimeData: {
         id: 0,
         dates: [],
-        start: "",
-        end: "",
+        start: null,
+        end: null,
       },
       newClassData: {
-        subject: "",
-        room: "",
-        teacher: "",
-        date: "",
-        start: "",
-        end: "",
+        subject: null,
+        room: null,
+        date: null,
+        start: null,
+        end: null,
       },
       newYearData: {
-        startDate: "",
-        endDate: "",
+        startDate: null,
+        endDate: null,
       },
       classes: {
         all: [],
@@ -68,6 +67,12 @@ export default {
         this.classes.all = response.data;
       }
     },
+    async createClass(payload) {
+      const response = await classService.createClass(payload);
+      if (response.status === 201) {
+        alert("Created successfully");
+      }
+    },
     async createSemester(payload) {
       const response = await semesterService.createSemester(payload);
       if (response.status === 201) {
@@ -78,6 +83,7 @@ export default {
       const response = await courseService.getAllCourse();
       if (response.status === 200) {
         this.courses.all = response.data;
+        this.newClassData.subject = this.courses.all[0].id;
       }
     },
     async createSchoolYear(payload) {
@@ -106,24 +112,22 @@ export default {
         (time) => time.id !== item.id,
       );
     },
-    handleClickCreateNewClass() {
+    async handleClickCreateNewClass() {
       if (this.showOneOffButton) {
         const newClassData = {
-          subject: this.newClassData.subject,
+          course_id: this.newClassData.subject,
           room: this.newClassData.room,
-          teacher: this.newClassData.teacher,
-          oneOff: true,
-          date: this.newClassData.date,
-          start: this.newClassData.start,
-          end: this.newClassData.end,
+          start_time: this.newClassData.start,
+          end_time: this.newClassData.end,
+          day_of_week: this.newClassData.date,
         };
 
-        console.log(newClassData);
+        await classService.createClass(newClassData);
+        this.showPopup = false;
       } else {
         const newClassData = {
           subject: this.newClassData.subject,
           room: this.newClassData.room,
-          teacher: this.newClassData.teacher,
           oneOff: false,
           date: this.arrRepeatTime,
         };

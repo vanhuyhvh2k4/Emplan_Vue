@@ -53,21 +53,22 @@
     </div>
     <Popup
       title="Create new class"
-      v-show="showPopup"
+      v-if="showPopup"
       @click-overlay="this.showPopup = false"
     >
       <template #header-left>
         <h3>Create new class</h3>
       </template>
-      <Select
-        :arrOptions="courses.all"
-        value="id"
-        show="name"
-        label="Subject"
-        defaultValue="1"
-        @select-change="(value) => (newClassData.subject = value)"
-      />
       <section class="flex gap-4 mt-2">
+        <Select
+          v-if="newClassData.subject"
+          :arrOptions="courses.all"
+          value="id"
+          show="name"
+          label="Subject"
+          :defaultValue="newClassData.subject"
+          @select-change="(value) => (newClassData.subject = value)"
+        />
         <Input
           @input-enter="
             (value) => {
@@ -76,11 +77,6 @@
           "
           label="Room"
           placeholder="Enter your room"
-        />
-        <Input
-          @input-enter="(value) => (newClassData.teacher = value)"
-          label="Teacher"
-          placeholder="Enter your teacher"
         />
       </section>
       <section class="mt-4">
