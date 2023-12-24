@@ -20,6 +20,7 @@
             @click="() => (showManageCourse = true)"
           />
           <Button
+            @click="() => (showPopupEditAcademyYear = true)"
             size="sm"
             :class="$style.custom_button"
             title="Edit 2023-2024"
@@ -317,27 +318,6 @@
           have.</small
         >
       </p>
-      <!-- <div class="p-4 border border-gray-200 mt-4">
-        <div v-if="showAddTerm" class="mb-4">
-          <font-awesome-icon
-          @click="() => showAddTerm = false"
-            class="float-right text-lg text-gray-400 cursor-pointer hover:text-black"
-            :icon="['fas', 'times']"
-          />
-          <Input />
-          <div class="flex items-center gap-4">
-            <Input type="date" />
-            <Input type="date" />
-          </div>
-          <Button class="w-full mt-4" size="sm" />
-        </div>
-        <div
-          @click="() => (showAddTerm = true)"
-          v-if="!showAddTerm"
-          class="m-auto w-fit text-primary cursor-pointer"
-          >New term</div
-        >
-      </div> -->
       <div class="flex justify-end gap-4 mt-4">
         <Button
           @click="() => (showPopupNewYear = false)"
@@ -346,6 +326,93 @@
           button-type="outline"
         />
         <Button @click="handleClickCreateSchoolYear" title="Create" size="sm" />
+      </div>
+    </Popup>
+    <Popup
+      v-if="showPopupEditAcademyYear"
+      @click-overlay="() => (showPopupEditAcademyYear = false)"
+    >
+      <template #header-left>
+        <h3>Edit Academic Year</h3>
+      </template>
+      <div class="flex items-center gap-4">
+        <Input
+          @input-enter="(value) => (editSchoolYear.start_date = value)"
+          label="Start Date"
+          type="date"
+        />
+        <Input
+          @input-enter="(value) => (editSchoolYear.end_date = value)"
+          label="End Date"
+          type="date"
+        />
+      </div>
+      <div class="p-4 border border-gray-200 mt-4">
+        <div v-if="showAddTerm" class="mb-4">
+          <font-awesome-icon
+            @click="() => (showAddTerm = false)"
+            class="float-right text-lg text-gray-400 cursor-pointer hover:text-black"
+            :icon="['fas', 'times']"
+          />
+          <Input
+            @input-enter="(value) => (newTermData.name = value)"
+            label="Name"
+          />
+          <div class="flex items-center gap-4 mt-2">
+            <Input
+              @input-enter="(value) => (newTermData.start_date = value)"
+              label="Start Date"
+              type="date"
+            />
+            <Input
+              @input-enter="(value) => (newTermData.end_date = value)"
+              label="End Date"
+              type="date"
+            />
+          </div>
+          <Button
+            @click="handleClickNewTerm"
+            title="Save"
+            class="w-full mt-4"
+            size="sm"
+          />
+        </div>
+        <ul v-if="arrNewTerm.length > 0" class="mb-4">
+          <li
+            v-for="(item, index) in arrNewTerm"
+            :key="index"
+            class="flex justify-between items-center border border-gray-200 px-4 py-2 hover:bg-gray-200"
+            :class="index !== 0 && 'mt-2'"
+          >
+            <div>
+              <h4>{{ item.name }}</h4>
+              <small
+                >{{ formatDate(item.start_date) }} -
+                {{ formatDate(item.end_date) }}</small
+              >
+            </div>
+            <font-awesome-icon
+              @click="handleClickDeleteTerm(item)"
+              class="text-gray-400 hover:text-black cursor-pointer"
+              :icon="['fas', 'trash-alt']"
+            />
+          </li>
+        </ul>
+        <div
+          @click="() => (showAddTerm = true)"
+          v-if="!showAddTerm"
+          class="m-auto w-fit text-primary cursor-pointer"
+          >New term</div
+        >
+      </div>
+      <div class="flex justify-end gap-4 mt-4">
+        <Button
+          @click="() => (showPopupEditAcademyYear = false)"
+          title="Cancel"
+          size="sm"
+          button-type="outline"
+        />
+        <Button @click="handleClickSaveEditSchoolYear" title="Save" size="sm" />
       </div>
     </Popup>
   </div>

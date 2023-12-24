@@ -1,9 +1,12 @@
 import * as courseService from "@/services/courseService";
 import * as classService from "@/services/classService";
 import * as schoolYearService from "@/services/schoolYearService";
+import * as semesterService from "@/services/semesterService";
+import formatDate from "@/utils/formatDate";
 export default {
   data() {
     return {
+      formatDate,
       showOneOffButton: true,
       showPopup: false,
       courses: {
@@ -30,6 +33,18 @@ export default {
       classes: {
         all: [],
       },
+      newTermData: {
+        id: 0,
+        school_year_id: 1,
+        name: null,
+        start_date: null,
+        end_date: null,
+      },
+      editSchoolYear: {
+        start_date: null,
+        end_date: null,
+      },
+      arrNewTerm: [],
       newCourseData: {},
       arrRepeatTime: [],
       showFormAddTime: false,
@@ -37,6 +52,8 @@ export default {
       showManageCourse: false,
       showAddCourse: false,
       showPopupNewYear: false,
+      showPopupEditAcademyYear: false,
+      showAddTerm: false,
     };
   },
   methods: {
@@ -49,6 +66,12 @@ export default {
 
       if (response.status === 200) {
         this.classes.all = response.data;
+      }
+    },
+    async createSemester(payload) {
+      const response = await semesterService.createSemester(payload);
+      if (response.status === 201) {
+        console.log("Created successfully");
       }
     },
     async getAllCourse() {
@@ -115,6 +138,29 @@ export default {
       };
       await this.createSchoolYear(newSchoolYear);
       this.showPopupNewYear = false;
+    },
+    handleClickNewTerm() {
+      const newTerm = {
+        id: this.newTermData.id,
+        school_year_id: this.newTermData.school_year_id,
+        name: this.newTermData.name,
+        start_date: this.newTermData.start_date,
+        end_date: this.newTermData.end_date,
+      };
+      this.newTermData.id++;
+      this.arrNewTerm.push(newTerm);
+      this.showAddTerm = false;
+    },
+    handleClickDeleteTerm(item) {
+      this.arrNewTerm = this.arrNewTerm.filter((term) => term.id !== item.id);
+    },
+    handleClickSaveEditSchoolYear() {
+      this.arrNewTerm.forEach(async (term) => {
+        delete term.id;
+        await semesterService.createSemester(term);
+      });
+      alert("Edit successfully");
+      this.showPopupEditAcademyYear = false;
     },
   },
   created() {
