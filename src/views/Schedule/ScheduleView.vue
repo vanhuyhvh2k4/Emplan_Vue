@@ -2,9 +2,19 @@
   <div class="w-full h-full p-8 flex gap-4">
     <div class="w-1/5 p-4 rounded-lg bg-white">
       <ul>
-        <li>
-          <div class="font-medium text-lg">2023 - 2024</div>
-          <div>Nov 16 2023 - May 16 2024</div>
+        <li
+          class="mb-2 hover:bg-gray-200 cursor-pointer"
+          v-for="(item, index) in schoolYear.all"
+          :key="index"
+        >
+          <div class="font-medium text-lg"
+            >{{ item.start_date.split("-")[0] }} -
+            {{ item.end_date.split("-")[0] }}</div
+          >
+          <div
+            >{{ formatDate(item.start_date) }} -
+            {{ formatDate(item.end_date) }}</div
+          >
         </li>
       </ul>
     </div>
@@ -237,32 +247,64 @@
         <h3>New subject</h3>
       </template>
       <div class="flex items-end gap-4 mb-2"
-        ><Input label="Name" placeholder="" />
-        <input class="flex-shrink-0" type="color" name="" id="primary_color" />
+        ><Input
+          @input-enter="(value) => (newCourseData.name = value)"
+          label="Name"
+          placeholder=""
+        />
+        <input
+          v-model="newCourseData.color_code"
+          class="flex-shrink-0"
+          type="color"
+          name=""
+          :class="$style.primary_color"
+        />
+      </div>
+      <Input
+        @input-enter="(value) => (newCourseData.teacher = value)"
+        class="mb-2"
+        label="Teacher"
+      />
+      <div class="flex items-center mb-2">
+        <Select
+          class="flex-[0.5] mr-4"
+          label="School Year"
+          show="format"
+          value="id"
+          @select-change="handleChangeSchoolYear"
+          defautValue=""
+          :arrOptions="schoolYear.all"
+        />
+        <Select
+          class="flex-[0.5]"
+          :key="newCourseData.semester_id"
+          v-if="semester.bySchoolYearId.length > 0"
+          label="Term"
+          :arrOptions="semester.bySchoolYearId"
+          @select-change="
+            (semesterId) => (newCourseData.semester_id = semesterId)
+          "
+          show="name"
+          value="id"
+          :defaultValue="newCourseData.semester_id"
+        />
+        <small
+          class="flex-[0.5] self-end"
+          v-if="semester.bySchoolYearId.length === 0 && changeSchoolYear"
+          >Not found any term of this school year</small
+        >
       </div>
       <div class="flex items-center gap-4 mb-2">
-        <Input class="flex-[0.5]" />
-        <div class="relative flex-[0.5]">
-          <Input />
-          <div class="py-4 w-full bg-white shadow-md absolute">
-            <strong
-              class="relative px-4 py-2 cursor-pointer block hover:bg-gray-200"
-              >2023-2024
-              <div
-                class="hidden absolute shadow-md min-h-[100px] bg-white right-0 bottom-0 w-1/2"
-              >
-                <small
-                  class="border border-gray-200 p-2 cursor-pointer hover:bg-gray-200 w-full block"
-                  >Term 1</small
-                >
-              </div>
-            </strong>
-          </div>
-        </div>
-      </div>
-      <div class="flex items-center gap-4 mb-2">
-        <Input type="date" />
-        <Input type="date" />
+        <Input
+          @input-enter="(value) => (newCourseData.start_date = value)"
+          label="Start date"
+          type="date"
+        />
+        <Input
+          @input-enter="(value) => (newCourseData.end_date = value)"
+          label="End date"
+          type="date"
+        />
       </div>
       <p>
         <strong class="font-normal">What Are Subjects?</strong> <br />
@@ -283,7 +325,7 @@
           size="sm"
           button-type="outline"
         />
-        <Button title="Save" size="sm" />
+        <Button @click="handleClickCreateNewCourse" title="Save" size="sm" />
       </div>
     </Popup>
     <Popup
@@ -446,7 +488,7 @@
     }
   }
 
-  #primary_color {
+  .primary_color {
     border-radius: 50%;
     height: 40px;
     width: 40px;
@@ -455,10 +497,10 @@
     -webkit-appearance: none;
   }
 
-  #primary_color::-webkit-color-swatch-wrapper {
+  .primary_color::-webkit-color-swatch-wrapper {
     padding: 0;
   }
-  #primary_color::-webkit-color-swatch {
+  .primary_color::-webkit-color-swatch {
     border: none;
     border-radius: 50%;
   }

@@ -29,8 +29,14 @@ export default {
         startDate: null,
         endDate: null,
       },
+      schoolYear: {
+        all: [],
+      },
       classes: {
         all: [],
+      },
+      semester: {
+        bySchoolYearId: [],
       },
       newTermData: {
         id: 0,
@@ -44,7 +50,14 @@ export default {
         end_date: null,
       },
       arrNewTerm: [],
-      newCourseData: {},
+      newCourseData: {
+        semester_id: null,
+        name: null,
+        color_code: "#000",
+        teacher: null,
+        start_date: null,
+        end_date: null,
+      },
       arrRepeatTime: [],
       showFormAddTime: false,
       showAddTimeButton: true,
@@ -53,9 +66,23 @@ export default {
       showPopupNewYear: false,
       showPopupEditAcademyYear: false,
       showAddTerm: false,
+      changeSchoolYear: false,
     };
   },
   methods: {
+    async getALlSchoolYear() {
+      const response = await schoolYearService.getSchoolYear();
+      if (response.status === 200) {
+        this.schoolYear.all = response.data;
+        this.schoolYear.all = this.schoolYear.all.map((year) => {
+          return {
+            ...year,
+            format:
+              formatDate(year.start_date) + " - " + formatDate(year.end_date),
+          };
+        });
+      }
+    },
     async getListClasses() {
       const response = await classService.getListClasses({
         params: {
@@ -73,6 +100,13 @@ export default {
         alert("Created successfully");
       }
     },
+    async getSemesterBySchoolYearId(schoolYearId) {
+      const response =
+        await semesterService.getSemesterBySchoolYearId(schoolYearId);
+      if (response.status === 200) {
+        this.semester.bySchoolYearId = response.data;
+      }
+    },
     async createSemester(payload) {
       const response = await semesterService.createSemester(payload);
       if (response.status === 201) {
@@ -84,6 +118,12 @@ export default {
       if (response.status === 200) {
         this.courses.all = response.data;
         this.newClassData.subject = this.courses.all[0].id;
+      }
+    },
+    async createCourse(payload) {
+      const response = await courseService.createCourse(payload);
+      if (response.status === 201) {
+        console.log("Created successfully");
       }
     },
     async createSchoolYear(payload) {
@@ -166,8 +206,29 @@ export default {
       alert("Edit successfully");
       this.showPopupEditAcademyYear = false;
     },
+    async handleChangeSchoolYear(yearId) {
+      this.changeSchoolYear = true;
+      await this.getSemesterBySchoolYearId(yearId);
+      this.newCourseData.semester_id =
+        this.semester.bySchoolYearId[0]?.id ?? null;
+    },
+    async handleClickCreateNewCourse() {
+      const newCourse = {
+        ...this.newCourseData,
+      };
+      if (newCourse.semester_id === null || newCourse.semester_id === "") {
+        alert("Please create a semester before create a course");
+      } else {
+        await this.createCourse(newCourse);
+        alert("Created successfully");
+        this.showAddCourse = false;
+        await this.getAllCourse();
+        this.showManageCourse = true;
+      }
+    },
   },
   created() {
+    this.getALlSchoolYear();
     this.getAllCourse();
     this.getListClasses();
   },
