@@ -1,11 +1,17 @@
 <template>
   <div class="w-full h-full p-8 flex gap-4">
-    <div class="w-1/5 p-4 rounded-lg bg-white">
+    <div class="w-1/5 py-4 rounded-lg bg-white">
       <ul>
         <li
-          class="mb-2 hover:bg-gray-200 cursor-pointer"
+          class="p-2 mb-2 hover:bg-gray-200 cursor-pointer"
+          :class="schoolYear.currentYearId === item.id && 'bg-gray-200'"
           v-for="(item, index) in schoolYear.all"
           :key="index"
+          @click="
+            () => {
+              schoolYear.currentYearId = item.id;
+            }
+          "
         >
           <div class="font-medium text-lg"
             >{{ item.start_date.split("-")[0] }} -
@@ -30,7 +36,7 @@
             @click="() => (showManageCourse = true)"
           />
           <Button
-            @click="() => (showPopupEditAcademyYear = true)"
+            @click="handleClickShowPopupEditSchoolYear"
             size="sm"
             :class="$style.custom_button"
             title="Edit 2023-2024"
@@ -226,7 +232,10 @@
           class="p-4 cursor-pointer hover:bg-gray-200 flex items-center gap-2"
           :class="courses.all.length > 1 && 'border-b-[1px] border-gray-200'"
         >
-          <span class="block h-7 aspect-square rounded-full bg-blue-400"></span>
+          <span
+            class="block h-7 aspect-square rounded-full"
+            :style="`background-color: ${item.color_code || '#FABB18'};`"
+          ></span>
           <span>{{ item.name }}</span>
         </li>
       </ul>
@@ -375,12 +384,16 @@
       </template>
       <div class="flex items-center gap-4">
         <Input
-          @input-enter="(value) => (editSchoolYear.start_date = value)"
+          :key="editSchoolYearData.start_date"
+          @input-enter="(value) => (editSchoolYearData.start_date = value)"
+          :defaultValue="editSchoolYearData.start_date"
           label="Start Date"
           type="date"
         />
         <Input
-          @input-enter="(value) => (editSchoolYear.end_date = value)"
+          :key="editSchoolYearData.end_date"
+          @input-enter="(value) => (editSchoolYearData.end_date = value)"
+          :defaultValue="editSchoolYearData.end_date"
           label="End Date"
           type="date"
         />

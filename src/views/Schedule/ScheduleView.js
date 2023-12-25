@@ -31,6 +31,8 @@ export default {
       },
       schoolYear: {
         all: [],
+        byYearId: null,
+        currentYearId: null,
       },
       classes: {
         all: [],
@@ -40,12 +42,8 @@ export default {
       },
       newTermData: {
         id: 0,
-        school_year_id: 1,
+        school_year_id: null,
         name: null,
-        start_date: null,
-        end_date: null,
-      },
-      editSchoolYear: {
         start_date: null,
         end_date: null,
       },
@@ -55,6 +53,10 @@ export default {
         name: null,
         color_code: "#000",
         teacher: null,
+        start_date: null,
+        end_date: null,
+      },
+      editSchoolYearData: {
         start_date: null,
         end_date: null,
       },
@@ -74,6 +76,7 @@ export default {
       const response = await schoolYearService.getSchoolYear();
       if (response.status === 200) {
         this.schoolYear.all = response.data;
+        this.schoolYear.currentYearId = this.schoolYear.all[0].id;
         this.schoolYear.all = this.schoolYear.all.map((year) => {
           return {
             ...year,
@@ -81,6 +84,12 @@ export default {
               formatDate(year.start_date) + " - " + formatDate(year.end_date),
           };
         });
+      }
+    },
+    async getSchoolYearById(yearId) {
+      const response = await schoolYearService.getSchoolYearById(yearId);
+      if (response.status === 200) {
+        this.schoolYear.byYearId = response.data;
       }
     },
     async getListClasses() {
@@ -130,6 +139,15 @@ export default {
       const response = await schoolYearService.createSchoolYear(payload);
       if (response.status === 201) {
         alert("Created successfully");
+      }
+    },
+    async updateSchoolYear(yearId, payload) {
+      const response = await schoolYearService.updateSchoolYear(
+        yearId,
+        payload,
+      );
+      if (response.status === 200) {
+        console.log("Updated successfully");
       }
     },
     handleClickDate(value) {
@@ -186,7 +204,7 @@ export default {
     handleClickNewTerm() {
       const newTerm = {
         id: this.newTermData.id,
-        school_year_id: this.newTermData.school_year_id,
+        school_year_id: this.schoolYear.currentYearId,
         name: this.newTermData.name,
         start_date: this.newTermData.start_date,
         end_date: this.newTermData.end_date,
@@ -198,8 +216,12 @@ export default {
     handleClickDeleteTerm(item) {
       this.arrNewTerm = this.arrNewTerm.filter((term) => term.id !== item.id);
     },
-    handleClickSaveEditSchoolYear() {
-      this.arrNewTerm.forEach(async (term) => {
+    async handleClickSaveEditSchoolYear() {
+      await this.updateSchoolYear(
+        this.schoolYear.currentYearId,
+        this.editSchoolYearData,
+      );
+      await this.arrNewTerm.forEach(async (term) => {
         delete term.id;
         await semesterService.createSemester(term);
       });
@@ -224,6 +246,13 @@ export default {
         this.showAddCourse = false;
         await this.getAllCourse();
         this.showManageCourse = true;
+      }
+    },
+    async handleClickShowPopupEditSchoolYear() {
+      this.showPopupEditAcademyYear = true;
+      await this.getSchoolYearById(this.schoolYear.currentYearId);
+      for (const key in this.editSchoolYearData) {
+        this.editSchoolYearData[key] = this.schoolYear.byYearId[key];
       }
     },
   },

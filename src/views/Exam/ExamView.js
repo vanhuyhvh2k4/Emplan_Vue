@@ -199,6 +199,7 @@ export default {
       };
       await this.updateExam(this.editExamData.id, editExam);
       this.getAllExams();
+      alert("Updated successfully");
       this.showPopupExam = false;
       this.showEditForm = false;
     },
