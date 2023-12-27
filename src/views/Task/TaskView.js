@@ -43,6 +43,9 @@ export default {
       },
       task: {
         allTask: [],
+        dueIsComing: [],
+        completed: [],
+        incompleted: [],
       },
       exam: {
         all: [],
@@ -88,6 +91,16 @@ export default {
       if (response.status === 200) {
         this.task.allTask = response.data;
         this.filterTasks();
+
+        this.task.dueIsComing = this.task.allTask.filter(
+          (task) => task.end_date === currentDate(),
+        );
+        this.task.completed = this.task.allTask.filter(
+          (task) => task.status === 1,
+        );
+        this.task.incompleted = this.task.allTask.filter(
+          (task) => task.status === 0,
+        );
       }
     },
     async createTask(payload) {

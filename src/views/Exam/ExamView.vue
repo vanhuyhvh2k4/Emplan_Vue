@@ -35,6 +35,11 @@
         v-show="showExams.length"
         class="mt-6 bg-white rounded-lg p-4 max-h-[500px] overflow-y-scroll custom_scrollbar"
       >
+        <div class="flex justify-between mb-4">
+          <small class="flex-[0.7]">Exam infomation</small>
+          <small>Date</small>
+          <small>Select</small>
+        </div>
         <div
           @click="handleClickExamItem(item)"
           v-for="(item, index) in showExams"
@@ -142,36 +147,10 @@
           </Form>
         </div>
       </div>
-      <div class="bg-white mt-3 p-4 rounded-lg">
-        <div
-          v-show="arrCheckboxValues.length === 0"
-          class="grid grid-cols-2 grid-rows-2 justify-items-stretch items-center gap-4"
-        >
-          <section
-            class="bg-gray-100 rounded-md p-4 flex flex-col items-center justify-center"
-          >
-            <h4 class="text-lg font-medium">Total Task</h4>
-            <h4 class="text-3xl font-bold">5</h4>
-          </section>
-          <section
-            class="bg-gray-100 rounded-md p-4 flex flex-col items-center justify-center"
-          >
-            <h4 class="text-lg font-medium">Due is coming</h4>
-            <h4 class="text-3xl font-bold">5</h4>
-          </section>
-          <section
-            class="bg-gray-100 rounded-md p-4 flex flex-col items-center justify-center"
-          >
-            <h4 class="text-lg font-medium">Complete</h4>
-            <h4 class="text-3xl font-bold">5</h4>
-          </section>
-          <section
-            class="bg-gray-100 rounded-md p-4 flex flex-col items-center justify-center"
-          >
-            <h4 class="text-lg font-medium">Incomplete</h4>
-            <h4 class="text-3xl font-bold">5</h4>
-          </section>
-        </div>
+      <div
+        v-show="arrCheckboxValues.length > 0"
+        class="bg-white mt-3 p-4 rounded-lg"
+      >
         <div v-show="arrCheckboxValues.length > 0" class="text-center">
           <small class="text-gray-600 mb-2 block"
             >{{ arrCheckboxValues.length }} exams selected</small

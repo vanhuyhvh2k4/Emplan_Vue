@@ -10,6 +10,7 @@
           @click="
             () => {
               schoolYear.currentYearId = item.id;
+              getListClasses();
             }
           "
         >
@@ -39,7 +40,7 @@
             @click="handleClickShowPopupEditSchoolYear"
             size="sm"
             :class="$style.custom_button"
-            title="Edit 2023-2024"
+            title="Edit School Year"
           />
         </div>
         <Button
@@ -186,7 +187,7 @@
               </div>
             </div>
             <div
-              v-show="showAddTimeButton"
+              v-show="showAddTimeButton && arrRepeatTime < 2"
               @click="
                 this.showFormAddTime = true;
                 this.showAddTimeButton = false;
@@ -381,6 +382,28 @@
     >
       <template #header-left>
         <h3>Edit Academic Year</h3>
+        <select
+          @change="
+            () => {
+              updateEditSchoolYearData();
+              getSemesterBySchoolYearId(schoolYear.currentYearId);
+            }
+          "
+          v-model="schoolYear.currentYearId"
+          class="bg-primary"
+        >
+          <option
+            :value="item.id"
+            v-for="(item, index) in schoolYear.all"
+            :key="index"
+            value=""
+            >{{
+              item.start_date.split("-")[0] +
+              " - " +
+              item.end_date.split("-")[0]
+            }}</option
+          >
+        </select>
       </template>
       <div class="flex items-center gap-4">
         <Input
@@ -428,7 +451,28 @@
             size="sm"
           />
         </div>
-        <ul v-if="arrNewTerm.length > 0" class="mb-4">
+        <ul v-if="!showAddTerm && semester.bySchoolYearId.length > 0">
+          <li
+            v-for="(item, index) in semester.bySchoolYearId"
+            :key="index"
+            :class="index !== 0 && 'mt-2'"
+            class="flex justify-between items-center border border-gray-200 px-4 py-2 hover:bg-gray-200"
+          >
+            <div>
+              <h4>{{ item.name }}</h4>
+              <small
+                >{{ formatDate(item.start_date) }} -
+                {{ formatDate(item.end_date) }}</small
+              >
+            </div>
+            <font-awesome-icon
+              @click="handleClickDeleteTerm(item)"
+              class="text-gray-400 hover:text-black cursor-pointer"
+              :icon="['fas', 'trash-alt']"
+            />
+          </li>
+        </ul>
+        <ul v-if="arrNewTerm.length > 0 && !showAddTerm">
           <li
             v-for="(item, index) in arrNewTerm"
             :key="index"
@@ -452,7 +496,7 @@
         <div
           @click="() => (showAddTerm = true)"
           v-if="!showAddTerm"
-          class="m-auto w-fit text-primary cursor-pointer"
+          class="m-auto w-fit text-primary cursor-pointer mt-4"
           >New term</div
         >
       </div>

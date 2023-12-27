@@ -62,7 +62,8 @@ export default {
       const response = await examService.getAllExams();
 
       if (response.status === 200) {
-        this.showExams = response.data;
+        this.exam.all = response.data;
+        this.filterExams();
       }
     },
     async createNewExam(payload) {
@@ -96,7 +97,7 @@ export default {
       this.isShowForm = !this.isShowForm;
     },
     handleChangeCompleted() {
-      // this.filterExams();
+      this.filterExams();
       this.handleClickClearSelection();
     },
     filterExams(
@@ -106,20 +107,26 @@ export default {
         isCompleted: this.isCompleted,
       },
     ) {
+      const currentTime = new Date().getTime();
       let examsFiltered = exams.filter((exam) => {
+        const compareTime = new Date(exam.start_date).getTime();
         if (options.courseId !== null) {
           return (
-            exam.course_id === options.courseId &&
-            exam.completed === options.isCompleted
+            exam.course.id === options.courseId &&
+            (options.isCompleted
+              ? currentTime > compareTime
+              : currentTime <= compareTime)
           );
         } else {
-          return exam.start_date === options.isCompleted;
+          return options.isCompleted
+            ? currentTime > compareTime
+            : currentTime <= compareTime;
         }
       });
       this.showExams = examsFiltered;
     },
     handleSelectChange() {
-      // this.filterExams();
+      this.filterExams();
     },
     async handleClickNewExam() {
       const newExamData = {
@@ -207,7 +214,6 @@ export default {
   created() {
     this.getAllExams();
     this.getAllCourse();
-    // this.filterExams();
   },
   mounted() {
     document.title = "Exam | Emplanner";

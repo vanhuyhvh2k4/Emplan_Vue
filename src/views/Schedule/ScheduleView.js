@@ -59,6 +59,7 @@ export default {
       editSchoolYearData: {
         start_date: null,
         end_date: null,
+        arrTermDeleted: [],
       },
       arrRepeatTime: [],
       showFormAddTime: false,
@@ -95,7 +96,7 @@ export default {
     async getListClasses() {
       const response = await classService.getListClasses({
         params: {
-          "school-year-id": 1,
+          "school-year-id": this.schoolYear.currentYearId,
         },
       });
 
@@ -150,6 +151,12 @@ export default {
         console.log("Updated successfully");
       }
     },
+    async updateEditSchoolYearData() {
+      await this.getSchoolYearById(this.schoolYear.currentYearId);
+      for (const key in this.editSchoolYearData) {
+        this.editSchoolYearData[key] = this.schoolYear.byYearId[key];
+      }
+    },
     handleClickDate(value) {
       this.newAddTimeData.dates = value;
     },
@@ -184,13 +191,18 @@ export default {
         this.showPopup = false;
       } else {
         const newClassData = {
-          subject: this.newClassData.subject,
+          course_id: this.newClassData.subject,
           room: this.newClassData.room,
-          oneOff: false,
-          date: this.arrRepeatTime,
+          start_time: this.arrRepeatTime[0].start,
+          end_time: this.arrRepeatTime[0].end,
+          day_of_week: this.arrRepeatTime[0].dates
+            .map((date) => {
+              return date.name;
+            })
+            .join(", "),
         };
-
-        console.log(newClassData);
+        await classService.createClass(newClassData);
+        this.showPopup = false;
       }
     },
     async handleClickCreateSchoolYear() {
@@ -249,15 +261,13 @@ export default {
       }
     },
     async handleClickShowPopupEditSchoolYear() {
+      await this.updateEditSchoolYearData();
+      await this.getSemesterBySchoolYearId(this.schoolYear.currentYearId);
       this.showPopupEditAcademyYear = true;
-      await this.getSchoolYearById(this.schoolYear.currentYearId);
-      for (const key in this.editSchoolYearData) {
-        this.editSchoolYearData[key] = this.schoolYear.byYearId[key];
-      }
     },
   },
-  created() {
-    this.getALlSchoolYear();
+  async created() {
+    await this.getALlSchoolYear();
     this.getAllCourse();
     this.getListClasses();
   },

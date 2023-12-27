@@ -146,25 +146,25 @@
             class="bg-gray-100 rounded-md p-4 flex flex-col items-center justify-center"
           >
             <h4 class="text-lg font-medium">Total Task</h4>
-            <h4 class="text-3xl font-bold">5</h4>
+            <h4 class="text-3xl font-bold">{{ task.allTask.length }}</h4>
           </section>
           <section
             class="bg-gray-100 rounded-md p-4 flex flex-col items-center justify-center"
           >
             <h4 class="text-lg font-medium">Due is coming</h4>
-            <h4 class="text-3xl font-bold">5</h4>
+            <h4 class="text-3xl font-bold">{{ task.dueIsComing.length }}</h4>
           </section>
           <section
             class="bg-gray-100 rounded-md p-4 flex flex-col items-center justify-center"
           >
             <h4 class="text-lg font-medium">Complete</h4>
-            <h4 class="text-3xl font-bold">5</h4>
+            <h4 class="text-3xl font-bold">{{ task.completed.length }}</h4>
           </section>
           <section
             class="bg-gray-100 rounded-md p-4 flex flex-col items-center justify-center"
           >
             <h4 class="text-lg font-medium">Incomplete</h4>
-            <h4 class="text-3xl font-bold">5</h4>
+            <h4 class="text-3xl font-bold">{{ task.incompleted.length }}</h4>
           </section>
         </div>
         <div v-show="checkboxVals.length > 0" class="text-center">
