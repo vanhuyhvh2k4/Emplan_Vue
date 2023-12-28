@@ -65,7 +65,18 @@
       <ul
         class="bg-white rounded-lg p-4 max-h-[500px] overflow-y-scroll custom_scrollbar max-w-[500px]"
       >
-        <TaskColor class="mb-4" v-for="(item, index) in 5" :key="index" />
+        <h3 class="mb-4">Task list</h3>
+        <TaskColor
+          ref="taskRefs"
+          @checkbox-change="handleCheckboxChange(item)"
+          :checkbox-id="item.id"
+          :title="item.task_name"
+          :desc="item.course_name"
+          :date="formatDate(item.end_date)"
+          class="mb-4"
+          v-for="(item, index) in task.incompleted"
+          :key="index"
+        />
       </ul>
     </section>
   </div>

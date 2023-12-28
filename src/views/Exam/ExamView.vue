@@ -32,7 +32,6 @@
         </div>
       </div>
       <ul
-        v-show="showExams.length"
         class="mt-6 bg-white rounded-lg p-4 max-h-[500px] overflow-y-scroll custom_scrollbar"
       >
         <div class="flex justify-between mb-4">
@@ -79,6 +78,7 @@
             />
           </section>
         </div>
+        <h3 v-if="showExams.length === 0">Not found any exam</h3>
       </ul>
     </div>
     <div class="w-1/2">

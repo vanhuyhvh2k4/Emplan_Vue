@@ -31,7 +31,6 @@
         </div>
       </div>
       <ul
-        v-show="showTask.length"
         class="mt-6 bg-white rounded-lg p-4 max-h-[500px] overflow-y-scroll custom_scrollbar"
       >
         <div class="flex justify-between mb-4">
@@ -59,6 +58,7 @@
               : null
           "
         />
+        <h3 v-if="showTask.length === 0">Not found any task</h3>
       </ul>
     </div>
     <div class="w-1/2">

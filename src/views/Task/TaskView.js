@@ -195,6 +195,27 @@ export default {
       this.getAllTask();
       this.showPopupTask = false;
     },
+    async updateTaskSelected(status = 0) {
+      for (let i = 0; i < this.task.allTask.length; i++) {
+        for (let j = 0; j < this.checkboxVals.length; j++) {
+          if (this.task.allTask[i].id == this.checkboxVals[j]) {
+            const updateTask = {
+              course_id: this.task.allTask[i].course_id,
+              name: this.task.allTask[i].course_name,
+              description: this.task.allTask[i].description,
+              start_date: currentDate(),
+              end_date: this.task.allTask[i].end_date,
+              type: this.task.allTask[i].type,
+              status: status,
+            };
+            await taskService.updateTask(this.task.allTask[i].id, updateTask);
+          }
+        }
+      }
+      alert("Updated successfully");
+      this.handleClickClearSelection();
+      this.getAllTask();
+    },
     async handleClickDeleteTask() {
       if (confirm("Are you sure to delete")) {
         await this.deleteTaskById(this.popupTaskData.id);
@@ -207,10 +228,10 @@ export default {
       this.updateStatusTask(0);
     },
     handleClickCompleteSelectedTask() {
-      alert("complete taskId: " + this.checkboxVals);
+      this.updateTaskSelected(1);
     },
     handleClickSelectSetIncompleted() {
-      alert("set incompleted taskId: " + this.checkboxVals);
+      this.updateTaskSelected(0);
     },
     handleClickDeleteSelectedTask() {
       if (confirm("Are you sure to delete")) {
