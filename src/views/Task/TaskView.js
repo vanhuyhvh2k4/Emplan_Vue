@@ -4,6 +4,7 @@ import * as examService from "@/services/examService";
 import formatDate from "@/utils/formatDate";
 import currentDate from "@/utils/currentDate";
 import compareDate from "@/utils/compareDate";
+import distanceDateWithCurrent from "@/utils/distanceDateWithCurrent";
 
 export default {
   data() {
@@ -24,7 +25,7 @@ export default {
         distance_day: null,
         status: null,
         description: null,
-        color: null,
+        color_code: null,
       },
       editTaskData: {
         id: null,
@@ -125,9 +126,7 @@ export default {
     },
     handleClickTask(item) {
       this.showPopupTask = true;
-      this.popupTaskData.distance_day = this.distanceDateWithCurrent(
-        item.end_date,
-      );
+      this.popupTaskData.distance_day = distanceDateWithCurrent(item.end_date);
       for (const key in this.popupTaskData) {
         if (key !== "distance_day") {
           this.popupTaskData[key] = item[key];
@@ -266,15 +265,6 @@ export default {
       }
       await this.createTask(payload);
       this.getAllTask();
-    },
-    distanceDateWithCurrent(date) {
-      let currentDate = new Date();
-      let paramsDate = new Date(date);
-      let currentMili = currentDate.getTime();
-      let dateMili = paramsDate.getTime();
-      let distanceMili = dateMili - currentMili;
-      let distanceDay = Math.floor(distanceMili / (1000 * 60 * 60 * 24)) + 1;
-      return distanceDay;
     },
     handleClickEditTask() {
       this.showEditForm = true;

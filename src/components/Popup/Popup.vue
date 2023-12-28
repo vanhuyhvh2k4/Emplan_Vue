@@ -9,7 +9,7 @@
     >
       <div
         class="flex justify-between items-center p-6 bg-primary"
-        :style="color && `background-color: ${color}`"
+        :style="`background-color: ${color}`"
       >
         <section class="text-white text-xl font-normal">
           <slot name="header-left" />

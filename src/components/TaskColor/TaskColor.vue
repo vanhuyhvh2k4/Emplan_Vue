@@ -31,6 +31,7 @@
         :value="checkboxId"
       />
       <Button
+        @click="handleClickButton"
         v-if="!showCheckbox"
         title="Detail"
         :class="$style.custom_button"
@@ -90,6 +91,9 @@
     methods: {
       handleChangeCheckbox(e) {
         this.$emit("checkbox-change", this.checkboxVal, e.target.value);
+      },
+      handleClickButton() {
+        this.$emit("click-button");
       },
       resetCheckbox() {
         this.checkboxVal = false;

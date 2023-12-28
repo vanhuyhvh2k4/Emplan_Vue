@@ -43,7 +43,7 @@
           @click="handleClickTask(item)"
           @checkbox-change="handleCheckboxChange"
           :checkbox-id="item.id"
-          :hexColor="item.color"
+          :hexColor="item.color_code !== null ? item.color_code : '#FABB18'"
           :desc="'Course: ' + item.course_name + ' | ' + 'Type: ' + item.type"
           :title="item.task_name"
           :date="formatDate(item.end_date)"
@@ -206,7 +206,9 @@
       </div>
     </div>
     <Popup
-      :color="popupTaskData.color"
+      :color="
+        popupTaskData.color_code !== null ? popupTaskData.color_code : '#FABB18'
+      "
       v-if="showPopupTask"
       @click-overlay="
         () => {
@@ -242,7 +244,7 @@
         />
       </template>
       <div v-show="!showEditForm">
-        <div class="flex gap-4 items-center">
+        <div class="flex gap-4 items-center mb-4">
           <font-awesome-icon :icon="['far', 'calendar-alt']" />
           <div>
             <p>Due at {{ formatDate(popupTaskData.end_date) }}</p>
@@ -271,6 +273,10 @@
               >Completed</p
             >
           </div>
+        </div>
+        <div class="flex gap-4 items-center">
+          <font-awesome-icon :icon="['fas', 'list']" />
+          <p>Type: {{ popupTaskData.type }}</p>
         </div>
         <Button
           v-if="popupTaskData.status === 0"

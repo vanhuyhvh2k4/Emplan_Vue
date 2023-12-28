@@ -183,7 +183,7 @@
       "
     >
       <template #header-left>
-        <h3>{{ popupExamData.course_name }}</h3>
+        <h3>{{ popupExamData.name }}</h3>
       </template>
       <template #header-right>
         <font-awesome-icon
@@ -214,6 +214,10 @@
               formatDate(popupExamData.start_date)
             }}</p
           >
+        </div>
+        <div class="flex gap-4 items-start p-4">
+          <font-awesome-icon :icon="['fas', 'book']" />
+          <p>{{ popupExamData.course_name }}</p>
         </div>
         <div class="flex gap-4 items-start p-4">
           <font-awesome-icon :icon="['far', 'clock']" />

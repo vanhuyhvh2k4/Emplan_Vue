@@ -6,6 +6,11 @@ export const getAllTask = async () => {
   return res;
 };
 
+export const getTaskById = async (taskId) => {
+  const res = await request.get(`tasks/${taskId}`);
+  return res;
+};
+
 export const getTaskByCourse = () => {
   return taskApi.getTaskByCourse;
 };
