@@ -326,7 +326,7 @@
     </Popup>
     <Popup v-if="showPopupClass" @clickOverlay="showPopupClass = false">
       <template #header-left>
-        <h3>{{ popupClassData.course_name }}</h3>
+        <h3>{{ popupClassData.class.course_name }}</h3>
       </template>
       <section class="flex items-center mb-6">
         <font-awesome-icon
@@ -334,8 +334,8 @@
           :icon="['far', 'calendar-alt']"
         />
         <span class="text-lg"
-          >{{ formatTime(popupClassData.start_time) }} -
-          {{ formatDate(popupClassData.date) }}</span
+          >{{ formatTime(popupClassData.class.start_time) }} -
+          {{ formatDate(popupClassData.class.date) }}</span
         >
       </section>
       <section class="flex items-center mb-6">
@@ -343,14 +343,14 @@
           class="text-xl mr-4 float-left"
           :icon="['fas', 'map-marker-alt']"
         />
-        <span class="text-lg">{{ popupClassData.room }}</span>
+        <span class="text-lg">{{ popupClassData.class.room }}</span>
       </section>
       <section class="flex items-center mb-6">
         <font-awesome-icon
           class="text-xl mr-4 float-left"
           :icon="['fas', 'chalkboard-teacher']"
         />
-        <span class="text-lg">{{ popupClassData.teacher }}</span>
+        <span class="text-lg">{{ popupClassData.class.teacher }}</span>
       </section>
       <section>
         <h4
@@ -361,24 +361,26 @@
           >
         </h4>
       </section>
-      <!-- <section>
+      <section>
         <ul class="mt-4 max-h-[200px] overflow-y-scroll">
           <TaskColor
-            v-if="popupData.tasks.length > 0"
-            v-for="(item, index) in popupData.tasks"
+            v-if="popupClassData.tasks.length > 0"
+            v-for="(item, index) in popupClassData.tasks"
             :key="index"
             :show-checkbox="false"
             class="mb-2"
             :title="item.name"
             :desc="item.course_name"
+            :hex-color="item.course.color_code"
+            :date="formatDate(item.end_date)"
           />
         </ul>
         <span
-          v-if="popupData.tasks.length === 0"
+          v-if="popupClassData.tasks.length === 0"
           class="text-gray-500 font-light"
           >There are no tasks due for this class</span
         >
-      </section> -->
+      </section>
     </Popup>
   </div>
 </template>

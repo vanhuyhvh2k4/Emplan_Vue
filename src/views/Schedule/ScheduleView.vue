@@ -9,20 +9,11 @@
           @click="
             () => {
               schoolYear.currentYearId = item.id;
-              getListClasses();
               getSemesterBySchoolYearId(item.id);
             }
           "
         >
-          <div
-            class="hover:bg-gray-200 cursor-pointer"
-            :class="
-              schoolYear.currentYearId === item.id &&
-              semester.bySchoolYearId.length === 0
-                ? 'bg-gray-200'
-                : ''
-            "
-          >
+          <div class="hover:bg-gray-200 cursor-pointer">
             <p class="font-bold text-lg"
               >{{ item.start_date.split("-")[0] }} -
               {{ item.end_date.split("-")[0] }}</p
@@ -35,13 +26,18 @@
           <ul class="mt-2" v-if="schoolYear.currentYearId === item.id">
             <li
               @click="
-                () => {
+                async () => {
                   semester.currentSemesterId = item.id;
-                  getAllCourse(semester.currentSemesterId);
+                  courses.bySemesterId = await getAllCourse(
+                    semester.currentSemesterId,
+                  );
                 }
               "
               class="pl-4 hover:bg-gray-200 cursor-pointer"
-              :class="semester.currentSemesterId === item.id && 'bg-gray-200'"
+              :class="[
+                semester.currentSemesterId === item.id && 'bg-gray-200',
+                index !== 0 && 'mt-2',
+              ]"
               v-for="(item, index) in semester.bySchoolYearId"
               :key="index"
             >
@@ -66,7 +62,12 @@
             size="sm"
             :class="$style.custom_button"
             title="Manage course"
-            @click="() => (showManageCourse = true)"
+            @click="
+              async () => {
+                showManageCourse = true;
+                courses.all = await this.getAllCourse();
+              }
+            "
           />
           <Button
             @click="handleClickShowPopupEditSchoolYear"
@@ -98,10 +99,10 @@
             :date="
               formatDate(item.start_date) + ' - ' + formatDate(item.end_date)
             "
-            v-for="(item, index) in courses.all"
+            v-for="(item, index) in courses.bySemesterId"
             :key="index"
           />
-          <h3 v-if="courses.all.length === 0">Not found any course</h3>
+          <h3 v-if="courses.bySemesterId.length === 0">Not found any course</h3>
         </ul>
       </div>
     </div>
@@ -116,7 +117,7 @@
       <section class="flex gap-4 mt-2">
         <Select
           v-if="newClassData.subject"
-          :arrOptions="courses.all"
+          :arrOptions="courses.bySemesterId"
           value="id"
           show="name"
           label="Subject"
@@ -265,10 +266,13 @@
       </template>
       <ul class="max-h-[244px] overflow-y-scroll">
         <li
+          @click="handleClickCourseItem(item)"
           v-for="(item, index) in courses.all"
           :key="index"
           class="p-4 cursor-pointer hover:bg-gray-200 flex items-center gap-2"
-          :class="courses.all.length > 1 && 'border-b-[1px] border-gray-200'"
+          :class="
+            courses.bySemesterId.length > 1 && 'border-b-[1px] border-gray-200'
+          "
         >
           <span
             class="block h-7 aspect-square rounded-full"
@@ -279,9 +283,11 @@
       </ul>
       <Button
         @click="
-          () => {
+          async () => {
             showManageCourse = false;
             showAddCourse = true;
+            await getSemesterBySchoolYearId(schoolYear.currentYearId);
+            newCourseData.semester_id = semester.bySchoolYearId[0].id;
           }
         "
         size="sm"
@@ -320,6 +326,7 @@
           value="id"
           @select-change="handleChangeSchoolYear"
           :arrOptions="schoolYear.all"
+          :defaultValue="schoolYear.currentYearId"
         />
         <Select
           class="flex-[0.5]"
@@ -419,7 +426,9 @@
         <Select
           class="flex-[0.5]"
           :key="editCourseData.semester_id"
-          v-if="semester.bySchoolYearId.length > 0"
+          v-if="
+            semester.bySchoolYearId.length > 0 && editCourseData.semester_id
+          "
           label="Term"
           :arrOptions="semester.bySchoolYearId"
           @select-change="
@@ -460,7 +469,7 @@
           size="sm"
           button-type="outline"
         />
-        <Button @click="handleClickEditCourse" title="Save" size="sm" />
+        <Button @click="handleClickSaveEditCourse" title="Save" size="sm" />
       </div>
     </Popup>
     <Popup
@@ -510,7 +519,6 @@
         <select
           @change="
             () => {
-              updateEditSchoolYearData();
               getSemesterBySchoolYearId(schoolYear.currentYearId);
             }
           "
@@ -576,9 +584,16 @@
             size="sm"
           />
         </div>
-        <ul v-if="!showAddTerm && semester.bySchoolYearId.length > 0">
+        <ul
+          v-if="
+            !showAddTerm &&
+            editSchoolYearData.arrSemesterBySchoolYearId.length > 0
+          "
+        >
           <li
-            v-for="(item, index) in semester.bySchoolYearId"
+            v-for="(
+              item, index
+            ) in editSchoolYearData.arrSemesterBySchoolYearId"
             :key="index"
             :class="index !== 0 && 'mt-2'"
             class="flex justify-between items-center border border-gray-200 px-4 py-2 hover:bg-gray-200"
@@ -591,7 +606,7 @@
               >
             </div>
             <font-awesome-icon
-              @click="handleClickDeleteTerm(item)"
+              @click="handleClickDeleteSemesterOld(item)"
               class="text-gray-400 hover:text-black cursor-pointer"
               :icon="['fas', 'trash-alt']"
             />
@@ -602,7 +617,10 @@
             v-for="(item, index) in arrNewTerm"
             :key="index"
             class="flex justify-between items-center border border-gray-200 px-4 py-2 hover:bg-gray-200"
-            :class="index !== 0 && 'mt-2'"
+            :class="[
+              index !== 0 && 'mt-2',
+              editSchoolYearData.arrSemesterBySchoolYearId.length > 0 && 'mt-2',
+            ]"
           >
             <div>
               <h4>{{ item.name }}</h4>

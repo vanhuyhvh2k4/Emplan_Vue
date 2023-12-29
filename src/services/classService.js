@@ -15,7 +15,7 @@ export const createClass = async (payload) => {
   return res;
 };
 
-export const getDetailClass = async (course_id) => {
-  const res = request.get(`calendars/get_detail_class/${course_id}`);
+export const getDetailClass = async (classId) => {
+  const res = request.get(`calendars/get_detail_class/${classId}`);
   return res;
 };

@@ -11,6 +11,7 @@ export default {
       showPopup: false,
       courses: {
         all: [],
+        bySemesterId: [],
       },
       newAddTimeData: {
         id: 0,
@@ -60,6 +61,7 @@ export default {
       editSchoolYearData: {
         start_date: null,
         end_date: null,
+        arrSemesterBySchoolYearId: [],
         arrTermDeleted: [],
       },
       editCourseData: {
@@ -105,17 +107,6 @@ export default {
         this.schoolYear.byYearId = response.data;
       }
     },
-    async getListClasses() {
-      const response = await classService.getListClasses({
-        params: {
-          "school-year-id": this.schoolYear.currentYearId,
-        },
-      });
-
-      if (response.status === 200) {
-        this.classes.all = response.data;
-      }
-    },
     async createClass(payload) {
       const response = await classService.createClass(payload);
       if (response.status === 201) {
@@ -127,6 +118,13 @@ export default {
         await semesterService.getSemesterBySchoolYearId(schoolYearId);
       if (response.status === 200) {
         this.semester.bySchoolYearId = response.data;
+        this.editSchoolYearData.arrSemesterBySchoolYearId = response.data;
+      }
+    },
+    async deleteSemester(semesterId) {
+      const response = await semesterService.deleteSemester(semesterId);
+      if (response.status === 200) {
+        console.log("Deleted successfully");
       }
     },
     async createSemester(payload) {
@@ -142,7 +140,7 @@ export default {
         },
       });
       if (response.status === 200) {
-        this.courses.all = response.data;
+        return response.data;
       }
     },
     async createCourse(payload) {
@@ -177,12 +175,6 @@ export default {
       );
       if (response.status === 200) {
         console.log("Updated successfully");
-      }
-    },
-    async updateEditSchoolYearData() {
-      await this.getSchoolYearById(this.schoolYear.currentYearId);
-      for (const key in this.editSchoolYearData) {
-        this.editSchoolYearData[key] = this.schoolYear.byYearId[key];
       }
     },
     handleClickDate(value) {
@@ -256,7 +248,19 @@ export default {
     handleClickDeleteTerm(item) {
       this.arrNewTerm = this.arrNewTerm.filter((term) => term.id !== item.id);
     },
+    handleClickDeleteSemesterOld(item) {
+      this.editSchoolYearData.arrTermDeleted.push(item.id);
+      this.editSchoolYearData.arrSemesterBySchoolYearId =
+        this.editSchoolYearData.arrSemesterBySchoolYearId.filter(
+          (semester) => semester.id !== item.id,
+        );
+    },
     async handleClickSaveEditSchoolYear() {
+      console.log(this.editSchoolYearData.arrTermDeleted);
+      await this.editSchoolYearData.arrTermDeleted.forEach(async (semester) => {
+        await this.deleteSemester(semester);
+      });
+      delete this.editSchoolYearData.arrTermDeleted;
       await this.updateSchoolYear(
         this.schoolYear.currentYearId,
         this.editSchoolYearData,
@@ -266,10 +270,12 @@ export default {
         await semesterService.createSemester(term);
       });
       alert("Edit successfully");
+      this.getSemesterBySchoolYearId(this.schoolYear.currentYearId);
       this.showPopupEditAcademyYear = false;
     },
     async handleChangeSchoolYear(yearId) {
       this.changeSchoolYear = true;
+      this.schoolYear.currentYearId = yearId;
       await this.getSemesterBySchoolYearId(yearId);
       this.newCourseData.semester_id =
         this.semester.bySchoolYearId[0]?.id ?? null;
@@ -284,21 +290,29 @@ export default {
         await this.createCourse(newCourse);
         alert("Created successfully");
         this.showAddCourse = false;
-        await this.getAllCourse();
+        this.courses.all = await this.getAllCourse();
+        this.courses.bySemesterId = await this.getAllCourse(
+          this.semester.currentSemesterId,
+        );
         this.showManageCourse = true;
       }
     },
     async handleClickNewClass() {
-      if (this.courses.all.length > 0) {
+      if (this.courses.bySemesterId.length > 0) {
         this.showPopup = true;
-        this.newClassData.subject = this.courses.all[0].id;
+        this.newClassData.subject = this.courses.bySemesterId[0].id;
       } else {
         alert("You must create a course before");
       }
     },
     async handleClickShowPopupEditSchoolYear() {
-      await this.updateEditSchoolYearData();
+      this.arrNewTerm = [];
+      await this.getSchoolYearById(this.schoolYear.currentYearId);
+      for (const key in this.editSchoolYearData) {
+        this.editSchoolYearData[key] = this.schoolYear.byYearId[key];
+      }
       await this.getSemesterBySchoolYearId(this.schoolYear.currentYearId);
+      this.editSchoolYearData.arrTermDeleted = [];
       this.showPopupEditAcademyYear = true;
     },
     handleClickCourseItem(item) {
@@ -308,7 +322,7 @@ export default {
       this.editCourseData.schoolYearId = item.school_year.id;
       this.showEditCourse = true;
     },
-    async handleClickEditCourse() {
+    async handleClickSaveEditCourse() {
       const newCourseData = {
         ...this.editCourseData,
       };
@@ -327,7 +341,10 @@ export default {
       if (confirm("Are you sure to delete?")) {
         await this.deleteCourse(this.editCourseData.id);
         alert("Deleted successfully");
-        this.getAllCourse(this.semester.currentSemesterId);
+        this.courses.all = await this.getAllCourse();
+        this.courses.bySemesterId = await this.getAllCourse(
+          this.semester.currentSemesterId,
+        );
         this.showEditCourse = false;
       }
     },
@@ -335,8 +352,10 @@ export default {
   async created() {
     await this.getALlSchoolYear();
     await this.getSemesterBySchoolYearId(this.schoolYear.all[0].id);
-    this.semester.currentSemesterId = this.semester.bySchoolYearId[0].id;
-    this.getAllCourse(this.semester.currentSemesterId);
+    this.semester.currentSemesterId = this.semester.bySchoolYearId[0]?.id;
+    this.courses.bySemesterId = await this.getAllCourse(
+      this.semester.currentSemesterId,
+    );
   },
   mounted() {
     document.title = "Schedule | Emplanner";

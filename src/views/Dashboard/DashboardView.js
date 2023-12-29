@@ -1,6 +1,7 @@
 import svgs from "@/assets/svg/export.js";
 import * as taskService from "@/services/taskService";
 import * as courseService from "@/services/courseService";
+import * as classService from "@/services/classService";
 import formatDate from "@/utils/formatDate";
 import formatTime from "@/utils/formatTime";
 import distanceDateWithCurrent from "@/utils/distanceDateWithCurrent";
@@ -50,14 +51,17 @@ export default {
         teacher: null,
       },
       popupClassData: {
-        id: null,
-        course_id: null,
-        room: null,
-        date: null,
-        day_of_week: null,
-        start_time: null,
-        course_name: null,
-        teacher: null,
+        class: {
+          id: null,
+          course_id: null,
+          room: null,
+          date: null,
+          day_of_week: null,
+          start_time: null,
+          course_name: null,
+          teacher: null,
+        },
+        tasks: [],
       },
       showPopupTask: false,
       showPopupExam: false,
@@ -110,6 +114,12 @@ export default {
         );
       }
     },
+    async getClassDetail(classId) {
+      const response = await classService.getDetailClass(classId);
+      if (response.status === 200) {
+        return response.data;
+      }
+    },
     async handleClickDetail(item) {
       await this.getTaskDetail(item.id);
       this.showPopupTask = true;
@@ -121,9 +131,11 @@ export default {
       this.showPopupExam = true;
     },
     async handleClickClassItem(item) {
-      for (const key in this.popupClassData) {
-        this.popupClassData[key] = item[key];
+      const classDetailApi = await this.getClassDetail(item.id);
+      for (const key in this.popupClassData.class) {
+        this.popupClassData.class[key] = classDetailApi.class[key];
       }
+      this.popupClassData.tasks = classDetailApi.tasks;
       this.showPopupClass = true;
     },
   },

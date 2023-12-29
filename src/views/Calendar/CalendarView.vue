@@ -63,6 +63,8 @@
             class="mb-2"
             :title="item.name"
             :desc="item.course_name"
+            :hex-color="item.course.color_code"
+            :date="formatDate(item.end_date)"
           />
         </ul>
         <span

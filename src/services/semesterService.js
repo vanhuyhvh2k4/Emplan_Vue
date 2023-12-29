@@ -11,3 +11,8 @@ export const createSemester = async (payload) => {
   const res = await request.post("schedules/store_semester", payload);
   return res;
 };
+
+export const deleteSemester = async (semesterId) => {
+  const res = await request.remove(`delete-semester/${semesterId}`);
+  return res;
+};
