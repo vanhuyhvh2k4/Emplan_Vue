@@ -36,6 +36,7 @@ export default {
         course_name: null,
         color_code: null,
         distance_day: null,
+        status: null,
       },
       popupExamData: {
         id: null,

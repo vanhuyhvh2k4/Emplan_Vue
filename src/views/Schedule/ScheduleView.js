@@ -62,6 +62,16 @@ export default {
         end_date: null,
         arrTermDeleted: [],
       },
+      editCourseData: {
+        id: null,
+        semester_id: null,
+        schoolYearId: null,
+        name: null,
+        teacher: null,
+        color_code: "#000",
+        start_date: null,
+        end_date: null,
+      },
       arrRepeatTime: [],
       showFormAddTime: false,
       showAddTimeButton: true,
@@ -71,6 +81,7 @@ export default {
       showPopupEditAcademyYear: false,
       showAddTerm: false,
       changeSchoolYear: false,
+      showEditCourse: false,
     };
   },
   methods: {
@@ -132,13 +143,25 @@ export default {
       });
       if (response.status === 200) {
         this.courses.all = response.data;
-        // this.newClassData.subject = this.courses.all[0].id;
       }
     },
     async createCourse(payload) {
       const response = await courseService.createCourse(payload);
       if (response.status === 201) {
         console.log("Created successfully");
+      }
+    },
+    async updateCourse(courseId, payload) {
+      const response = await courseService.updateCourse(courseId, payload);
+
+      if (response.status === 200) {
+        console.log("Updated successfully");
+      }
+    },
+    async deleteCourse(courseId) {
+      const response = await courseService.deleteCourse(courseId);
+      if (response.status === 200) {
+        console.log("Deleted successfully");
       }
     },
     async createSchoolYear(payload) {
@@ -204,7 +227,7 @@ export default {
             .map((date) => {
               return date.name;
             })
-            .join(", "),
+            .join(","),
         };
         await classService.createClass(newClassData);
         this.showPopup = false;
@@ -277,6 +300,36 @@ export default {
       await this.updateEditSchoolYearData();
       await this.getSemesterBySchoolYearId(this.schoolYear.currentYearId);
       this.showPopupEditAcademyYear = true;
+    },
+    handleClickCourseItem(item) {
+      for (const key in this.editCourseData) {
+        this.editCourseData[key] = item[key];
+      }
+      this.editCourseData.schoolYearId = item.school_year.id;
+      this.showEditCourse = true;
+    },
+    async handleClickEditCourse() {
+      const newCourseData = {
+        ...this.editCourseData,
+      };
+
+      if (newCourseData.color_code === null) {
+        newCourseData.color_code = "#000";
+      }
+      delete newCourseData.id;
+      delete newCourseData.schoolYearId;
+      await this.updateCourse(this.editCourseData.id, newCourseData);
+      alert("Updated successfully");
+      this.getAllCourse(this.semester.currentSemesterId);
+      this.showEditCourse = false;
+    },
+    async handleDeleteCourse() {
+      if (confirm("Are you sure to delete?")) {
+        await this.deleteCourse(this.editCourseData.id);
+        alert("Deleted successfully");
+        this.getAllCourse(this.semester.currentSemesterId);
+        this.showEditCourse = false;
+      }
     },
   },
   async created() {

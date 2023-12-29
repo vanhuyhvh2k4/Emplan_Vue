@@ -14,3 +14,13 @@ export const createCourse = async (payload) => {
   const res = await request.post("schedules/store_course", payload);
   return res;
 };
+
+export const updateCourse = async (courseId, payload) => {
+  const res = await request.put(`schedules/update_course/${courseId}`, payload);
+  return res;
+};
+
+export const deleteCourse = async (courseId) => {
+  const res = await request.remove(`schedules/destroy_course/${courseId}`);
+  return res;
+};

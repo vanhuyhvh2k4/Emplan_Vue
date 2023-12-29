@@ -196,6 +196,7 @@
             :class="index > 0 && 'mt-2'"
             :title="item.name"
             :date="formatDate(item.end_date)"
+            :hex-color="item.color_code || '#FABB18'"
             v-if="task.due.length > 0"
           />
           <p v-if="task.due.length === 0">Not found any task</p>
@@ -222,6 +223,7 @@
             :class="index > 0 && 'mt-2'"
             :title="item.name"
             :date="formatDate(item.end_date)"
+            :hex-color="item.color_code || '#FABB18'"
             v-if="task.overdue.length > 0"
           />
           <p v-if="task.overdue.length === 0">Not found any task</p>
@@ -239,17 +241,23 @@
           <div>
             <p>Due at {{ formatDate(popupTaskData.end_date) }}</p>
             <p
-              v-show="popupTaskData.distance_day > 0"
+              v-show="
+                popupTaskData.distance_day > 0 && popupTaskData.status === 0
+              "
               class="text-sm text-green-400"
               >{{ popupTaskData.distance_day }} days to complete</p
             >
             <p
-              v-show="popupTaskData.distance_day < 0"
+              v-show="
+                popupTaskData.distance_day < 0 && popupTaskData.status === 0
+              "
               class="text-sm text-danger"
               >Overdue by {{ Math.abs(popupTaskData.distance_day) }} days</p
             >
             <p
-              v-show="popupTaskData.distance_day === 0"
+              v-show="
+                popupTaskData.distance_day === 0 && popupTaskData.status === 0
+              "
               class="text-sm text-primary"
               >Exprises in today</p
             >

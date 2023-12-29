@@ -90,6 +90,7 @@
           class="bg-white rounded-lg p-4 max-h-[500px] overflow-y-scroll custom_scrollbar mt-2"
         >
           <TaskColor
+            @click="handleClickCourseItem(item)"
             :title="item.name"
             :desc="item.teacher"
             :hex-color="item.color_code !== null ? item.color_code : '#000'"
@@ -318,7 +319,6 @@
           show="format"
           value="id"
           @select-change="handleChangeSchoolYear"
-          defautValue=""
           :arrOptions="schoolYear.all"
         />
         <Select
@@ -372,6 +372,95 @@
           button-type="outline"
         />
         <Button @click="handleClickCreateNewCourse" title="Save" size="sm" />
+      </div>
+    </Popup>
+    <Popup v-if="showEditCourse">
+      <template #header-left>
+        <h3>Edit subject</h3>
+      </template>
+      <template #header-right>
+        <font-awesome-icon
+          class="cursor-pointer"
+          @click="handleDeleteCourse"
+          :icon="['fas', 'trash-alt']"
+        />
+      </template>
+      <div class="flex items-end gap-4 mb-2"
+        ><Input
+          @input-enter="(value) => (editCourseData.name = value)"
+          label="Name"
+          placeholder=""
+          :defaultValue="editCourseData.name"
+        />
+        <input
+          v-model="editCourseData.color_code"
+          class="flex-shrink-0"
+          type="color"
+          name=""
+          :class="$style.primary_color"
+        />
+      </div>
+      <Input
+        @input-enter="(value) => (editCourseData.teacher = value)"
+        class="mb-2"
+        label="Teacher"
+        :defaultValue="editCourseData.teacher"
+      />
+      <div class="flex items-center gap-4">
+        <Select
+          class="flex-[0.5] mr-4"
+          label="School Year"
+          show="format"
+          value="id"
+          @select-change="handleChangeSchoolYear"
+          :arrOptions="schoolYear.all"
+          :defaultValue="editCourseData.schoolYearId"
+        />
+        <Select
+          class="flex-[0.5]"
+          :key="editCourseData.semester_id"
+          v-if="semester.bySchoolYearId.length > 0"
+          label="Term"
+          :arrOptions="semester.bySchoolYearId"
+          @select-change="
+            (semesterId) => (editCourseData.semester_id = semesterId)
+          "
+          show="name"
+          value="id"
+          :defaultValue="editCourseData.semester_id"
+        />
+        <small
+          class="flex-[0.5] self-end"
+          v-if="semester.bySchoolYearId.length === 0 && changeSchoolYear"
+          >Not found any term of this school year</small
+        >
+      </div>
+      <div class="flex items-center gap-4 mb-2">
+        <Input
+          @input-enter="(value) => (editCourseData.start_date = value)"
+          label="Start date"
+          type="date"
+          :defaultValue="editCourseData.start_date"
+        />
+        <Input
+          @input-enter="(value) => (editCourseData.end_date = value)"
+          label="End date"
+          type="date"
+          :defaultValue="editCourseData.end_date"
+        />
+      </div>
+      <div class="flex justify-end mt-4 gap-4">
+        <Button
+          @click="
+            () => {
+              showEditCourse = false;
+            }
+          "
+          title="Cancel"
+          size="sm"
+          button-type="outline"
+        />
+        <Button @click="handleClickEditCourse" title="Save" size="sm" />
       </div>
     </Popup>
     <Popup
