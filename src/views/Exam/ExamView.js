@@ -25,6 +25,7 @@ export default {
         id: null,
         course_id: null,
         course_name: null,
+        color_code: null,
         name: null,
         room: null,
         duration: null,
@@ -187,6 +188,7 @@ export default {
       }
       this.popupExamData.course_name = item.course.name;
       this.popupExamData.course_id = item.course.id;
+      this.popupExamData.color_code = item.course.color_code;
       this.showPopupExam = true;
     },
     handleClickEditTask() {

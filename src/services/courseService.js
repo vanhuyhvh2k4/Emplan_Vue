@@ -1,7 +1,7 @@
 import * as request from "@/utils/httpRequest";
 
-export const getAllCourse = async () => {
-  const res = await request.get("tasks/get_courses");
+export const getAllCourse = async (options) => {
+  const res = await request.get("tasks/get_courses", options);
   return res;
 };
 

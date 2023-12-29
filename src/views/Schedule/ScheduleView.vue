@@ -3,25 +3,57 @@
     <div class="w-1/5 py-4 rounded-lg bg-white">
       <ul>
         <li
-          class="p-2 mb-2 hover:bg-gray-200 cursor-pointer"
-          :class="schoolYear.currentYearId === item.id && 'bg-gray-200'"
+          class="p-2 mb-2 border"
           v-for="(item, index) in schoolYear.all"
           :key="index"
           @click="
             () => {
               schoolYear.currentYearId = item.id;
               getListClasses();
+              getSemesterBySchoolYearId(item.id);
             }
           "
         >
-          <div class="font-medium text-lg"
-            >{{ item.start_date.split("-")[0] }} -
-            {{ item.end_date.split("-")[0] }}</div
-          >
           <div
-            >{{ formatDate(item.start_date) }} -
-            {{ formatDate(item.end_date) }}</div
+            class="hover:bg-gray-200 cursor-pointer"
+            :class="
+              schoolYear.currentYearId === item.id &&
+              semester.bySchoolYearId.length === 0
+                ? 'bg-gray-200'
+                : ''
+            "
           >
+            <p class="font-bold text-lg"
+              >{{ item.start_date.split("-")[0] }} -
+              {{ item.end_date.split("-")[0] }}</p
+            >
+            <p>
+              {{ formatDate(item.start_date) }} -
+              {{ formatDate(item.end_date) }}
+            </p>
+          </div>
+          <ul class="mt-2" v-if="schoolYear.currentYearId === item.id">
+            <li
+              @click="
+                () => {
+                  semester.currentSemesterId = item.id;
+                  getAllCourse(semester.currentSemesterId);
+                }
+              "
+              class="pl-4 hover:bg-gray-200 cursor-pointer"
+              :class="semester.currentSemesterId === item.id && 'bg-gray-200'"
+              v-for="(item, index) in semester.bySchoolYearId"
+              :key="index"
+            >
+              <p>{{ item.name }}</p>
+              <p>
+                <span
+                  >{{ formatDate(item.start_date) }} -
+                  {{ formatDate(item.end_date) }}</span
+                >
+              </p>
+            </li>
+          </ul>
         </li>
       </ul>
     </div>
@@ -51,20 +83,24 @@
       </div>
       <div class="w-full bg-white mt-4 rounded-lg p-4">
         <div class="flex item-center justify-between">
-          <h2 class="text-lg font-medium">Classes list</h2>
-          <Button title="New class" size="sm" @click="this.showPopup = true" />
+          <h2 class="text-lg font-medium">Course list</h2>
+          <Button title="New class" size="sm" @click="handleClickNewClass" />
         </div>
         <ul
           class="bg-white rounded-lg p-4 max-h-[500px] overflow-y-scroll custom_scrollbar mt-2"
         >
           <TaskColor
-            :title="item.course_name"
+            :title="item.name"
             :desc="item.teacher"
             :hex-color="item.color_code !== null ? item.color_code : '#000'"
             class="mb-4"
-            v-for="(item, index) in classes.all"
+            :date="
+              formatDate(item.start_date) + ' - ' + formatDate(item.end_date)
+            "
+            v-for="(item, index) in courses.all"
             :key="index"
           />
+          <h3 v-if="courses.all.length === 0">Not found any course</h3>
         </ul>
       </div>
     </div>

@@ -39,6 +39,7 @@ export default {
       },
       semester: {
         bySchoolYearId: [],
+        currentSemesterId: null,
       },
       newTermData: {
         id: 0,
@@ -123,11 +124,15 @@ export default {
         console.log("Created successfully");
       }
     },
-    async getAllCourse() {
-      const response = await courseService.getAllCourse();
+    async getAllCourse(semesterId) {
+      const response = await courseService.getAllCourse({
+        params: {
+          "semester-id": semesterId,
+        },
+      });
       if (response.status === 200) {
         this.courses.all = response.data;
-        this.newClassData.subject = this.courses.all[0].id;
+        // this.newClassData.subject = this.courses.all[0].id;
       }
     },
     async createCourse(payload) {
@@ -260,6 +265,14 @@ export default {
         this.showManageCourse = true;
       }
     },
+    async handleClickNewClass() {
+      if (this.courses.all.length > 0) {
+        this.showPopup = true;
+        this.newClassData.subject = this.courses.all[0].id;
+      } else {
+        alert("You must create a course before");
+      }
+    },
     async handleClickShowPopupEditSchoolYear() {
       await this.updateEditSchoolYearData();
       await this.getSemesterBySchoolYearId(this.schoolYear.currentYearId);
@@ -268,8 +281,9 @@ export default {
   },
   async created() {
     await this.getALlSchoolYear();
-    this.getAllCourse();
-    this.getListClasses();
+    await this.getSemesterBySchoolYearId(this.schoolYear.all[0].id);
+    this.semester.currentSemesterId = this.semester.bySchoolYearId[0].id;
+    this.getAllCourse(this.semester.currentSemesterId);
   },
   mounted() {
     document.title = "Schedule | Emplanner";

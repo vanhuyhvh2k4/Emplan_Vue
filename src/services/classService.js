@@ -5,8 +5,8 @@ export const getClassList = async () => {
   return res;
 };
 
-export const getListClasses = async (...options) => {
-  const res = request.get("schedules/get_class_list", ...options);
+export const getListClasses = async (options) => {
+  const res = request.get("schedules/get_class_list", options);
   return res;
 };
 

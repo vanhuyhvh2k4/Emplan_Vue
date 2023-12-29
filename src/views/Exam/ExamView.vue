@@ -174,6 +174,7 @@
       </div>
     </div>
     <Popup
+      :color="popupExamData.color_code || '#FABB18'"
       v-if="showPopupExam"
       @click-overlay="
         () => {
