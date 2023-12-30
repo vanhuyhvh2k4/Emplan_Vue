@@ -97,6 +97,8 @@ export default {
         await this.updateTask(item.id, updatedData);
         this.getAllTask();
         this.reresetCheckbox();
+      } else {
+        this.reresetCheckbox();
       }
     },
     formatNumber(number) {

@@ -256,7 +256,7 @@
             >
             <p
               v-show="
-                popupTaskData.distance_day === 0 && popupTaskData.status === 0
+                popupTaskData.distance_day === 0 && popupTaskData.status == 0
               "
               class="text-sm text-primary"
               >Exprises in today</p

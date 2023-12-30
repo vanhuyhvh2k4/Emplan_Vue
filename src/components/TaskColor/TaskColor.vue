@@ -13,7 +13,7 @@
       </div>
     </section>
     <section class="flex items-center gap-4">
-      <span>{{ date }}</span>
+      <span v-if="!isCompleted">{{ date }}</span>
       <span v-show="isCompleted">
         <font-awesome-icon
           class="text-green-500 mr-2"

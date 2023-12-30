@@ -82,8 +82,9 @@ export default {
       const response = await examService.getExamsByCourseId(courseId);
 
       if (response.status === 200) {
-        this.exam.byCourse = response.data;
-        this.newTaskData.examId = this.exam.byCourse[0].id;
+        // this.exam.byCourse = response.data;
+        // this.newTaskData.examId = this.exam.byCourse[0]?.id;
+        return response.data;
       }
     },
     async getAllTask() {
@@ -145,7 +146,10 @@ export default {
     async handleChangeNewType(value) {
       this.newTaskData.type = value;
       if (this.newTaskData.type === "Revision") {
-        await this.getExamsByCourseId(this.newTaskData.subject);
+        this.exam.byCourse = await this.getExamsByCourseId(
+          this.newTaskData.subject,
+        );
+        this.newTaskData.examId = this.exam.byCourse[0]?.id;
       }
     },
     filterTasks(

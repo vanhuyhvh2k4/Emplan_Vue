@@ -110,7 +110,7 @@ export default {
     async createClass(payload) {
       const response = await classService.createClass(payload);
       if (response.status === 201) {
-        alert("Created successfully");
+        console.log("Created successfully");
       }
     },
     async getSemesterBySchoolYearId(schoolYearId) {
@@ -207,7 +207,8 @@ export default {
           day_of_week: this.newClassData.date,
         };
 
-        await classService.createClass(newClassData);
+        await this.createClass(newClassData);
+        alert("Created successfully");
         this.showPopup = false;
       } else {
         const newClassData = {
@@ -334,7 +335,9 @@ export default {
       delete newCourseData.schoolYearId;
       await this.updateCourse(this.editCourseData.id, newCourseData);
       alert("Updated successfully");
-      this.getAllCourse(this.semester.currentSemesterId);
+      this.courses.bySemesterId = await this.getAllCourse(
+        this.semester.currentSemesterId,
+      );
       this.showEditCourse = false;
     },
     async handleDeleteCourse() {

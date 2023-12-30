@@ -3,6 +3,7 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import moment from "moment";
 import * as classService from "@/services/classService";
+import * as courseService from "@/services/courseService";
 import formatTime from "@/utils/formatTime";
 import formatDate from "@/utils/formatDate";
 
@@ -11,19 +12,30 @@ export default {
     return {
       formatTime,
       formatDate,
-      isShowPopup: false,
       class: {
         all: [],
       },
+      course: {
+        all: [],
+      },
       popupData: {
-        course_id: "",
-        course_name: "",
-        start_time: "",
-        end_time: "",
-        date: "",
-        room: "",
-        teacher: "",
+        id: null,
+        course_id: null,
+        course_name: null,
+        start_time: null,
+        end_time: null,
+        date: null,
+        room: null,
+        teacher: null,
         tasks: [],
+      },
+      editClassData: {
+        id: null,
+        course_id: null,
+        room: null,
+        date: null,
+        start_time: null,
+        end_time: null,
       },
       calendarOptions: {
         plugins: [timeGridPlugin, dayGridPlugin, interactionPlugin],
@@ -37,34 +49,108 @@ export default {
         nowIndicator: true,
         contentHeight: "auto",
         events: [],
-        eventClick: (info) => {
-          this.isShowPopup = true;
-          this.getDetailClass(info.event.extendedProps.id);
-        },
+        eventClick: this.handleClickClassDetail,
         eventContent: (eventInfo) => {
           return {
             html: `
           <div class="w-full h-full bg-inherit">
-            <span>${eventInfo.timeText}</span>
+            <span>Time: ${eventInfo.timeText}</span>
             <br>
-            <span>${eventInfo.event.title}</span>
+            <span>Course: ${eventInfo.event.title}</span>
             <br>
-            <span>${eventInfo.event.extendedProps.room}</span>
+            <span>Room: ${eventInfo.event.extendedProps.room}</span>
           </div>
         `,
           };
         },
       },
+      isShowPopup: false,
+      showPopupEditClass: false,
+      showOneOffButton: true,
+      showFormAddTime: false,
+      showAddTimeButton: true,
+      arrRepeatTime: [],
     };
   },
   methods: {
     async getClassList() {
-      const response = await classService.getClassList({
-        "school-year-id": 1,
-      });
+      const response = await classService.getClassList();
 
       if (response.status === 200) {
-        this.calendarOptions.events = response.data.map((obj) => {
+        return response.data;
+      }
+    },
+    async getDetailClass(course_id) {
+      const response = await classService.getDetailClass(course_id);
+      if (response.status === 200) {
+        return response.data;
+      }
+    },
+    async updateClass(classId, payload) {
+      const response = await classService.updateClass(classId, payload);
+      if (response.status === 200) {
+        console.log("Updated successfully");
+      }
+    },
+    async deleteClass(classId) {
+      const response = await classService.deleteClass(classId);
+
+      if (response.status === 200) {
+        console.log("Deleted successfully");
+      }
+    },
+    async getAllCourse() {
+      const response = await courseService.getAllCourse();
+
+      if (response.status === 200) {
+        return response.data;
+      }
+    },
+    handleClickClassDetail: async function (info) {
+      this.course.all = await this.getAllCourse();
+      const classDetailApi = await this.getDetailClass(
+        info.event.extendedProps.id,
+      );
+      for (const key in this.popupData) {
+        if (key !== "tasks") {
+          this.popupData[key] = classDetailApi.class[key];
+        }
+      }
+      this.popupData.tasks = classDetailApi.tasks;
+      this.isShowPopup = true;
+    },
+    handleClickEditClass() {
+      for (const key in this.editClassData) {
+        this.editClassData[key] = this.popupData[key];
+      }
+      this.showPopupEditClass = true;
+      this.isShowPopup = false;
+    },
+    async handleClickSaveEditClass() {
+      const editClassData = {
+        ...this.editClassData,
+        start_time: formatTime(this.editClassData.start_time),
+        end_time: formatTime(this.editClassData.end_time),
+      };
+      delete editClassData.id;
+      await this.updateClass(this.editClassData.id, editClassData);
+      alert("Updated successfully");
+      this.class.all = await this.getClassList();
+      this.showPopupEditClass = false;
+    },
+    async handleClickDeleteClass() {
+      if (confirm("Are you sure to delete?")) {
+        await this.deleteClass(this.popupData.id);
+        alert("Deleted successfully");
+        this.class.all = await this.getClassList();
+        this.isShowPopup = false;
+      }
+    },
+  },
+  watch: {
+    "class.all": {
+      handler: function (newVal) {
+        this.calendarOptions.events = newVal.map((obj) => {
           return {
             title: obj.course_name,
             start: moment(
@@ -81,24 +167,12 @@ export default {
             },
           };
         });
-      }
-    },
-    async getDetailClass(course_id) {
-      const response = await classService.getDetailClass(course_id);
-      if (response.status === 200) {
-        for (const key in this.popupData) {
-          if (key !== "tasks") {
-            this.popupData[key] = response.data.class[key];
-          }
-        }
-        this.popupData.tasks = response.data.tasks;
-      }
-
-      console.log(this.popupData);
+      },
+      deep: true,
     },
   },
-  created() {
-    this.getClassList();
+  async created() {
+    this.class.all = await this.getClassList();
   },
   mounted() {
     document.title = "Calendar | Eplanner";

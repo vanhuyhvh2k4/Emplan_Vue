@@ -100,13 +100,23 @@
               <Select
                 @select-change="(value) => (newTaskData.examId = value)"
                 class="mb-2"
-                v-if="newTaskData.type === 'Revision' && newTaskData.examId"
+                :key="newTaskData.examId"
+                v-if="
+                  newTaskData.type === 'Revision' && exam.byCourse.length > 0
+                "
                 label="Exams"
                 :arrOptions="exam.byCourse"
                 show="name"
                 value="id"
                 :defaultValue="newTaskData.examId"
               />
+              <h3
+                class="text-red-400"
+                v-if="
+                  exam.byCourse.length === 0 && newTaskData.type === 'Revision'
+                "
+                >Not found any exam</h3
+              >
               <Input
                 @input-enter="(value) => (newTaskData.title = value)"
                 label="Title"

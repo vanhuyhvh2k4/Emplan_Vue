@@ -107,7 +107,7 @@ export default {
 
       if (response.status === 200) {
         for (const key in this.popupTaskData) {
-          this.popupTaskData[key] = response.data[key] || null;
+          this.popupTaskData[key] = response.data[key];
         }
         this.popupTaskData["distance_day"] = distanceDateWithCurrent(
           this.popupTaskData.end_date,

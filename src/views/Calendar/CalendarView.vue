@@ -3,16 +3,22 @@
     <div>
       <FullCalendar :options="calendarOptions" />
     </div>
-    <Popup v-show="isShowPopup" @clickOverlay="this.isShowPopup = false">
+    <!-- Popup Detail Class -->
+    <Popup v-if="isShowPopup" @clickOverlay="this.isShowPopup = false">
       <template #header-left>
         <h3>{{ popupData.course_name }}</h3>
       </template>
       <template #header-right>
         <font-awesome-icon
+          @click="handleClickDeleteClass"
           class="cursor-pointer"
           :icon="['fas', 'trash-alt']"
         />
-        <font-awesome-icon class="cursor-pointer" :icon="['fas', 'pen']" />
+        <font-awesome-icon
+          @click="handleClickEditClass"
+          class="cursor-pointer"
+          :icon="['fas', 'pen']"
+        />
         <font-awesome-icon
           class="cursor-pointer"
           :icon="['fas', 'times']"
@@ -26,7 +32,7 @@
         />
         <span class="text-lg"
           >{{ formatTime(popupData.start_time) }} -
-          {{ formatTime(popupData.end_time) }}
+          {{ formatTime(popupData.end_time) }} |
           {{ formatDate(popupData.date) }}</span
         >
       </section>
@@ -74,6 +80,153 @@
         >
       </section>
     </Popup>
+    <!-- Popup Edit Class -->
+    <Popup
+      title="Create new class"
+      v-if="showPopupEditClass"
+      @click-overlay="this.showPopupEditClass = false"
+    >
+      <template #header-left>
+        <h3>Edit class</h3>
+      </template>
+      <section class="flex gap-4 mt-2">
+        <Select
+          :arrOptions="course.all"
+          value="id"
+          show="name"
+          label="Subject"
+          :defaultValue="editClassData.course_id"
+          @select-change="(value) => (editClassData.course_id = value)"
+        />
+        <Input
+          @input-enter="
+            (value) => {
+              editClassData.room = value;
+            }
+          "
+          label="Room"
+          placeholder="Enter your room"
+          :defaultValue="editClassData.room"
+        />
+      </section>
+      <section class="mt-4">
+        <div class="flex">
+          <div
+            class="p-2 border border-gray-200 bg-gray-200 rounded-sm cursor-pointer"
+            :class="showOneOffButton && 'bg-white border-b-0'"
+            @click="this.showOneOffButton = true"
+            >One-off</div
+          >
+          <div
+            class="p-2 border border-gray-200 bg-gray-200 rounded-sm cursor-pointer"
+            :class="!showOneOffButton && 'bg-white border-b-0'"
+            @click="this.showOneOffButton = false"
+            >Repeats</div
+          >
+        </div>
+        <div class="p-4 border border-gray-200 mt-[-1px]">
+          <div v-if="showOneOffButton">
+            <Input
+              @input-enter="(value) => (editClassData.date = value)"
+              type="date"
+              label="Date"
+              :defaultValue="editClassData.date"
+            />
+            <div class="flex gap-4 mt-2">
+              <Input
+                @input-enter="(value) => (editClassData.start = value)"
+                type="time"
+                label="Start time"
+                :defaultValue="editClassData.start_time"
+              />
+              <Input
+                @input-enter="(value) => (editClassData.end = value)"
+                type="time"
+                label="End time"
+                :defaultValue="editClassData.end_time"
+              />
+            </div>
+          </div>
+          <div v-if="!showOneOffButton">
+            <div v-if="showFormAddTime">
+              <font-awesome-icon
+                @click="
+                  this.showFormAddTime = false;
+                  this.showAddTimeButton = true;
+                "
+                class="float-right text-lg text-gray-400 cursor-pointer hover:text-black"
+                :icon="['fas', 'times']"
+              />
+              <DateChoose @click-date="handleClickDate" />
+              <div class="flex gap-4">
+                <Input
+                  @input-enter="(value) => (this.newAddTimeData.start = value)"
+                  type="time"
+                  label="Start time"
+                />
+                <Input
+                  @input-enter="(value) => (this.newAddTimeData.end = value)"
+                  type="time"
+                  label="End time"
+                />
+              </div>
+              <Button
+                @click="handleClickAddTime"
+                title="Save"
+                size="sm"
+                class="w-full mt-4"
+              />
+            </div>
+            <div class="mb-4">
+              <div
+                v-if="arrRepeatTime.length > 0"
+                v-for="(item, index) in arrRepeatTime"
+                :key="index"
+                class="flex justify-between items-center py-2 mt-2"
+                :class="
+                  arrRepeatTime.length > 1 && 'border-b-[1px] border-gray-200'
+                "
+              >
+                <section>
+                  <h3>{{ `${item.start} - ${item.end}` }}</h3>
+                  <h4>{{
+                    item.dates.map((element) => element.name).join(", ")
+                  }}</h4>
+                </section>
+                <section>
+                  <font-awesome-icon
+                    @click="handleClickRemoveTime(item)"
+                    class="cursor-pointer hover:text-primary"
+                    :icon="['fas', 'trash-alt']"
+                  />
+                </section>
+              </div>
+            </div>
+            <div
+              v-show="showAddTimeButton && arrRepeatTime < 2"
+              @click="
+                this.showFormAddTime = true;
+                this.showAddTimeButton = false;
+              "
+              class="text-center text-primary cursor-pointer hover:text-black"
+              >Add time</div
+            >
+          </div>
+        </div>
+      </section>
+      <section class="flex justify-end mt-4 gap-4">
+        <div
+          class="p-2 rounded-lg border border-gray-400 cursor-pointer"
+          @click="this.showPopupEditClass = false"
+          >Cancel</div
+        >
+        <div
+          @click="handleClickSaveEditClass"
+          class="p-2 px-4 rounded-lg border border-primary bg-primary text-white cursor-pointer"
+          >Save</div
+        >
+      </section>
+    </Popup>
   </div>
 </template>
 
@@ -84,6 +237,10 @@
   import formatTime from "@/utils/formatTime";
   import formatDate from "@/utils/formatDate";
   import TaskColor from "@/components/TaskColor/TaskColor.vue";
+  import Select from "@/components/Select/Select.vue";
+  import Input from "@/components/Input/Input.vue";
+  import DateChoose from "@/components/DateChoose/DateChoose.vue";
+  import Button from "@/components/Button/Button.vue";
 
   export default {
     name: "CalendarViews",
@@ -91,6 +248,10 @@
       FullCalendar,
       Popup,
       TaskColor,
+      Select,
+      Input,
+      DateChoose,
+      Button,
     },
     mixins: [CalendarView],
   };
