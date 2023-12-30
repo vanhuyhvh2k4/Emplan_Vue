@@ -10,6 +10,7 @@ export default {
       formatDate,
       images,
       svgs,
+      isLoading: false,
       task: {
         all: [],
         incompleted: [],
@@ -122,8 +123,10 @@ export default {
   beforeDestroy() {
     clearInterval(this.intervalId);
   },
-  created() {
-    this.getAllTask();
+  async created() {
+    this.isLoading = true;
+    await this.getAllTask();
+    this.isLoading = false;
   },
   mounted() {
     document.title = "Pomodoro | Emplanner";

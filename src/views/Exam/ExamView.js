@@ -10,6 +10,7 @@ export default {
     return {
       formatTime,
       formatDate,
+      isLoading: false,
       isShowForm: false,
       isCompleted: false,
       showPopupExam: false,
@@ -213,9 +214,11 @@ export default {
       this.showEditForm = false;
     },
   },
-  created() {
-    this.getAllExams();
-    this.getAllCourse();
+  async created() {
+    this.isLoading = true;
+    await this.getAllExams();
+    await this.getAllCourse();
+    this.isLoading = false;
   },
   mounted() {
     document.title = "Exam | Emplanner";

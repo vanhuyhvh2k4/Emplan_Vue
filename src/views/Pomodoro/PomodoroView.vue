@@ -1,5 +1,5 @@
 <template>
-  <div class="p-8 w-full h-full flex gap-4">
+  <div class="p-8 w-full h-full flex gap-4 relative">
     <section class="w-1/5">
       <div class="w-full max-w-[300px] bg-white rounded-lg p-4">
         <h2 class="font-medium text-lg">Focus time</h2>
@@ -79,6 +79,7 @@
         />
       </ul>
     </section>
+    <LoaderCircle v-if="isLoading" />
   </div>
 </template>
 
@@ -86,9 +87,10 @@
   import SmallCard from "@/components/SmallCard/SmallCard.vue";
   import PomodoroView from "./PomodoroView";
   import TaskColor from "@/components/TaskColor/TaskColor.vue";
+  import LoaderCircle from "@/components/LoaderCircle/LoaderCircle.vue";
   export default {
     name: "PomodoroView",
     mixins: [PomodoroView],
-    components: { SmallCard, TaskColor },
+    components: { SmallCard, TaskColor, LoaderCircle },
   };
 </script>

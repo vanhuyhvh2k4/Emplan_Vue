@@ -8,6 +8,7 @@ export default {
     return {
       formatDate,
       showOneOffButton: true,
+      isLoading: false,
       showPopup: false,
       courses: {
         all: [],
@@ -353,12 +354,14 @@ export default {
     },
   },
   async created() {
+    this.isLoading = true;
     await this.getALlSchoolYear();
     await this.getSemesterBySchoolYearId(this.schoolYear.all[0].id);
     this.semester.currentSemesterId = this.semester.bySchoolYearId[0]?.id;
     this.courses.bySemesterId = await this.getAllCourse(
       this.semester.currentSemesterId,
     );
+    this.isLoading = false;
   },
   mounted() {
     document.title = "Schedule | Emplanner";

@@ -4,6 +4,7 @@ export default {
   data() {
     return {
       DEFAULT_AVATAR_URL,
+      isLoading: false,
       editProfileData: {
         avatar: null,
         binaryAvatar: null,
@@ -65,7 +66,9 @@ export default {
       }
     },
   },
-  created() {
-    this.getCurrentUser();
+  async created() {
+    this.isLoading = true;
+    await this.getCurrentUser();
+    this.isLoading = false;
   },
 };

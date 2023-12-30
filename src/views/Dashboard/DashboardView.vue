@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full h-full p-8">
+  <div class="w-full h-full p-8 relative">
     <div class="flex justify-between items-center">
       <section>
         <h2 class="text-2xl font-bold">Today</h2>
@@ -105,7 +105,9 @@
               </div>
             </section>
           </div>
-          <p v-if="course.today.length === 0">Not found any task</p>
+          <p v-if="course.today.length === 0 && exam.today.length === 0"
+            >Not found any task</p
+          >
         </ul>
       </Card>
       <Card
@@ -144,7 +146,7 @@
           </Task>
           <div
             @click="handleClickExamItem(item)"
-            v-for="(item, index) in exam.today"
+            v-for="(item, index) in exam.tomorrow"
             :class="index !== 0 && 'mt-2'"
             :key="index"
             class="flex justify-between item-center border border-gray-200 rounded-lg px-4 py-2 hover:bg-gray-200 cursor-pointer"
@@ -230,6 +232,7 @@
         </ul>
       </Card>
     </div>
+    <!-- Popup Detail Task -->
     <Popup v-if="showPopupTask" @click-overlay="() => (showPopupTask = false)">
       <template #header-left>
         <h3>{{ popupTaskData.name }}</h3>
@@ -285,6 +288,7 @@
         </section>
       </div>
     </Popup>
+    <!-- Popup Detail Exam -->
     <Popup @click-overlay="() => (showPopupExam = false)" v-if="showPopupExam">
       <template #header-left>
         <h3>{{ popupExamData.name }}</h3>
@@ -324,6 +328,7 @@
         </section>
       </div>
     </Popup>
+    <!-- Popup Detail Class -->
     <Popup v-if="showPopupClass" @clickOverlay="showPopupClass = false">
       <template #header-left>
         <h3>{{ popupClassData.class.course_name }}</h3>
@@ -382,10 +387,12 @@
         >
       </section>
     </Popup>
+    <LoaderCircle v-if="isLoading" />
   </div>
 </template>
 
 <script>
+  import LoaderCircle from "@/components/LoaderCircle/LoaderCircle.vue";
   import SmallCard from "@/components/SmallCard/SmallCard.vue";
   import Card from "@/components/Card/Card.vue";
   import Task from "@/components/Task/Task.vue";
@@ -396,6 +403,7 @@
   export default {
     name: "DashboardView",
     components: {
+      LoaderCircle,
       SmallCard,
       Card,
       Task,

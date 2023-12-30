@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full h-full p-8">
+  <div class="w-full h-full p-8 relative">
     <form @submit.prevent class="w-1/2 m-auto">
       <section class="w-[150px] h-[150px] relative m-auto">
         <img
@@ -50,6 +50,7 @@
         class="m-auto mt-4"
       />
     </form>
+    <LoaderCircle v-if="isLoading" />
   </div>
 </template>
 
@@ -57,9 +58,10 @@
   import Button from "@/components/Button/Button.vue";
   import Input from "@/components/Input/Input.vue";
   import ProfileView from "./ProfileView";
+  import LoaderCircle from "@/components/LoaderCircle/LoaderCircle.vue";
   export default {
     name: "ProfileView",
-    components: { Input, Button },
+    components: { Input, Button, LoaderCircle },
     mixins: [ProfileView],
   };
 </script>

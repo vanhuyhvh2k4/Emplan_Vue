@@ -12,6 +12,7 @@ export default {
       formatDate,
       currentDate,
       compareDate,
+      isLoading: false,
       isShowForm: false,
       showPopupTask: false,
       showEditForm: false,
@@ -294,9 +295,11 @@ export default {
       this.showPopupTask = false;
     },
   },
-  created() {
-    this.getAllCourse();
-    this.getAllTask();
+  async created() {
+    this.isLoading = true;
+    await this.getAllCourse();
+    await this.getAllTask();
+    this.isLoading = false;
   },
   mounted() {
     document.title = "Task | Emplanner";

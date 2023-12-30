@@ -11,6 +11,7 @@ export default {
       formatTime,
       formatDate,
       svgs,
+      isLoading: false,
       currentDate: new Date(),
       task: {
         completed: null,
@@ -159,15 +160,16 @@ export default {
       return this.currentDate.toLocaleTimeString("en-US", options);
     },
   },
-  created() {
+  async created() {
     setInterval(() => {
       this.currentDate = new Date();
     }, 1000);
-
-    this.getTodayTaskDetail();
-    this.getDueTask();
-    this.getOverdueTask();
-    this.getClassExam();
+    this.isLoading = true;
+    await this.getTodayTaskDetail();
+    await this.getDueTask();
+    await this.getOverdueTask();
+    await this.getClassExam();
+    this.isLoading = false;
   },
   mounted() {
     document.title = "Dashboard | Emplanner";

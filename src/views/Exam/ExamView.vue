@@ -1,5 +1,5 @@
 <template>
-  <div class="flex w-full h-full p-8 gap-4">
+  <div class="flex w-full h-full p-8 gap-4 relative">
     <div class="w-1/2">
       <div class="flex bg-white rounded-lg p-4 items-center justify-between">
         <div class="flex gap-4">
@@ -302,6 +302,7 @@
         </div>
       </div>
     </Popup>
+    <LoaderCircle v-if="isLoading" />
   </div>
 </template>
 
@@ -313,9 +314,10 @@
   import TaskColor from "@/components/TaskColor/TaskColor.vue";
   import ExamView from "./ExamView.js";
   import Popup from "@/components/Popup/Popup.vue";
+  import LoaderCircle from "@/components/LoaderCircle/LoaderCircle.vue";
   export default {
     name: "TaskView",
-    components: { TaskColor, Button, Form, Input, Select, Popup },
+    components: { TaskColor, Button, Form, Input, Select, Popup, LoaderCircle },
     mixins: [ExamView],
   };
 </script>

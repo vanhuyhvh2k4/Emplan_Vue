@@ -1,6 +1,6 @@
 <template>
   <div
-    class="fixed top-0 right-0 bottom-0 left-0 grid place-items-center bg-black opacity-70 z-50"
+    class="absolute top-0 right-0 bottom-0 left-0 grid place-items-center bg-black opacity-70 z-50"
   >
     <span :class="$style.loader"></span>
   </div>

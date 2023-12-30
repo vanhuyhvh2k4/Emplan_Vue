@@ -12,6 +12,7 @@ export default {
     return {
       formatTime,
       formatDate,
+      isLoading: false,
       class: {
         all: [],
       },
@@ -172,7 +173,9 @@ export default {
     },
   },
   async created() {
+    this.isLoading = true;
     this.class.all = await this.getClassList();
+    this.isLoading = false;
   },
   mounted() {
     document.title = "Calendar | Eplanner";

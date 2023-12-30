@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full h-full p-8 flex gap-4">
+  <div class="w-full h-full p-8 flex gap-4 relative">
     <div class="w-1/5 py-4 rounded-lg bg-white">
       <ul>
         <li
@@ -653,6 +653,7 @@
         <Button @click="handleClickSaveEditSchoolYear" title="Save" size="sm" />
       </div>
     </Popup>
+    <LoaderCircle v-if="isLoading" />
   </div>
 </template>
 
@@ -664,10 +665,19 @@
   import DateChoose from "@/components/DateChoose/DateChoose.vue";
   import ScheduleView from "./ScheduleView";
   import Select from "@/components/Select/Select.vue";
+  import LoaderCircle from "@/components/LoaderCircle/LoaderCircle.vue";
 
   export default {
     name: "ScheduleView",
-    components: { Button, TaskColor, Popup, Input, DateChoose, Select },
+    components: {
+      Button,
+      TaskColor,
+      Popup,
+      Input,
+      DateChoose,
+      Select,
+      LoaderCircle,
+    },
     mixins: [ScheduleView],
   };
 </script>

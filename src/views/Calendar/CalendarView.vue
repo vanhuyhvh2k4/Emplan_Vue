@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full h-full p-8">
+  <div class="w-full h-full p-8 relative">
     <div>
       <FullCalendar :options="calendarOptions" />
     </div>
@@ -227,6 +227,7 @@
         >
       </section>
     </Popup>
+    <LoaderCircle v-if="isLoading" />
   </div>
 </template>
 
@@ -241,6 +242,7 @@
   import Input from "@/components/Input/Input.vue";
   import DateChoose from "@/components/DateChoose/DateChoose.vue";
   import Button from "@/components/Button/Button.vue";
+  import LoaderCircle from "@/components/LoaderCircle/LoaderCircle.vue";
 
   export default {
     name: "CalendarViews",
@@ -252,6 +254,7 @@
       Input,
       DateChoose,
       Button,
+      LoaderCircle,
     },
     mixins: [CalendarView],
   };
