@@ -47,7 +47,7 @@ const items = [
   },
   {
     id: 6,
-    view: "settings",
+    view: "profile",
     title: "Settings",
     icon: svgs.sidebar_7,
     icon_active: svgs.sidebar_7_active,

@@ -29,7 +29,7 @@
       <div class="h-full flex gap-4 items-center cursor-pointer relative group">
         <div class="text-end">
           <h3 class="text-lg font-medium">{{ currentUser.name }}</h3>
-          <small class="text-gray-500">IT Student</small>
+          <small class="text-gray-500 capitalize">{{ currentUser.job }}</small>
         </div>
         <div class="w-auto h-full">
           <img
@@ -70,10 +70,19 @@
       handleClickLogout() {
         this.$emit("click-logout");
       },
+      getCurrentUser() {
+        const currentUser = localStorage.getItem("current_user");
+        if (currentUser) {
+          const user = JSON.parse(currentUser);
+          return user;
+        } else {
+          this.$cookies.remove("gid");
+          this.$router.push({ name: "login" });
+        }
+      },
     },
-    mounted() {
-      const storedPayloadString = localStorage.getItem("current_user");
-      this.currentUser = JSON.parse(storedPayloadString);
+    async mounted() {
+      this.currentUser = await this.getCurrentUser();
     },
   };
 </script>

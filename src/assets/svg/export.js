@@ -12,6 +12,7 @@ const svgs = {
   sidebar_6: require("./sidebar_6.svg"),
   sidebar_6_active: require("./sidebar_6_active.svg"),
   sidebar_7: require("./sidebar_7.svg"),
+  sidebar_7_active: require("./sidebar_7_active.svg"),
   elipsis: require("./elipsis.svg"),
   incomplete: require("./incomplete.svg"),
   complete: require("./complete.svg"),

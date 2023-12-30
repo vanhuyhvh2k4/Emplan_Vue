@@ -1,0 +1,65 @@
+<template>
+  <div class="w-full h-full p-8">
+    <form @submit.prevent class="w-1/2 m-auto">
+      <section class="w-[150px] h-[150px] relative m-auto">
+        <img
+          class="w-full h-full object-cover flex-shrink-0 rounded-full z-[0]"
+          :src="editProfileData.avatar ?? DEFAULT_AVATAR_URL"
+          ref="imgRef"
+          accept="image/*"
+        />
+        <input
+          class="w-full h-full absolute bg-red-200 top-0 left-0 opacity-0 z-[2] cursor-pointer"
+          type="file"
+          @change="handleChangeAvatar"
+          ref="inputRef"
+        />
+        <div
+          class="absolute bottom-[10px] right-[10px] bg-white w-8 h-8 rounded-full border border-gray-200 grid place-items-center z-[1]"
+        >
+          <font-awesome-icon :icon="['fas', 'camera']" />
+        </div>
+      </section>
+      <section class="mb-2">
+        <Input
+          @input-change="(value) => (editProfileData.name = value)"
+          :defaultValue="editProfileData.name"
+          label="Full name"
+        />
+      </section>
+      <section class="mb-2">
+        <Input
+          @input-change="(value) => (editProfileData.email = value)"
+          :defaultValue="editProfileData.email"
+          label="Email"
+          placeholder="Enter your email"
+        />
+      </section>
+      <section>
+        <Input
+          @input-change="(value) => (editProfileData.job = value)"
+          :defaultValue="editProfileData.job"
+          label="I am"
+          placeholder="Student"
+        />
+      </section>
+      <Button
+        title="Change Profile"
+        @click="handleClickSaveEditProfile"
+        size="sm"
+        class="m-auto mt-4"
+      />
+    </form>
+  </div>
+</template>
+
+<script>
+  import Button from "@/components/Button/Button.vue";
+  import Input from "@/components/Input/Input.vue";
+  import ProfileView from "./ProfileView";
+  export default {
+    name: "ProfileView",
+    components: { Input, Button },
+    mixins: [ProfileView],
+  };
+</script>

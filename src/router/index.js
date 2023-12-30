@@ -54,8 +54,15 @@ const routes = [
     path: "/exam",
     name: "exam",
     component: () =>
+      import(/* webpackChunkName: "exam" */ "../views/Exam/ExamView.vue"),
+    beforeEnter: requireAuth,
+  },
+  {
+    path: "/profile",
+    name: "profile",
+    component: () =>
       import(
-        /* webpackChunkName: "exam" */ "../views/Exam/ExamView.vue"
+        /* webpackChunkName: "profile" */ "../views/Profile/ProfileView.vue"
       ),
     beforeEnter: requireAuth,
   },
