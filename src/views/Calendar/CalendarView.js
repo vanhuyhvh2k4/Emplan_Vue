@@ -133,6 +133,8 @@ export default {
         start_time: formatTime(this.editClassData.start_time),
         end_time: formatTime(this.editClassData.end_time),
       };
+      delete editClassData.start;
+      delete editClassData.end;
       delete editClassData.id;
       await this.updateClass(this.editClassData.id, editClassData);
       alert("Updated successfully");

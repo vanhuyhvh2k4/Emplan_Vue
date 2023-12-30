@@ -11,6 +11,7 @@
       class="px-6 py-2 text-lg outline-none w-full rounded-xl bg-gray-200 font-light"
       :type="type"
       :required="required"
+      :disabled="disabled"
       v-if="
         type === 'text' ||
         type === 'date' ||
@@ -51,6 +52,10 @@
           return typeof value === "number" || typeof value === "string";
         },
         default: "",
+      },
+      disabled: {
+        type: Boolean,
+        default: false,
       },
       required: {
         type: Boolean,

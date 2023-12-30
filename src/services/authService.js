@@ -26,3 +26,10 @@ export const verifyEmail = async (userId, payload) => {
     return error.response.data;
   }
 };
+
+export const updateProfile = async (payload) => {
+  try {
+    const res = await request.post("update-profile", payload);
+    return res;
+  } catch (error) {}
+};

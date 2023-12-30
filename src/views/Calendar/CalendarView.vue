@@ -134,13 +134,13 @@
             />
             <div class="flex gap-4 mt-2">
               <Input
-                @input-enter="(value) => (editClassData.start = value)"
+                @input-enter="(value) => (editClassData.start_time = value)"
                 type="time"
                 label="Start time"
                 :defaultValue="editClassData.start_time"
               />
               <Input
-                @input-enter="(value) => (editClassData.end = value)"
+                @input-enter="(value) => (editClassData.end_time = value)"
                 type="time"
                 label="End time"
                 :defaultValue="editClassData.end_time"

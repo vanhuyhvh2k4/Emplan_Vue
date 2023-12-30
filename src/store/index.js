@@ -5,11 +5,7 @@ export default createStore({
     currentUser: {},
   },
   getters: {},
-  mutations: {
-    setCurrentUser(state, currentUser) {
-      state.currentUser = currentUser;
-    },
-  },
+  mutations: {},
   actions: {},
   modules: {},
 });

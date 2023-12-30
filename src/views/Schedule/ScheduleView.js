@@ -205,7 +205,7 @@ export default {
           room: this.newClassData.room,
           start_time: this.newClassData.start,
           end_time: this.newClassData.end,
-          day_of_week: this.newClassData.date,
+          date: this.newClassData.date,
         };
 
         await this.createClass(newClassData);

@@ -1,4 +1,5 @@
 import { DEFAULT_AVATAR_URL } from "@/constants";
+import * as authService from "@/services/authService";
 
 export default {
   data() {
@@ -15,24 +16,24 @@ export default {
     };
   },
   methods: {
-    handleChangeAvatar() {
-      const inputRef = this.$refs.inputRef;
+    async uploadProfile(payload) {
+      const response = await authService.updateProfile(payload);
+
+      if (response.status === 200) {
+        return response.data.user;
+      }
+    },
+    async handleChangeAvatar(e) {
       const imgRef = this.$refs.imgRef;
-      const file = inputRef.files[0];
-      const data = this;
+      const file = e.target.files[0];
       if (file) {
         if (
           file.type === "image/jpeg" ||
           file.type === "image/jpg" ||
           file.type === "image/png"
         ) {
-          var reader = new FileReader();
-          reader.onload = function (event) {
-            var binaryData = event.target.result;
-            data.editProfileData.binaryAvatar = binaryData;
-            imgRef.src = "data:image/jpeg;base64," + btoa(binaryData);
-          };
-          reader.readAsBinaryString(file);
+          imgRef.src = URL.createObjectURL(file);
+          this.editProfileData.binaryAvatar = file;
         } else {
           alert("File must be: .jpg, .jpeg, .png");
         }
@@ -53,16 +54,30 @@ export default {
         this.$router.push({ name: "login" });
       }
     },
-    handleClickSaveEditProfile() {
+    async handleClickSaveEditProfile() {
       if (confirm("Are you sure to change?")) {
-        const uploadProfileData = {
-          ...this.editProfileData,
-          avatar: this.editProfileData.binaryAvatar ?? null,
-        };
-
-        delete uploadProfileData.binaryAvatar;
-
-        console.log(uploadProfileData);
+        const formData = new FormData();
+        formData.append("name", this.editProfileData.name);
+        formData.append("job", this.editProfileData.job);
+        if (this.editProfileData.binaryAvatar) {
+          formData.append("avatar", this.editProfileData.binaryAvatar);
+        }
+        fetch(`${process.env.VUE_APP_API_URL}/update-profile`, {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${this.$cookies.get("gid")}`,
+          },
+          body: formData,
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            const updatedUser = data.data.user;
+            const updateUserStringify = JSON.stringify(updatedUser);
+            localStorage.setItem("current_user", updateUserStringify);
+          })
+          .catch((error) => {
+            console.error(error);
+          });
       }
     },
   },

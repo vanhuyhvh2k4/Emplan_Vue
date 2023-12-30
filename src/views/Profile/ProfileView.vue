@@ -11,8 +11,7 @@
         <input
           class="w-full h-full absolute bg-red-200 top-0 left-0 opacity-0 z-[2] cursor-pointer"
           type="file"
-          @change="handleChangeAvatar"
-          ref="inputRef"
+          @change="handleChangeAvatar($event)"
         />
         <div
           class="absolute bottom-[10px] right-[10px] bg-white w-8 h-8 rounded-full border border-gray-200 grid place-items-center z-[1]"
@@ -22,22 +21,22 @@
       </section>
       <section class="mb-2">
         <Input
-          @input-change="(value) => (editProfileData.name = value)"
+          @input-enter="(value) => (editProfileData.name = value)"
           :defaultValue="editProfileData.name"
           label="Full name"
         />
       </section>
       <section class="mb-2">
         <Input
-          @input-change="(value) => (editProfileData.email = value)"
           :defaultValue="editProfileData.email"
           label="Email"
           placeholder="Enter your email"
+          disabled
         />
       </section>
       <section>
         <Input
-          @input-change="(value) => (editProfileData.job = value)"
+          @input-enter="(value) => (editProfileData.job = value)"
           :defaultValue="editProfileData.job"
           label="I am"
           placeholder="Student"
