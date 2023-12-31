@@ -91,8 +91,7 @@ export default {
     async getAllCourse() {
       const response = await courseService.getAllCourse();
       if (response.status === 200) {
-        this.course.all = response.data;
-        this.editExamData.course_id = this.course.all[0].id;
+        return response.data;
       }
     },
     handleClickNewExamButton() {
@@ -111,7 +110,9 @@ export default {
     ) {
       const currentTime = new Date().getTime();
       let examsFiltered = exams.filter((exam) => {
-        const compareTime = new Date(exam.start_date).getTime();
+        const compareTime = new Date(
+          `${exam.start_date} ${exam.start_time}`,
+        ).getTime();
         if (options.courseId !== null) {
           return (
             exam.course.id === options.courseId &&
@@ -137,10 +138,7 @@ export default {
         start_date: this.newExamData.date,
         start_time: this.newExamData.start,
         duration: this.newExamData.duration,
-        course_id:
-          this.newExamData.subject === ""
-            ? this.course.allCourse[0].id
-            : this.newExamData.subject,
+        course_id: this.newExamData.subject,
         room: this.newExamData.room,
       };
 
@@ -176,10 +174,12 @@ export default {
     },
     handleClickClearSelection() {
       const checkboxRefs = this.$refs.checkboxExamRefs;
-      this.arrCheckboxValues = [];
-      checkboxRefs.forEach((element) => {
-        element.checked = false;
-      });
+      if (checkboxRefs) {
+        this.arrCheckboxValues = [];
+        checkboxRefs.forEach((element) => {
+          element.checked = false;
+        });
+      }
     },
     handleClickExamItem(item) {
       for (const key in this.popupExamData) {
@@ -217,7 +217,8 @@ export default {
   async created() {
     this.isLoading = true;
     await this.getAllExams();
-    await this.getAllCourse();
+    this.course.all = await this.getAllCourse();
+    this.newExamData.subject = this.course.all[0].id;
     this.isLoading = false;
   },
   mounted() {
