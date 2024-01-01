@@ -5,6 +5,11 @@ export const getAllExams = async () => {
   return res;
 };
 
+export const getExamById = async (examId) => {
+  const res = await request.get(`exams/${examId}`);
+  return res;
+};
+
 export const getExamsByCourseId = async (courseId) => {
   const res = await request.get(`tasks/get_exams_by_course/${courseId}`);
   return res;

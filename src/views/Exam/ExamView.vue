@@ -173,6 +173,7 @@
         </div>
       </div>
     </div>
+    <!-- Popup detail exam -->
     <Popup
       :color="popupExamData.color_code || '#FABB18'"
       v-if="showPopupExam"
@@ -236,7 +237,23 @@
           </h4>
         </section>
         <section>
-          <span class="text-gray-500 font-light"
+          <ul class="mt-4" v-if="popupExamData.tasks.length > 0">
+            <li>
+              <TaskColor
+                @click="handleClickDetailTask(item)"
+                :title="item.name"
+                :desc="item.course_name"
+                :hex-color="item.color_code"
+                :date="formatDate(item.end_date)"
+                v-for="(item, index) in popupExamData.tasks"
+                :key="index"
+                :show-checkbox="false"
+              />
+            </li>
+          </ul>
+          <span
+            v-if="popupExamData.tasks.length === 0"
+            class="text-gray-500 font-light"
             >This exam has no incomplete revision tasks.</span
           >
         </section>
@@ -300,6 +317,62 @@
           />
           <Button @click="handleClickSaveEditExam" size="sm" title="Save" />
         </div>
+      </div>
+    </Popup>
+    <!-- Popup Detail Task -->
+    <Popup v-if="showPopupTask" @click-overlay="() => (showPopupTask = false)">
+      <template #header-left>
+        <h3>{{ popupTaskData.name }}</h3>
+        <small>Course: {{ popupTaskData.course_name }}</small>
+      </template>
+      <div>
+        <div class="flex gap-4 items-center mb-4">
+          <font-awesome-icon :icon="['far', 'calendar-alt']" />
+          <div>
+            <p>Due at {{ formatDate(popupTaskData.end_date) }}</p>
+            <p
+              v-show="
+                popupTaskData.distance_day > 0 && popupTaskData.status === 0
+              "
+              class="text-sm text-green-400"
+              >{{ popupTaskData.distance_day }} days to complete</p
+            >
+            <p
+              v-show="
+                popupTaskData.distance_day < 0 && popupTaskData.status === 0
+              "
+              class="text-sm text-danger"
+              >Overdue by {{ Math.abs(popupTaskData.distance_day) }} days</p
+            >
+            <p
+              v-show="
+                popupTaskData.distance_day === 0 && popupTaskData.status == 0
+              "
+              class="text-sm text-primary"
+              >Exprises in today</p
+            >
+            <p v-show="popupTaskData.status === 1" class="text-sm text-blue-400"
+              >Completed</p
+            >
+          </div>
+        </div>
+        <div class="flex gap-4 items-center">
+          <font-awesome-icon :icon="['fas', 'list']" />
+          <p>Type: {{ popupTaskData.type }}</p>
+        </div>
+        <section class="mt-4">
+          <h4
+            class="relative after:w-full after:h-[1px] after:bg-blue-300 after:right-0 after:absolute after:top-1/2"
+          >
+            <span class="bg-white relative z-10 pr-4">Due for class</span>
+          </h4>
+        </section>
+        <section>
+          <span class="text-gray-500 font-light"
+            >This task is not due on a date when a web technology class
+            occurs.</span
+          >
+        </section>
       </div>
     </Popup>
     <LoaderCircle v-if="isLoading" />

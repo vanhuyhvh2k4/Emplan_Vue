@@ -269,19 +269,6 @@
           <font-awesome-icon :icon="['fas', 'list']" />
           <p>Type: {{ popupTaskData.type }}</p>
         </div>
-        <section class="mt-4">
-          <h4
-            class="relative after:w-full after:h-[1px] after:bg-blue-300 after:right-0 after:absolute after:top-1/2"
-          >
-            <span class="bg-white relative z-10 pr-4">Due for class</span>
-          </h4>
-        </section>
-        <section>
-          <span class="text-gray-500 font-light"
-            >This task is not due on a date when a web technology class
-            occurs.</span
-          >
-        </section>
       </div>
     </Popup>
     <LoaderCircle v-if="isLoading" />

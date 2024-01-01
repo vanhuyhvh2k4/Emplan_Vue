@@ -1,9 +1,9 @@
 import * as courseService from "@/services/courseService";
 import * as examService from "@/services/examService";
-import compareDate from "@/utils/compareDate";
-import currentDate from "@/utils/currentDate";
 import formatDate from "@/utils/formatDate";
+import * as taskService from "@/services/taskService";
 import formatTime from "@/utils/formatTime";
+import distanceDateWithCurrent from "@/utils/distanceDateWithCurrent";
 
 export default {
   data() {
@@ -33,6 +33,7 @@ export default {
         start_time: null,
         start_date: null,
         completed: null,
+        tasks: [],
       },
       editExamData: {
         id: null,
@@ -51,12 +52,25 @@ export default {
         start: null,
         duration: 50,
       },
+      popupTaskData: {
+        id: null,
+        name: null,
+        description: null,
+        end_date: null,
+        type: null,
+        course_id: null,
+        course_name: null,
+        color_code: null,
+        distance_day: null,
+        status: null,
+      },
       task: {
         allTask: [],
       },
       exam: {
         all: [],
       },
+      showPopupTask: false,
     };
   },
   methods: {
@@ -66,6 +80,12 @@ export default {
       if (response.status === 200) {
         this.exam.all = response.data;
         this.filterExams();
+      }
+    },
+    async getExamById(examId) {
+      const response = await examService.getExamById(examId);
+      if (response.status === 200) {
+        return response.data;
       }
     },
     async createNewExam(payload) {
@@ -90,6 +110,14 @@ export default {
     },
     async getAllCourse() {
       const response = await courseService.getAllCourse();
+      if (response.status === 200) {
+        return response.data;
+      }
+    },
+
+    async getTaskById(taskId) {
+      const response = await taskService.getTaskById(taskId);
+
       if (response.status === 200) {
         return response.data;
       }
@@ -181,15 +209,18 @@ export default {
         });
       }
     },
-    handleClickExamItem(item) {
+    async handleClickExamItem(item) {
+      const examApi = await this.getExamById(item.id);
+      const exam = examApi.exam;
       for (const key in this.popupExamData) {
         if (key !== "course_name") {
-          this.popupExamData[key] = item[key];
+          this.popupExamData[key] = exam[key];
         }
       }
-      this.popupExamData.course_name = item.course.name;
-      this.popupExamData.course_id = item.course.id;
-      this.popupExamData.color_code = item.course.color_code;
+      this.popupExamData.course_name = exam.course.name;
+      this.popupExamData.course_id = exam.course.id;
+      this.popupExamData.color_code = exam.course.color_code;
+      this.popupExamData.tasks = examApi.tasks;
       this.showPopupExam = true;
     },
     handleClickEditTask() {
@@ -212,6 +243,18 @@ export default {
       alert("Updated successfully");
       this.showPopupExam = false;
       this.showEditForm = false;
+    },
+    async handleClickDetailTask(item) {
+      const task = await this.getTaskById(item.id);
+
+      for (const key in this.popupTaskData) {
+        this.popupTaskData[key] = task[key];
+      }
+      this.popupTaskData["distance_day"] = distanceDateWithCurrent(
+        this.popupTaskData.end_date,
+      );
+      this.showPopupTask = true;
+      this.showPopupExam = false;
     },
   },
   async created() {
