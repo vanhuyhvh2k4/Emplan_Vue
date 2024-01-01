@@ -4,7 +4,11 @@
       <section class="w-[150px] h-[150px] relative m-auto">
         <img
           class="w-full h-full object-cover flex-shrink-0 rounded-full z-[0]"
-          :src="editProfileData.avatar ?? DEFAULT_AVATAR_URL"
+          :src="
+            editProfileData.avatar !== null
+              ? `http://localhost:8000/storage/${editProfileData.avatar}`
+              : 'https://th.bing.com/th/id/OIP.audMX4ZGbvT2_GJTx2c4GgHaHw?w=182&h=190&c=7&r=0&o=5&pid=1.7'
+          "
           ref="imgRef"
           accept="image/*"
         />

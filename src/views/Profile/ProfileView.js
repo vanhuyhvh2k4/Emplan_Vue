@@ -48,7 +48,6 @@ export default {
         for (const key in this.editProfileData) {
           this.editProfileData[key] = user[key];
         }
-        this.editProfileData.avatar = null;
       } else {
         this.$cookies.remove("gid");
         this.$router.push({ name: "login" });
@@ -71,9 +70,13 @@ export default {
         })
           .then((response) => response.json())
           .then((data) => {
-            const updatedUser = data.data.user;
-            const updateUserStringify = JSON.stringify(updatedUser);
-            localStorage.setItem("current_user", updateUserStringify);
+            if (data.status === 200) {
+              const updatedUser = data.data.user.user;
+              const updateUserStringify = JSON.stringify(updatedUser);
+              localStorage.setItem("current_user", updateUserStringify);
+              alert("Updated successfully");
+              window.location.reload();
+            }
           })
           .catch((error) => {
             console.error(error);

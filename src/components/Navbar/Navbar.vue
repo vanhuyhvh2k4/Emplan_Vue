@@ -31,10 +31,14 @@
           <h3 class="text-lg font-medium">{{ currentUser.name }}</h3>
           <small class="text-gray-500 capitalize">{{ currentUser.job }}</small>
         </div>
-        <div class="w-auto h-full">
+        <div class="aspect-square h-full overflow-hidden">
           <img
-            class="w-full h-full flex-shrink-0 object-contain rounded-full"
-            src="https://th.bing.com/th/id/OIP.audMX4ZGbvT2_GJTx2c4GgHaHw?w=182&h=190&c=7&r=0&o=5&pid=1.7"
+            class="w-full h-full flex-shrink-0 object-cover rounded-full"
+            :src="
+              currentUser.avatar !== null
+                ? `http://localhost:8000/storage/${currentUser.avatar}`
+                : 'https://th.bing.com/th/id/OIP.audMX4ZGbvT2_GJTx2c4GgHaHw?w=182&h=190&c=7&r=0&o=5&pid=1.7'
+            "
             alt=""
           />
         </div>
