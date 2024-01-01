@@ -218,7 +218,7 @@ export default {
     this.isLoading = true;
     await this.getAllExams();
     this.course.all = await this.getAllCourse();
-    this.newExamData.subject = this.course.all[0].id;
+    this.newExamData.subject = this.course.all[0]?.id;
     this.isLoading = false;
   },
   mounted() {

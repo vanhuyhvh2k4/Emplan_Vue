@@ -69,7 +69,7 @@ export default {
 
       if (response.status === 200) {
         this.course.all = response.data;
-        this.newTaskData.subject = this.course.all[0].id;
+        this.newTaskData.subject = this.course.all[0]?.id;
       }
     },
     async getAllExams() {
@@ -83,8 +83,6 @@ export default {
       const response = await examService.getExamsByCourseId(courseId);
 
       if (response.status === 200) {
-        // this.exam.byCourse = response.data;
-        // this.newTaskData.examId = this.exam.byCourse[0]?.id;
         return response.data;
       }
     },

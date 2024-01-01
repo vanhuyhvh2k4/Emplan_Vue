@@ -16,7 +16,7 @@
             <option
               v-for="(item, index) in course.all"
               :key="index"
-              :value="item.id"
+              :value="item?.id"
               >{{ item.name }}</option
             >
           </select>
@@ -39,6 +39,7 @@
           <small>Select</small>
         </div>
         <TaskColor
+          v-if="showTask.length > 0"
           ref="taskRefs"
           @click="handleClickTask(item)"
           @checkbox-change="handleCheckboxChange"

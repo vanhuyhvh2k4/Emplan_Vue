@@ -92,7 +92,7 @@ export default {
       const response = await schoolYearService.getSchoolYear();
       if (response.status === 200) {
         this.schoolYear.all = response.data;
-        this.schoolYear.currentYearId = this.schoolYear.all[0].id;
+        this.schoolYear.currentYearId = this.schoolYear.all[0]?.id;
         this.schoolYear.all = this.schoolYear.all.map((year) => {
           return {
             ...year,
@@ -356,7 +356,9 @@ export default {
   async created() {
     this.isLoading = true;
     await this.getALlSchoolYear();
-    await this.getSemesterBySchoolYearId(this.schoolYear.all[0].id);
+    if (this.schoolYear.all[0]?.id) {
+      await this.getSemesterBySchoolYearId(this.schoolYear.all[0]?.id);
+    }
     this.semester.currentSemesterId = this.semester.bySchoolYearId[0]?.id;
     this.courses.bySemesterId = await this.getAllCourse(
       this.semester.currentSemesterId,
