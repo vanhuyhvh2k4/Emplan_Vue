@@ -233,6 +233,7 @@ export default {
         end_date: this.newYearData.endDate,
       };
       await this.createSchoolYear(newSchoolYear);
+      await this.getALlSchoolYear();
       this.showPopupNewYear = false;
     },
     handleClickNewTerm() {

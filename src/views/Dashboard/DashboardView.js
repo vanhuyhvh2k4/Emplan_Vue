@@ -107,12 +107,7 @@ export default {
       const response = await taskService.getTaskById(taskId);
 
       if (response.status === 200) {
-        for (const key in this.popupTaskData) {
-          this.popupTaskData[key] = response.data[key];
-        }
-        this.popupTaskData["distance_day"] = distanceDateWithCurrent(
-          this.popupTaskData.end_date,
-        );
+        return response.data;
       }
     },
     async getClassDetail(classId) {
@@ -121,8 +116,15 @@ export default {
         return response.data;
       }
     },
-    async handleClickDetail(item) {
-      await this.getTaskDetail(item.id);
+    async handleClickDetailTask(item) {
+      const task = await this.getTaskDetail(item.id);
+      for (const key in this.popupTaskData) {
+        this.popupTaskData[key] = task[key];
+      }
+      this.popupTaskData["distance_day"] = distanceDateWithCurrent(
+        this.popupTaskData.end_date,
+      );
+      this.showPopupClass = false;
       this.showPopupTask = true;
     },
     async handleClickExamItem(item) {

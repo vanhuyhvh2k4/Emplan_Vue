@@ -4,8 +4,10 @@ import interactionPlugin from "@fullcalendar/interaction";
 import moment from "moment";
 import * as classService from "@/services/classService";
 import * as courseService from "@/services/courseService";
+import * as taskService from "@/services/taskService";
 import formatTime from "@/utils/formatTime";
 import formatDate from "@/utils/formatDate";
+import distanceDateWithCurrent from "@/utils/distanceDateWithCurrent";
 
 export default {
   data() {
@@ -29,6 +31,18 @@ export default {
         room: null,
         teacher: null,
         tasks: [],
+      },
+      popupTaskData: {
+        id: null,
+        name: null,
+        description: null,
+        end_date: null,
+        type: null,
+        course_id: null,
+        course_name: null,
+        color_code: null,
+        distance_day: null,
+        status: null,
       },
       editClassData: {
         id: null,
@@ -54,7 +68,7 @@ export default {
         eventContent: (eventInfo) => {
           return {
             html: `
-          <div class="w-full h-full bg-inherit">
+          <div class="w-full h-full bg-inherit cursor-pointer">
             <span>Time: ${eventInfo.timeText}</span>
             <br>
             <span>Course: ${eventInfo.event.title}</span>
@@ -67,6 +81,7 @@ export default {
       },
       isShowPopup: false,
       showPopupEditClass: false,
+      showPopupTask: false,
       showOneOffButton: true,
       showFormAddTime: false,
       showAddTimeButton: true,
@@ -102,6 +117,13 @@ export default {
     },
     async getAllCourse() {
       const response = await courseService.getAllCourse();
+
+      if (response.status === 200) {
+        return response.data;
+      }
+    },
+    async getTaskById(taskId) {
+      const response = await taskService.getTaskById(taskId);
 
       if (response.status === 200) {
         return response.data;
@@ -148,6 +170,18 @@ export default {
         this.class.all = await this.getClassList();
         this.isShowPopup = false;
       }
+    },
+    async handleClickDetailTask(item) {
+      const task = await this.getTaskById(item.id);
+
+      for (const key in this.popupTaskData) {
+        this.popupTaskData[key] = task[key];
+      }
+      this.popupTaskData["distance_day"] = distanceDateWithCurrent(
+        this.popupTaskData.end_date,
+      );
+      this.showPopupTask = true;
+      this.isShowPopup = false;
     },
   },
   watch: {

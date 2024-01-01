@@ -191,7 +191,7 @@
         </div>
         <ul class="max-h-[188px] overflow-y-scroll mt-2 custom_scrollbar pr-1">
           <TaskColor
-            @click-button="handleClickDetail(item)"
+            @click-button="handleClickDetailTask(item)"
             v-for="(item, index) in task.due"
             :key="index"
             :showCheckbox="false"
@@ -218,7 +218,7 @@
         </div>
         <ul class="max-h-[188px] overflow-y-scroll mt-2 custom_scrollbar pr-1">
           <TaskColor
-            @click-button="handleClickDetail(item)"
+            @click-button="handleClickDetailTask(item)"
             v-for="(item, index) in task.overdue"
             :key="index"
             :showCheckbox="false"
@@ -369,6 +369,7 @@
       <section>
         <ul class="mt-4 max-h-[200px] overflow-y-scroll">
           <TaskColor
+            @click="handleClickDetailTask(item)"
             v-if="popupClassData.tasks.length > 0"
             v-for="(item, index) in popupClassData.tasks"
             :key="index"

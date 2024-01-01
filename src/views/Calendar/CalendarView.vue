@@ -62,6 +62,7 @@
       <section>
         <ul class="mt-4 max-h-[200px] overflow-y-scroll">
           <TaskColor
+            @click="handleClickDetailTask(item)"
             v-if="popupData.tasks.length > 0"
             v-for="(item, index) in popupData.tasks"
             :key="index"
@@ -226,6 +227,62 @@
           >Save</div
         >
       </section>
+    </Popup>
+    <!-- Popup Detail Task -->
+    <Popup v-if="showPopupTask" @click-overlay="() => (showPopupTask = false)">
+      <template #header-left>
+        <h3>{{ popupTaskData.name }}</h3>
+        <small>Course: {{ popupTaskData.course_name }}</small>
+      </template>
+      <div>
+        <div class="flex gap-4 items-center mb-4">
+          <font-awesome-icon :icon="['far', 'calendar-alt']" />
+          <div>
+            <p>Due at {{ formatDate(popupTaskData.end_date) }}</p>
+            <p
+              v-show="
+                popupTaskData.distance_day > 0 && popupTaskData.status === 0
+              "
+              class="text-sm text-green-400"
+              >{{ popupTaskData.distance_day }} days to complete</p
+            >
+            <p
+              v-show="
+                popupTaskData.distance_day < 0 && popupTaskData.status === 0
+              "
+              class="text-sm text-danger"
+              >Overdue by {{ Math.abs(popupTaskData.distance_day) }} days</p
+            >
+            <p
+              v-show="
+                popupTaskData.distance_day === 0 && popupTaskData.status == 0
+              "
+              class="text-sm text-primary"
+              >Exprises in today</p
+            >
+            <p v-show="popupTaskData.status === 1" class="text-sm text-blue-400"
+              >Completed</p
+            >
+          </div>
+        </div>
+        <div class="flex gap-4 items-center">
+          <font-awesome-icon :icon="['fas', 'list']" />
+          <p>Type: {{ popupTaskData.type }}</p>
+        </div>
+        <section class="mt-4">
+          <h4
+            class="relative after:w-full after:h-[1px] after:bg-blue-300 after:right-0 after:absolute after:top-1/2"
+          >
+            <span class="bg-white relative z-10 pr-4">Due for class</span>
+          </h4>
+        </section>
+        <section>
+          <span class="text-gray-500 font-light"
+            >This task is not due on a date when a web technology class
+            occurs.</span
+          >
+        </section>
+      </div>
     </Popup>
     <LoaderCircle v-if="isLoading" />
   </div>
