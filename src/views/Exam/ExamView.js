@@ -213,9 +213,7 @@ export default {
       const examApi = await this.getExamById(item.id);
       const exam = examApi.exam;
       for (const key in this.popupExamData) {
-        if (key !== "course_name") {
-          this.popupExamData[key] = exam[key];
-        }
+        this.popupExamData[key] = exam[key];
       }
       this.popupExamData.course_name = exam.course.name;
       this.popupExamData.course_id = exam.course.id;

@@ -322,7 +322,23 @@
           </h4>
         </section>
         <section>
-          <span class="text-gray-500 font-light"
+          <ul class="mt-4" v-if="popupExamData.tasks.length > 0">
+            <li>
+              <TaskColor
+                @click="handleClickDetailTask(item)"
+                :title="item.name"
+                :desc="item.course_name"
+                :hex-color="item.color_code"
+                :date="formatDate(item.end_date)"
+                v-for="(item, index) in popupExamData.tasks"
+                :key="index"
+                :show-checkbox="false"
+              />
+            </li>
+          </ul>
+          <span
+            v-if="popupExamData.tasks.length === 0"
+            class="text-gray-500 font-light"
             >This exam has no incomplete revision tasks.</span
           >
         </section>

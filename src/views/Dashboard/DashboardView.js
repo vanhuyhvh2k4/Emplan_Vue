@@ -2,6 +2,7 @@ import svgs from "@/assets/svg/export.js";
 import * as taskService from "@/services/taskService";
 import * as courseService from "@/services/courseService";
 import * as classService from "@/services/classService";
+import * as examService from "@/services/examService";
 import formatDate from "@/utils/formatDate";
 import formatTime from "@/utils/formatTime";
 import distanceDateWithCurrent from "@/utils/distanceDateWithCurrent";
@@ -116,6 +117,12 @@ export default {
         return response.data;
       }
     },
+    async getExamById(examId) {
+      const response = await examService.getExamById(examId);
+      if (response.status === 200) {
+        return response.data;
+      }
+    },
     async handleClickDetailTask(item) {
       const task = await this.getTaskDetail(item.id);
       for (const key in this.popupTaskData) {
@@ -126,11 +133,18 @@ export default {
       );
       this.showPopupClass = false;
       this.showPopupTask = true;
+      this.showPopupExam = false;
     },
     async handleClickExamItem(item) {
+      const examApi = await this.getExamById(item.id);
+      const exam = examApi.exam;
       for (const key in this.popupExamData) {
-        this.popupExamData[key] = item[key];
+        this.popupExamData[key] = exam[key];
       }
+      this.popupExamData.course_name = exam.course.name;
+      this.popupExamData.course_id = exam.course.id;
+      this.popupExamData.color_code = exam.course.color_code;
+      this.popupExamData.tasks = examApi.tasks;
       this.showPopupExam = true;
     },
     async handleClickClassItem(item) {
