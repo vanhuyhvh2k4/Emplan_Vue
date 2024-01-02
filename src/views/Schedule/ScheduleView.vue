@@ -6,10 +6,13 @@
           class="p-2 mb-2 border"
           v-for="(item, index) in schoolYear.all"
           :key="index"
-          @click="
-            () => {
+          @click.stop="
+            async () => {
               schoolYear.currentYearId = item.id;
               getSemesterBySchoolYearId(item.id);
+              this.courses.bySemesterId = await this.getAllCourse({
+                'school-year-id': item.id,
+              });
             }
           "
         >
@@ -25,12 +28,12 @@
           </div>
           <ul class="mt-2" v-if="schoolYear.currentYearId === item.id">
             <li
-              @click="
+              @click.stop="
                 async () => {
                   semester.currentSemesterId = item.id;
-                  courses.bySemesterId = await getAllCourse(
-                    semester.currentSemesterId,
-                  );
+                  courses.bySemesterId = await getAllCourse({
+                    'semester-id': this.semester.currentSemesterId,
+                  });
                 }
               "
               class="pl-4 hover:bg-gray-200 cursor-pointer"

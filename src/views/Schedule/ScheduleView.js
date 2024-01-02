@@ -134,10 +134,10 @@ export default {
         console.log("Created successfully");
       }
     },
-    async getAllCourse(semesterId) {
+    async getAllCourse(options) {
       const response = await courseService.getAllCourse({
         params: {
-          "semester-id": semesterId,
+          ...options,
         },
       });
       if (response.status === 200) {
@@ -361,9 +361,9 @@ export default {
       await this.getSemesterBySchoolYearId(this.schoolYear.all[0]?.id);
     }
     this.semester.currentSemesterId = this.semester.bySchoolYearId[0]?.id;
-    this.courses.bySemesterId = await this.getAllCourse(
-      this.semester.currentSemesterId,
-    );
+    this.courses.bySemesterId = await this.getAllCourse({
+      "semester-id": this.semester.currentSemesterId,
+    });
     this.isLoading = false;
   },
   mounted() {
