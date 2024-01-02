@@ -289,6 +289,13 @@
           <font-awesome-icon :icon="['fas', 'list']" />
           <p>Type: {{ popupTaskData.type }}</p>
         </div>
+        <div
+          v-if="popupTaskData.description"
+          class="flex gap-4 items-center mt-4"
+        >
+          <font-awesome-icon :icon="['fas', 'book-open']" />
+          <p>Description: {{ popupTaskData.description }}</p>
+        </div>
         <Button
           v-if="popupTaskData.status === 0"
           @click="handleClickCompleteTask"
