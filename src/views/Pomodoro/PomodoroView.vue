@@ -73,6 +73,7 @@
           :title="item.task_name"
           :desc="item.course_name"
           :date="formatDate(item.end_date)"
+          :hex-color="item.color_code"
           class="mb-4"
           v-for="(item, index) in task.incompleted"
           :key="index"
