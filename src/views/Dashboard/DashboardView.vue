@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full h-full p-8 relative">
+  <div class="w-full h-full p-8 relative mb-[100px]">
     <div class="flex justify-between items-center">
       <section>
         <h2 class="text-2xl font-bold">Today</h2>
@@ -27,14 +27,14 @@
       <SmallCard
         class="w-1/4"
         :icon="svgs.incomplete"
-        :number="Number.parseInt(task.incompleted)"
+        :number="Number.parseInt(task.completed)"
         customImg="w-1/2"
         title="Complete Task"
       />
       <SmallCard
         class="w-1/4"
         :icon="svgs.complete"
-        :number="Number.parseInt(task.completed)"
+        :number="Number.parseInt(task.incompleted)"
         title="Incomplete Task"
       />
       <SmallCard
